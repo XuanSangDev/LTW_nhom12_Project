@@ -1,0 +1,416 @@
+
+{% extends "base.html" %}
+{% from "partials/_macros.html" import page_header %}
+
+{% block title %}Hoạt động học tập • {{ app_name }}{% endblock %}
+
+{% block content %}
+  {% call page_header("Hoạt động học tập") %}
+    <span class="inline-flex items-center gap-1.5 px-space-md py-space-xs rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm">
+      <span class="material-symbols-outlined text-[16px]">monitoring</span>
+      Theo dõi hoạt động học tập
+    </span>
+  {% endcall %}
+
+  <div class="flex flex-col gap-space-lg">
+
+    <!-- Bộ lọc học kỳ -->
+    <section class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+      <div>
+        <h2 class="font-title-sm text-title-sm font-semibold text-primary">Thống kê hoạt động</h2>
+        <p class="font-body-sm text-body-sm text-outline mt-1">Tổng hợp tình hình thực hiện bài tập trong học kỳ</p>
+      </div>
+
+      <div class="relative w-full sm:w-64">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">calendar_month</span>
+        <select id="activitySemester"
+                class="w-full pl-9 pr-8 py-2.5 bg-surface-container-low rounded-lg font-title-sm text-title-sm text-on-surface outline-none focus:ring-2 focus:ring-primary-container">
+          <option value="hk1-2026">Học kỳ 1 • 2026 - 2027</option>
+          <option value="hk2-2025">Học kỳ 2 • 2025 - 2026</option>
+          <option value="hk1-2025">Học kỳ 1 • 2025 - 2026</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Các chỉ số tổng quan -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+
+      <!-- Tổng số bài tập -->
+      <article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary">assignment</span>
+          </div>
+          <span class="text-xs font-semibold text-outline bg-surface-container-low px-2 py-1 rounded-full">Học kỳ này</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-outline mt-4">Tổng bài tập</p>
+        <div class="flex items-end gap-2 mt-1">
+          <span class="font-headline-lg text-headline-lg font-bold text-primary">18</span>
+          <span class="font-body-sm text-body-sm text-outline mb-1">bài tập</span>
+        </div>
+        <p class="font-label-sm text-label-sm text-outline mt-2">Đã ghi nhận trong học kỳ</p>
+      </article>
+
+      <!-- Bài tập đúng hạn -->
+      <article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-lg bg-[#D1FAE5] flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#059669]">task_alt</span>
+          </div>
+          <span class="text-xs font-semibold text-[#059669] bg-[#ECFDF5] px-2 py-1 rounded-full">Tốt</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-outline mt-4">Nộp đúng hạn</p>
+        <div class="flex items-end gap-2 mt-1">
+          <span class="font-headline-lg text-headline-lg font-bold text-primary">16</span>
+          <span class="font-body-sm text-body-sm text-outline mb-1">/ 18 bài</span>
+        </div>
+        <div class="w-full h-1.5 bg-surface-container rounded-full mt-3 overflow-hidden">
+          <div class="h-full bg-[#10B981] rounded-full" style="width: 88.9%"></div>
+        </div>
+        <p class="font-label-sm text-label-sm text-[#059669] mt-2">88,9% tổng số bài tập</p>
+      </article>
+
+      <!-- Bài tập nộp trễ -->
+      <article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-lg bg-[#FFEDD5] flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#EA580C]">schedule</span>
+          </div>
+          <span class="text-xs font-semibold text-[#EA580C] bg-[#FFF7ED] px-2 py-1 rounded-full">Cần lưu ý</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-outline mt-4">Bài tập nộp trễ</p>
+        <div class="flex items-end gap-2 mt-1">
+          <span class="font-headline-lg text-headline-lg font-bold text-primary">2</span>
+          <span class="font-body-sm text-body-sm text-outline mb-1">bài tập</span>
+        </div>
+        <p class="font-label-sm text-label-sm text-outline mt-2">11,1% tổng số bài tập</p>
+      </article>
+
+      <!-- Bài tập chưa nộp -->
+      <article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-lg bg-[#FEE2E2] flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#DC2626]">pending_actions</span>
+          </div>
+          <span class="text-xs font-semibold text-[#DC2626] bg-[#FEF2F2] px-2 py-1 rounded-full">Đang mở</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-outline mt-4">Chưa nộp</p>
+        <div class="flex items-end gap-2 mt-1">
+          <span class="font-headline-lg text-headline-lg font-bold text-primary">1</span>
+          <span class="font-body-sm text-body-sm text-outline mb-1">bài tập</span>
+        </div>
+        <p class="font-label-sm text-label-sm text-outline mt-2">Cần hoàn thành trước hạn</p>
+      </article>
+    </section>
+
+    <!-- Phân tích hoạt động -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+      <!-- Biểu đồ tỷ lệ nộp bài -->
+      <article class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-5">
+          <div>
+            <h2 class="font-title-sm text-title-sm font-semibold text-primary">Tình hình nộp bài</h2>
+            <p class="font-body-sm text-body-sm text-outline mt-1">Phân bổ trạng thái bài tập trong học kỳ</p>
+          </div>
+          <span class="text-xs text-outline bg-surface-container-low px-2.5 py-1 rounded-full">18 bài tập</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-6">
+          <!-- Donut chart -->
+          <div class="relative w-44 h-44 shrink-0">
+            <svg viewBox="0 0 160 160" class="w-full h-full -rotate-90" role="img" aria-label="Biểu đồ tỷ lệ nộp bài">
+              <circle cx="80" cy="80" r="58" fill="none" stroke="#E2E8F0" stroke-width="18"></circle>
+              <circle cx="80" cy="80" r="58" fill="none" stroke="#10B981" stroke-width="18"
+                      stroke-dasharray="323.9 364.4" stroke-linecap="butt"></circle>
+              <circle cx="80" cy="80" r="58" fill="none" stroke="#F97316" stroke-width="18"
+                      stroke-dasharray="40.5 364.4" stroke-dashoffset="-323.9"></circle>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="text-3xl font-bold text-primary">88,9%</span>
+              <span class="text-xs text-outline mt-1">Đúng hạn</span>
+            </div>
+          </div>
+
+          <div class="flex-1 w-full flex flex-col gap-4">
+            <div>
+              <div class="flex items-center justify-between text-sm mb-1.5">
+                <span class="flex items-center gap-2 text-on-surface">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                  Nộp đúng hạn
+                </span>
+                <span class="font-semibold text-primary">16 bài · 88,9%</span>
+              </div>
+              <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-[#10B981] rounded-full" style="width: 88.9%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between text-sm mb-1.5">
+                <span class="flex items-center gap-2 text-on-surface">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#F97316]"></span>
+                  Nộp trễ
+                </span>
+                <span class="font-semibold text-primary">2 bài · 11,1%</span>
+              </div>
+              <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-[#F97316] rounded-full" style="width: 11.1%"></div>
+              </div>
+            </div>
+
+            <div class="rounded-lg bg-surface-container-low p-3">
+              <p class="text-xs text-outline leading-relaxed">
+                <span class="font-semibold text-primary">Lưu ý:</span>
+                Có 1 bài tập đang mở chưa được tính vào tổng số 18 bài đã ghi nhận trong thống kê nộp bài.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tổng hợp theo tuần -->
+      <article class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+        <div class="mb-5">
+          <h2 class="font-title-sm text-title-sm font-semibold text-primary">Hoạt động theo tuần</h2>
+          <p class="font-body-sm text-body-sm text-outline mt-1">Số bài tập đã nộp theo từng tuần</p>
+        </div>
+
+        <div class="flex items-end justify-between gap-3 h-40 px-2 border-b border-outline-variant/50">
+          {% set weekly = [
+            ('Tuần 1', 3, 5),
+            ('Tuần 2', 5, 5),
+            ('Tuần 3', 2, 5),
+            ('Tuần 4', 4, 5),
+            ('Tuần 5', 2, 5)
+          ] %}
+          {% for label, value, maximum in weekly %}
+            <div class="flex-1 h-full flex flex-col items-center justify-end gap-2">
+              <span class="text-xs font-semibold text-primary">{{ value }}</span>
+              <div class="w-full max-w-10 rounded-t-md bg-primary-container/30 flex items-end overflow-hidden" style="height: 110px">
+                <div class="w-full rounded-t-md bg-primary" style="height: {{ value / maximum * 100 }}%"></div>
+              </div>
+              <span class="text-[11px] text-outline whitespace-nowrap">{{ label }}</span>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="flex items-center gap-2 mt-4 text-xs text-outline">
+          <span class="w-2.5 h-2.5 rounded-sm bg-primary"></span>
+          Số bài tập đã nộp
+          <span class="ml-auto font-semibold text-primary">16 bài</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Bài tập gần đây -->
+    <section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+      <div class="p-space-md border-b border-outline-variant/50">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div>
+            <h2 class="font-title-sm text-title-sm font-semibold text-primary">Bài tập gần đây</h2>
+            <p class="font-body-sm text-body-sm text-outline mt-1">Theo dõi thời hạn và trạng thái nộp bài</p>
+          </div>
+
+          <div class="relative w-full lg:w-64">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">search</span>
+            <input id="activitySearch" type="search" placeholder="Tìm tên môn học hoặc bài tập..."
+                   class="w-full pl-9 pr-3 py-2 bg-surface-container-low rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-container">
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mt-4" role="group" aria-label="Lọc trạng thái bài tập">
+          <button type="button" data-filter="all" aria-pressed="true"
+                  class="activity-filter px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-white">
+            Tất cả <span class="ml-1 opacity-80">(5)</span>
+          </button>
+          <button type="button" data-filter="ontime" aria-pressed="false"
+                  class="activity-filter px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-low text-outline hover:text-primary">
+            Đúng hạn <span class="ml-1">(3)</span>
+          </button>
+          <button type="button" data-filter="late" aria-pressed="false"
+                  class="activity-filter px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-low text-outline hover:text-primary">
+            Nộp trễ <span class="ml-1">(1)</span>
+          </button>
+          <button type="button" data-filter="missing" aria-pressed="false"
+                  class="activity-filter px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container-low text-outline hover:text-primary">
+            Chưa nộp <span class="ml-1">(1)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[850px] text-left">
+          <thead class="bg-surface-container-low/70">
+            <tr class="text-xs font-semibold text-outline uppercase tracking-wide">
+              <th class="px-5 py-3">Học phần / Bài tập</th>
+              <th class="px-4 py-3">Hạn nộp</th>
+              <th class="px-4 py-3">Ngày nộp</th>
+              <th class="px-4 py-3">Điểm</th>
+              <th class="px-5 py-3 text-right">Trạng thái</th>
+            </tr>
+          </thead>
+
+          <tbody id="activityTableBody" class="divide-y divide-outline-variant/40">
+
+            <tr class="activity-row hover:bg-surface-container-low/40 transition-colors"
+                data-status="late" data-search="kinh tế vi mô eco101 bài tập cá nhân số 2 phân tích thị trường cạnh tranh">
+              <td class="px-5 py-4">
+                <p class="text-sm font-semibold text-primary">Kinh tế vi mô</p>
+                <p class="text-xs text-outline mt-1">ECO101 · Bài tập cá nhân số 2: Phân tích thị trường cạnh tranh</p>
+              </td>
+              <td class="px-4 py-4 text-sm text-on-surface whitespace-nowrap">18/11/2026</td>
+              <td class="px-4 py-4">
+                <p class="text-sm text-on-surface whitespace-nowrap">20/11/2026</p>
+                <p class="text-xs text-[#EA580C] mt-1">Trễ 2 ngày</p>
+              </td>
+              <td class="px-4 py-4 text-sm font-semibold text-primary">6.5/10</td>
+              <td class="px-5 py-4 text-right">
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FFF7ED] text-[#C2410C] text-xs font-semibold whitespace-nowrap">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>Nộp trễ
+                </span>
+              </td>
+            </tr>
+
+            <tr class="activity-row hover:bg-surface-container-low/40 transition-colors"
+                data-status="ontime" data-search="cơ sở dữ liệu it202 bài thực hành sql số 4 truy vấn con view nâng cao">
+              <td class="px-5 py-4">
+                <p class="text-sm font-semibold text-primary">Cơ sở dữ liệu</p>
+                <p class="text-xs text-outline mt-1">IT202 · Bài thực hành SQL số 4: Truy vấn con &amp; View nâng cao</p>
+              </td>
+              <td class="px-4 py-4 text-sm text-on-surface whitespace-nowrap">22/11/2026</td>
+              <td class="px-4 py-4">
+                <p class="text-sm text-on-surface whitespace-nowrap">22/11/2026</p>
+                <p class="text-xs text-[#059669] mt-1">Đúng hạn</p>
+              </td>
+              <td class="px-4 py-4 text-sm font-semibold text-primary">8.0/10</td>
+              <td class="px-5 py-4 text-right">
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ECFDF5] text-[#047857] text-xs font-semibold whitespace-nowrap">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>Đúng hạn
+                </span>
+              </td>
+            </tr>
+
+            <tr class="activity-row hover:bg-surface-container-low/40 transition-colors"
+                data-status="ontime" data-search="lập trình web it308 bài tập lớn thiết kế giao diện frontend responsive">
+              <td class="px-5 py-4">
+                <p class="text-sm font-semibold text-primary">Lập trình Web</p>
+                <p class="text-xs text-outline mt-1">IT308 · Bài tập lớn Giai đoạn 1: Thiết kế giao diện Frontend Responsive</p>
+              </td>
+              <td class="px-4 py-4 text-sm text-on-surface whitespace-nowrap">25/11/2026</td>
+              <td class="px-4 py-4">
+                <p class="text-sm text-on-surface whitespace-nowrap">24/11/2026</p>
+                <p class="text-xs text-[#059669] mt-1">Sớm 1 ngày</p>
+              </td>
+              <td class="px-4 py-4 text-sm font-semibold text-primary">9.0/10</td>
+              <td class="px-5 py-4 text-right">
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ECFDF5] text-[#047857] text-xs font-semibold whitespace-nowrap">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>Đúng hạn
+                </span>
+              </td>
+            </tr>
+
+            <tr class="activity-row hover:bg-surface-container-low/40 transition-colors"
+                data-status="ontime" data-search="phân tích thiết kế hệ thống it215 biểu đồ use case đặc tả nghiệp vụ">
+              <td class="px-5 py-4">
+                <p class="text-sm font-semibold text-primary">PT Thiết kế HT</p>
+                <p class="text-xs text-outline mt-1">IT215 · Biểu đồ ca sử dụng (Use Case Diagram) &amp; Đặc tả nghiệp vụ</p>
+              </td>
+              <td class="px-4 py-4 text-sm text-on-surface whitespace-nowrap">27/11/2026</td>
+              <td class="px-4 py-4">
+                <p class="text-sm text-on-surface whitespace-nowrap">27/11/2026</p>
+                <p class="text-xs text-[#059669] mt-1">Đúng hạn</p>
+              </td>
+              <td class="px-4 py-4 text-sm font-semibold text-primary">8.5/10</td>
+              <td class="px-5 py-4 text-right">
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ECFDF5] text-[#047857] text-xs font-semibold whitespace-nowrap">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>Đúng hạn
+                </span>
+              </td>
+            </tr>
+
+            <tr class="activity-row hover:bg-surface-container-low/40 transition-colors"
+                data-status="missing" data-search="xác suất thống kê mat110 bài kiểm tra chương 3 biến ngẫu nhiên liên tục phân phối chuẩn">
+              <td class="px-5 py-4">
+                <p class="text-sm font-semibold text-primary">Xác suất thống kê</p>
+                <p class="text-xs text-outline mt-1">MAT110 · Bài kiểm tra chương 3: Biến ngẫu nhiên liên tục &amp; Phân phối chuẩn</p>
+              </td>
+              <td class="px-4 py-4 text-sm text-on-surface whitespace-nowrap">01/12/2026</td>
+              <td class="px-4 py-4 text-sm text-outline">—</td>
+              <td class="px-4 py-4 text-sm text-outline">—</td>
+              <td class="px-5 py-4 text-right">
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FEF2F2] text-[#B91C1C] text-xs font-semibold whitespace-nowrap">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>Chưa nộp
+                </span>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div id="activityEmpty" class="hidden px-5 py-10 text-center text-sm text-outline">
+          Không tìm thấy bài tập phù hợp.
+        </div>
+      </div>
+
+      <div class="px-5 py-3 border-t border-outline-variant/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <p class="text-xs text-outline">Đang hiển thị 5 bài tập mẫu</p>
+        <p class="text-xs text-outline">Dữ liệu minh họa phục vụ bài tập lớn</p>
+      </div>
+    </section>
+
+
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const filterButtons = document.querySelectorAll(".activity-filter");
+      const rows = Array.from(document.querySelectorAll(".activity-row"));
+      const searchInput = document.getElementById("activitySearch");
+      const emptyMessage = document.getElementById("activityEmpty");
+
+      let activeFilter = "all";
+
+      function updateTable() {
+        const keyword = (searchInput.value || "").trim().toLowerCase();
+        let visibleCount = 0;
+
+        rows.forEach(function (row) {
+          const status = row.dataset.status;
+          const searchableText = row.dataset.search || "";
+          const matchesFilter = activeFilter === "all" || status === activeFilter;
+          const matchesSearch = searchableText.includes(keyword);
+          const visible = matchesFilter && matchesSearch;
+
+          row.classList.toggle("hidden", !visible);
+
+          if (visible) visibleCount++;
+        });
+
+        emptyMessage.classList.toggle("hidden", visibleCount > 0);
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          activeFilter = button.dataset.filter;
+
+          filterButtons.forEach(function (item) {
+            const selected = item === button;
+            item.setAttribute("aria-pressed", selected ? "true" : "false");
+            item.classList.toggle("bg-primary", selected);
+            item.classList.toggle("text-white", selected);
+            item.classList.toggle("bg-surface-container-low", !selected);
+            item.classList.toggle("text-outline", !selected);
+          });
+
+          updateTable();
+        });
+      });
+
+      searchInput.addEventListener("input", updateTable);
+    });
+  </script>
+{% endblock %}

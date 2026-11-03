@@ -1,0 +1,649 @@
+
+{% extends "base.html" %}
+{% from "partials/_macros.html" import page_header %}
+
+{% block title %}Kết quả học tập • {{ app_name }}{% endblock %}
+
+{% block content %}
+  {% call page_header("Kết quả học tập") %}
+    <span class="inline-flex items-center gap-1.5 px-space-md py-space-xs rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm">
+      <span class="material-symbols-outlined text-[16px]">school</span>
+      Bảng điểm sinh viên
+    </span>
+  {% endcall %}
+
+  <!-- Bộ lọc và công cụ -->
+  <section class="grid grid-cols-1 md:grid-cols-12 gap-3 bg-surface-container-lowest p-space-md rounded-xl shadow-sm items-center">
+    <div class="md:col-span-4">
+      <label id="semesterLabel" class="sr-only">Chọn học kỳ</label>
+      <div class="relative" id="semesterDropdown">
+        <select id="semesterSelect" class="sr-only" tabindex="-1" aria-hidden="true">
+          {% for semester_option in results_semesters %}
+            <option value="{{ semester_option.value }}" {% if semester_option.value == selected_semester %}selected{% endif %}>{{ semester_option.label }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="button" id="semesterDropdownButton"
+                aria-labelledby="semesterLabel semesterDropdownText"
+                aria-haspopup="listbox" aria-expanded="false"
+                class="w-full flex items-center justify-between gap-3 pl-3 pr-3 py-2.5 bg-surface-container-low rounded-2xl border border-transparent hover:border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary-container transition-all duration-200">
+          <span class="flex items-center gap-2 min-w-0">
+            <span class="material-symbols-outlined text-[18px] text-outline shrink-0">calendar_month</span>
+            <span id="semesterDropdownText" class="font-title-sm text-title-sm text-on-surface truncate">
+              {% for semester_option in results_semesters %}{% if semester_option.value == selected_semester %}{{ semester_option.label }}{% endif %}{% endfor %}
+            </span>
+          </span>
+          <span id="semesterDropdownChevron" class="material-symbols-outlined text-[20px] text-outline transition-transform duration-200">expand_more</span>
+        </button>
+
+        <div id="semesterDropdownMenu" role="listbox" aria-labelledby="semesterLabel"
+             class="hidden absolute z-30 top-full left-0 right-0 mt-2 p-1.5 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 shadow-xl shadow-primary/10 overflow-hidden">
+          {% for semester_option in results_semesters %}
+            <button type="button" role="option"
+                    aria-selected="{{ 'true' if semester_option.value == selected_semester else 'false' }}"
+                    data-semester-value="{{ semester_option.value }}"
+                    data-semester-label="{{ semester_option.label }}"
+                    class="semester-option w-full text-left px-3 py-2.5 rounded-xl font-body-sm text-body-sm transition-colors duration-150 {% if semester_option.value == selected_semester %}bg-primary-fixed text-primary font-semibold{% else %}text-on-surface hover:bg-surface-container-low{% endif %}">
+              {{ semester_option.label }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="md:col-span-5">
+      <label for="subjectSearch" class="sr-only">Tìm kiếm học phần</label>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">search</span>
+        <input id="subjectSearch" type="search" placeholder="Tìm tên hoặc mã học phần (vd: ITEC1120, Web...)" class="w-full pl-9 pr-4 py-2 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline outline-none focus:ring-2 focus:ring-primary-container">
+      </div>
+    </div>
+
+    <div class="md:col-span-3 flex md:justify-end">
+      <div class="inline-flex p-1 bg-surface-container-low rounded-full gap-1" role="group" aria-label="Chọn thang điểm">
+        <button type="button" id="scale10Btn" data-scale="10" aria-pressed="true" class="px-3 py-1.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-lowest text-primary shadow-sm">Thang 10</button>
+        <button type="button" id="scale4Btn" data-scale="4" aria-pressed="false" class="px-3 py-1.5 rounded-full font-label-sm text-label-sm text-outline hover:text-on-surface">Thang 4</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nội dung chính -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+    <div class="lg:col-span-8 min-w-0 flex flex-col gap-space-lg">
+
+      <!-- Biểu đồ điểm theo môn -->
+      <section class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-md">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex flex-col gap-1">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Phân tích kết quả</span>
+            <h2 class="font-headline-sm text-headline-sm text-primary font-bold">Điểm tổng kết theo môn</h2>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 font-label-sm text-label-sm text-on-surface-variant">
+            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#0f2042]"></span> Đạt chuẩn (≥7.0)</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#fe932c]"></span> Cần cải thiện (&lt;7.0)</span>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-surface-container-low/60 p-space-sm sm:p-space-md">
+          <svg id="resultsChart" class="w-full h-auto block" viewBox="0 0 760 250" role="img" aria-label="Biểu đồ điểm tổng kết theo học phần">
+            <defs>
+              <linearGradient id="resultsGradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#fe932c" stop-opacity="0.24"></stop>
+                <stop offset="100%" stop-color="#fe932c" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+
+            {% for tick in [10, 8, 6, 4, 2, 0] %}
+              {% set y = 190 - tick * 15.5 %}
+              <line data-results-grid="{{ tick }}" x1="52" x2="730" y1="{{ y }}" y2="{{ y }}" stroke="{{ '#c5c6cf' if tick == 0 else '#d9dce1' }}" stroke-width="1" stroke-dasharray="{{ '0' if tick == 0 else '4 5' }}"></line>
+              <text data-results-tick="{{ tick }}" x="40" y="{{ y + 4 }}" text-anchor="end" font-size="12" fill="#75777f">{{ tick }}</text>
+            {% endfor %}
+
+            <path id="resultsArea" d="" fill="url(#resultsGradient)"></path>
+            <path id="resultsLine" d="" fill="none" stroke="#fe932c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+
+            {% for course in results_courses %}
+              {% set x = 90 + loop.index0 * (600 / (results_courses|length - 1 if results_courses|length > 1 else 1)) %}
+              {% set y = 190 - course.total * 15.5 %}
+              <g class="results-point" data-x="{{ x }}" data-score10="{{ course.total }}" data-score4="{{ course.points }}">
+                <circle class="results-dot" cx="{{ x }}" cy="{{ y }}" r="5.5" fill="{{ '#0f2042' if course.total >= 7 else '#fe932c' }}" stroke="#ffffff" stroke-width="2.5"></circle>
+                <text class="results-value" x="{{ x }}" y="{{ y - 14 }}" text-anchor="middle" font-size="14" font-weight="700" fill="#0f2042">{{ "%.1f"|format(course.total) }}</text>
+                <text x="{{ x }}" y="220" text-anchor="middle" font-size="11" fill="#45464e">{{ course.short_name }}</text>
+              </g>
+            {% endfor %}
+          </svg>
+        </div>
+      </section>
+
+      <!-- Bảng điểm chi tiết -->
+      <section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+        <div class="px-space-md py-3 flex flex-wrap items-center justify-between gap-2 bg-surface-container-low/60">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[20px] text-primary">table_chart</span>
+            <h2 class="font-headline-sm text-title-md text-primary font-bold">Chi tiết điểm học phần</h2>
+            <span class="px-2 py-0.5 rounded-full bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant">{{ results_courses|length }} môn học</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[780px] text-left font-body-sm text-body-sm border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+                <th class="py-3 px-3 w-9"></th>
+                <th class="py-3 px-3">Môn học</th>
+                <th class="py-3 px-2 text-center">Tín chỉ</th>
+                <th class="py-3 px-2 text-center">Chuyên cần</th>
+                <th class="py-3 px-2 text-center">Giữa kỳ</th>
+                <th class="py-3 px-2 text-center">Cuối kỳ</th>
+                <th class="py-3 px-2 text-center">Tổng kết</th>
+                <th class="py-3 px-2 text-center">Điểm chữ</th>
+              </tr>
+            </thead>
+
+            <tbody id="gradesTableBody" class="text-on-surface">
+              {% for course in results_courses %}
+                <tr class="grade-main-row border-b border-surface-container-low hover:bg-surface-container-low/40 transition-colors {% if course.total < 7 %}bg-secondary-fixed/10{% endif %}" data-course-search="{{ course.name|lower }} {{ course.code|lower }}">
+                  <td class="py-2.5 px-3 text-center">
+                    <button type="button" class="detail-toggle text-outline hover:text-primary transition-colors" aria-expanded="false" aria-label="Xem chi tiết {{ course.name }}" data-detail-id="result-detail-{{ loop.index }}">
+                      <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                    </button>
+                  </td>
+
+                  <td class="py-2.5 px-3">
+                    <div class="font-title-sm text-title-sm text-primary font-semibold">{{ course.name }}</div>
+                    <div class="font-label-sm text-label-sm text-outline">{{ course.code }}</div>
+                  </td>
+
+                  <td class="py-2.5 px-2 text-center font-medium">{{ course.credits }}</td>
+                  <td class="py-2.5 px-2 text-center">{{ "%.1f"|format(course.attendance) }}</td>
+                  <td class="py-2.5 px-2 text-center">{{ "%.1f"|format(course.midterm) }}</td>
+                  <td class="py-2.5 px-2 text-center">{{ "%.1f"|format(course.final) }}</td>
+
+                  <td class="py-2.5 px-2 text-center font-title-sm text-title-sm font-bold text-primary">
+                    <span data-score-value data-score10="{{ '%.1f'|format(course.total) }}" data-score4="{{ '%.1f'|format(course.points) }}">{{ "%.1f"|format(course.total) }}</span>
+                  </td>
+
+                  <td class="py-2.5 px-2 text-center">
+                    <span class="px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-primary-fixed text-on-primary-fixed">{{ course.letter|replace("-", "") }} ({{ "%.1f"|format(course.points) }})</span>
+                  </td>
+                </tr>
+
+                <tr id="result-detail-{{ loop.index }}" class="hidden bg-surface-container-low/30">
+                  <td class="p-3" colspan="8">
+                    <div class="p-3 bg-surface-container-lowest rounded-lg grid grid-cols-1 md:grid-cols-3 gap-2 text-body-sm">
+                      <div><span class="text-outline">Trọng số:</span> {{ course.weight }}</div>
+                      <div><span class="text-outline">Hình thức đánh giá:</span> {{ course.assessment }}</div>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="emptySearchResult" class="hidden p-space-lg text-center text-body-sm text-outline">Không tìm thấy học phần phù hợp.</div>
+      </section>
+    </div>
+
+    <!-- Tổng kết học kỳ -->
+    <aside class="lg:col-span-4 flex flex-col gap-space-lg">
+      <section class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-primary-fixed/30 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="flex items-center justify-between relative">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Tổng kết kỳ này</span>
+            <h2 class="font-headline-sm text-title-lg text-primary font-bold">{{ results_summary.semester_label }}</h2>
+          </div>
+          <span class="p-2 rounded-lg bg-surface-container text-primary"><span class="material-symbols-outlined text-[22px]">workspace_premium</span></span>
+        </div>
+
+        <div class="p-space-md rounded-xl bg-gradient-to-br from-primary-container to-tertiary-container text-on-primary flex flex-col gap-2 relative shadow-sm">
+          <span class="font-label-md text-label-md text-on-primary-container uppercase font-semibold">GPA học kỳ</span>
+
+          <div class="flex items-baseline gap-2">
+            <span class="font-display-lg text-display-lg text-on-primary font-bold leading-none tracking-tight">{{ "%.2f"|format(results_summary.gpa) }}</span>
+            <span class="font-title-sm text-title-sm text-on-primary-container">/ 4.00</span>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-surface-container-lowest/10 font-body-sm text-body-sm text-on-primary-container">
+            <span>Điểm trung bình hệ 10:</span>
+            <span class="font-bold text-on-primary">{{ "%.2f"|format(results_summary.average_score) }} / 10</span>
+          </div>
+        </div>
+
+        <div class="space-y-3 relative">
+          <div class="flex justify-between items-center text-body-sm">
+            <span class="text-on-surface-variant font-medium">Tín chỉ đăng ký:</span>
+            <span class="font-title-sm text-title-sm font-bold text-primary">{{ results_summary.registered_credits }} tín chỉ ({{ results_summary.course_count }} môn)</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between flex-wrap gap-1 font-label-sm text-label-sm">
+              <span class="text-emerald-700 font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span>{{ results_summary.passed_count }} môn đạt</span>
+              <span class="text-outline">{{ results_summary.not_passed_count }} chưa đạt</span>
+            </div>
+
+            <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+              <div class="h-full bg-emerald-700 rounded-full" style="width: {{ (results_summary.passed_count / results_summary.course_count * 100) if results_summary.course_count else 0 }}%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+(() => {
+  const searchInput = document.getElementById('subjectSearch');
+  const tableBody = document.getElementById('gradesTableBody');
+  const emptyState = document.getElementById('emptySearchResult');
+  const scale10Btn = document.getElementById('scale10Btn');
+  const scale4Btn = document.getElementById('scale4Btn');
+
+  // Dropdown học kỳ tùy chỉnh
+  const semesterDropdown = document.getElementById('semesterDropdown');
+  const semesterSelect = document.getElementById('semesterSelect');
+  const semesterButton = document.getElementById('semesterDropdownButton');
+  const semesterMenu = document.getElementById('semesterDropdownMenu');
+  const semesterText = document.getElementById('semesterDropdownText');
+  const semesterChevron = document.getElementById('semesterDropdownChevron');
+
+  function closeSemesterMenu() {
+    if (!semesterMenu || !semesterButton) return;
+    semesterMenu.classList.add('hidden');
+    semesterButton.setAttribute('aria-expanded', 'false');
+    if (semesterChevron) semesterChevron.classList.remove('rotate-180');
+  }
+
+  function openSemesterMenu() {
+    if (!semesterMenu || !semesterButton) return;
+    semesterMenu.classList.remove('hidden');
+    semesterButton.setAttribute('aria-expanded', 'true');
+    if (semesterChevron) semesterChevron.classList.add('rotate-180');
+  }
+
+  if (semesterButton && semesterMenu) {
+    semesterButton.addEventListener('click', () => {
+      const opened = semesterButton.getAttribute('aria-expanded') === 'true';
+      if (opened) closeSemesterMenu();
+      else openSemesterMenu();
+    });
+
+    semesterMenu.querySelectorAll('.semester-option').forEach((option) => {
+      option.addEventListener('click', () => {
+        if (semesterText) semesterText.textContent = option.dataset.semesterLabel;
+
+        if (semesterSelect) {
+          semesterSelect.value = option.dataset.semesterValue;
+          semesterSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        semesterMenu.querySelectorAll('.semester-option').forEach((item) => {
+          const selected = item === option;
+          item.setAttribute('aria-selected', String(selected));
+          item.classList.toggle('bg-primary-fixed', selected);
+          item.classList.toggle('text-primary', selected);
+          item.classList.toggle('font-semibold', selected);
+          item.classList.toggle('text-on-surface', !selected);
+          item.classList.toggle('hover:bg-surface-container-low', !selected);
+        });
+
+        closeSemesterMenu();
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (semesterDropdown && !semesterDropdown.contains(event.target)) {
+        closeSemesterMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeSemesterMenu();
+    });
+  }
+
+  // Mở/đóng phần chi tiết của từng học phần.
+  document.querySelectorAll('.detail-toggle').forEach((button) => {
+    button.addEventListener('click', () => {
+      const detailRow = document.getElementById(button.dataset.detailId);
+      if (!detailRow) return;
+
+      const opening = detailRow.classList.contains('hidden');
+      detailRow.classList.toggle('hidden', !opening);
+      button.setAttribute('aria-expanded', String(opening));
+      detailRow.dataset.open = String(opening);
+
+      const icon = button.querySelector('.material-symbols-outlined');
+      if (icon) {
+        icon.textContent = opening ? 'keyboard_arrow_down' : 'chevron_right';
+      }
+    });
+  });
+
+  // Tìm kiếm theo tên hoặc mã học phần.
+  if (searchInput && tableBody) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLocaleLowerCase('vi');
+      let visibleCount = 0;
+
+      tableBody.querySelectorAll('.grade-main-row').forEach((row) => {
+        const matched = row.dataset.courseSearch.includes(query);
+        row.classList.toggle('hidden', !matched);
+
+        const detailRow = row.nextElementSibling;
+
+        if (detailRow && detailRow.id.startsWith('result-detail-')) {
+          if (!matched) {
+            detailRow.classList.add('hidden');
+          } else if (detailRow.dataset.open === 'true') {
+            detailRow.classList.remove('hidden');
+          }
+        }
+
+        if (matched) visibleCount += 1;
+      });
+
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleCount !== 0);
+      }
+    });
+  }
+
+  // Biểu đồ điểm theo môn: đồng bộ hiệu ứng với trang Tổng quan.
+  const chartSvg = document.getElementById('resultsChart');
+  const chartLine = document.getElementById('resultsLine');
+  const chartArea = document.getElementById('resultsArea');
+  const chartGroups = Array.from(document.querySelectorAll('.results-point'));
+
+  const baseY = 190;
+  const plotHeight = 155;
+  const duration = 950;
+  const stagger = 130;
+
+  let currentScale = '10';
+  let animationFrame = null;
+  let animationPlayed = false;
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  // Hiệu ứng nảy nhẹ khi điểm xuất hiện.
+  function easeOutBack(value) {
+    const c1 = 1.2;
+    const c3 = c1 + 1;
+
+    return 1 + c3 * Math.pow(value - 1, 3)
+      + c1 * Math.pow(value - 1, 2);
+  }
+
+  // Tạo đường cong nội suy mượt.
+  function makeCurve(points) {
+    if (!points.length) return '';
+
+    if (points.length === 1) {
+      return `M${points[0].x},${points[0].y}`;
+    }
+
+    const segments = points.length - 1;
+    const dx = [];
+    const slopes = [];
+    const tangents = [];
+
+    for (let i = 0; i < segments; i += 1) {
+      dx[i] = points[i + 1].x - points[i].x;
+      slopes[i] = (points[i + 1].y - points[i].y) / dx[i];
+    }
+
+    tangents[0] = slopes[0];
+    tangents[segments] = slopes[segments - 1];
+
+    for (let i = 1; i < segments; i += 1) {
+      tangents[i] = slopes[i - 1] * slopes[i] <= 0
+        ? 0
+        : (slopes[i - 1] + slopes[i]) / 2;
+    }
+
+    for (let i = 0; i < segments; i += 1) {
+      if (slopes[i] === 0) {
+        tangents[i] = 0;
+        tangents[i + 1] = 0;
+        continue;
+      }
+
+      const a = tangents[i] / slopes[i];
+      const b = tangents[i + 1] / slopes[i];
+      const magnitude = a * a + b * b;
+
+      if (magnitude > 9) {
+        const factor = 3 / Math.sqrt(magnitude);
+        tangents[i] = factor * a * slopes[i];
+        tangents[i + 1] = factor * b * slopes[i];
+      }
+    }
+
+    let path = `M${points[0].x},${points[0].y}`;
+
+    for (let i = 0; i < segments; i += 1) {
+      const width = dx[i];
+
+      path += ` C${points[i].x + width / 3},${points[i].y + tangents[i] * width / 3}`;
+      path += ` ${points[i + 1].x - width / 3},${points[i + 1].y - tangents[i + 1] * width / 3}`;
+      path += ` ${points[i + 1].x},${points[i + 1].y}`;
+    }
+
+    return path;
+  }
+
+  // Tính vị trí của từng điểm theo thời gian animation.
+  function getPointState(scale, elapsed) {
+    const isFour = scale === '4';
+    const maxScore = isFour ? 4 : 10;
+
+    return chartGroups.map((group, index) => {
+      const score = Number(
+        group.dataset[isFour ? 'score4' : 'score10']
+      );
+
+      const finalY = baseY - (score / maxScore) * plotHeight;
+      const progress = clamp(
+        (elapsed - index * stagger) / duration,
+        0,
+        1
+      );
+
+      return {
+        group,
+        x: Number(group.dataset.x),
+        y: baseY + (finalY - baseY) * easeOutBack(progress),
+        finalY,
+        score,
+        opacity: clamp((progress - 0.4) / 0.6, 0, 1)
+      };
+    });
+  }
+
+  // Vẽ lại biểu đồ theo từng khung hình.
+  function drawChart(scale, elapsed, finalFrame = false) {
+    if (!chartSvg || !chartLine || !chartArea) return;
+
+    const isFour = scale === '4';
+    const maxScore = isFour ? 4 : 10;
+
+    const states = getPointState(scale, elapsed);
+
+    const points = states.map((point) => ({
+      x: point.x,
+      y: finalFrame ? point.finalY : point.y
+    }));
+
+    const path = makeCurve(points);
+
+    chartLine.setAttribute('d', path);
+
+    chartArea.setAttribute(
+      'd',
+      points.length
+        ? `${path} L${points[points.length - 1].x},${baseY} L${points[0].x},${baseY} Z`
+        : ''
+    );
+
+    states.forEach((point) => {
+      const dot = point.group.querySelector('.results-dot');
+      const label = point.group.querySelector('.results-value');
+
+      const y = finalFrame ? point.finalY : point.y;
+
+      dot.setAttribute('cy', String(y));
+
+      dot.setAttribute(
+        'fill',
+        point.score >= maxScore * 0.7 ? '#0f2042' : '#fe932c'
+      );
+
+      label.setAttribute('y', String(y - 14));
+
+      label.setAttribute(
+        'opacity',
+        finalFrame ? '1' : String(point.opacity)
+      );
+
+      dot.setAttribute(
+        'opacity',
+        finalFrame ? '1' : String(Math.max(0.25, point.opacity))
+      );
+
+      label.textContent = point.score.toFixed(1);
+    });
+
+    // Cập nhật nhãn trục tung khi đổi thang điểm.
+    document.querySelectorAll('[data-results-tick]').forEach((element) => {
+      const tick = Number(element.dataset.resultsTick);
+      const y = baseY - (tick / 10) * plotHeight;
+
+      element.setAttribute('y', String(y + 4));
+
+      element.textContent = isFour
+        ? (tick / 2.5).toFixed(tick % 2.5 ? 1 : 0)
+        : String(tick);
+    });
+
+    document.querySelectorAll('[data-results-grid]').forEach((element) => {
+      const tick = Number(element.dataset.resultsGrid);
+      const y = baseY - (tick / 10) * plotHeight;
+
+      element.setAttribute('y1', String(y));
+      element.setAttribute('y2', String(y));
+    });
+  }
+
+  // Chạy animation lần lượt từ trái sang phải.
+  function playChartAnimation(scale) {
+    if (!chartSvg || !chartLine || !chartArea) return;
+
+    if (animationFrame !== null) {
+      cancelAnimationFrame(animationFrame);
+    }
+
+    const totalDuration =
+      duration + Math.max(0, chartGroups.length - 1) * stagger;
+
+    const reducedMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion) {
+      drawChart(scale, totalDuration, true);
+      animationFrame = null;
+      return;
+    }
+
+    let startTime = null;
+
+    function frame(timestamp) {
+      if (startTime === null) {
+        startTime = timestamp;
+      }
+
+      const elapsed = Math.min(
+        timestamp - startTime,
+        totalDuration
+      );
+
+      drawChart(scale, elapsed);
+
+      if (elapsed < totalDuration) {
+        animationFrame = requestAnimationFrame(frame);
+      } else {
+        drawChart(scale, totalDuration, true);
+        animationFrame = null;
+      }
+    }
+
+    drawChart(scale, 0);
+    animationFrame = requestAnimationFrame(frame);
+  }
+
+  // Chuyển đổi giữa thang điểm 10 và thang điểm 4.
+  function setScale(scale) {
+    currentScale = scale;
+
+    const isFour = scale === '4';
+
+    [scale10Btn, scale4Btn].forEach((button) => {
+      if (!button) return;
+
+      const active = button.dataset.scale === scale;
+
+      button.setAttribute('aria-pressed', String(active));
+
+      button.className = active
+        ? 'px-3 py-1.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-lowest text-primary shadow-sm'
+        : 'px-3 py-1.5 rounded-full font-label-sm text-label-sm text-outline hover:text-on-surface';
+    });
+
+    document.querySelectorAll('[data-score-value]').forEach((element) => {
+      element.textContent = element.dataset[
+        isFour ? 'score4' : 'score10'
+      ];
+    });
+
+    playChartAnimation(scale);
+  }
+
+  // Chỉ chạy animation khi biểu đồ xuất hiện trên màn hình.
+  if (chartSvg && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !animationPlayed) {
+          animationPlayed = true;
+
+          playChartAnimation(currentScale);
+
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(chartSvg);
+
+  } else if (chartSvg) {
+    animationPlayed = true;
+    playChartAnimation(currentScale);
+  }
+
+  if (scale10Btn) {
+    scale10Btn.addEventListener('click', () => setScale('10'));
+  }
+
+  if (scale4Btn) {
+    scale4Btn.addEventListener('click', () => setScale('4'));
+  }
+
+})();
+</script>
+{% endblock %}

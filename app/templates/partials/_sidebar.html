@@ -1,0 +1,107 @@
+{# SIDEBAR DUY NHẤT cho cả hệ thống. Mục đang mở xác định bằng request.endpoint. #}
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-[#0A1325] text-white z-50 flex flex-col justify-between shadow-[0_1px_12px_rgba(0,0,0,0.25)] select-none font-body-md">
+  <div class="flex flex-col flex-1 overflow-y-auto px-3.5 pt-5 pb-4">
+    {# Logo: thay file static/img/logo.svg bằng logo của nhóm (giữ nguyên tên file hoặc đổi đường dẫn ở đây) #}
+    <div class="flex items-center gap-3 px-1 mb-7">
+      <div class="w-10 h-10 rounded-xl overflow-hidden shadow-md flex items-center justify-center bg-[#0F1F45] shrink-0">
+        <img alt="Logo NEU Learning Hub" class="w-full h-full object-contain" src="{{ url_for('static', filename='img/logo.svg') }}">
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="text-[15px] font-bold text-white tracking-tight leading-tight whitespace-nowrap">{{ app_name }}</span>
+        <span class="text-[11px] text-[#94A3B8] font-normal leading-normal whitespace-nowrap truncate">Đại học Kinh tế Quốc dân</span>
+      </div>
+    </div>
+
+    <div class="px-2 mb-3">
+      <span class="text-[11px] uppercase tracking-wider text-[#64748B] font-semibold">PHÂN HỆ HỌC VỤ</span>
+    </div>
+
+    <nav class="space-y-1.5 flex flex-col">
+      {# Module 1: nối đường dẫn thật khi bạn làm module 1 có route #}
+      <a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-[#CBD5E1] hover:text-white hover:bg-[#1C3D70]/30 transition-colors group" href="#">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-[19px] text-[#94A3B8] group-hover:text-white transition-colors">menu_book</span>
+          <span class="text-[13px] font-medium">Học liệu &amp; Tài nguyên</span>
+        </div>
+        <span class="material-symbols-outlined text-[17px] text-[#64748B] group-hover:text-[#94A3B8]">expand_more</span>
+      </a>
+
+                 {# Module 2: Phân tích học tập (bấm tiêu đề để thu vào / mở ra) #}
+      <div class="mt-1 rounded-2xl bg-[#0F2042]/70 border border-[#1C3D70]/50 p-2.5 transition-all shadow-inner">
+        <button type="button" id="analytics-toggle" aria-expanded="true" aria-controls="analytics-menu"
+                class="w-full flex items-center justify-between px-1 py-1 rounded-lg text-left cursor-pointer hover:bg-[#1C3D70]/20 transition-colors">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-[#1C3D70] flex items-center justify-center text-[#93C5FD]">
+              <span class="material-symbols-outlined text-[18px]">bar_chart</span>
+            </div>
+            <span class="text-[13px] font-semibold text-white">Phân tích học tập</span>
+          </div>
+          <span id="analytics-chevron" class="material-symbols-outlined text-[18px] text-[#94A3B8] transition-transform duration-200">expand_less</span>
+        </button>
+        <div id="analytics-menu" class="mt-2.5 pl-3 border-l border-[#1C3D70]/60 space-y-1 ml-3.5">
+          {% for endpoint, label, icon in analytics_items %}
+            {% if request.endpoint == endpoint %}
+          <a aria-current="page" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#273859] text-white text-[12px] font-medium shadow-sm transition-all" href="{{ url_for(endpoint) }}">
+            <span class="material-symbols-outlined text-[15px] text-[#93C5FD]">{{ icon }}</span>
+            <span>{{ label }}</span>
+          </a>
+            {% else %}
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors group" href="{{ url_for(endpoint) }}">
+            <span class="material-symbols-outlined text-[15px] text-[#64748B] group-hover:text-[#94A3B8]">{{ icon }}</span>
+            <span>{{ label }}</span>
+          </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {# Module 3: nối đường dẫn thật khi có route #}
+      <a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-[#CBD5E1] hover:text-white hover:bg-[#1C3D70]/30 transition-colors group" href="#">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-[19px] text-[#94A3B8] group-hover:text-white transition-colors">support_agent</span>
+          <span class="text-[13px] font-medium">Hỗ trợ người học</span>
+        </div>
+        <span class="material-symbols-outlined text-[17px] text-[#64748B] group-hover:text-[#94A3B8]">expand_more</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="px-4 py-4 space-y-1 border-t border-[#1C3D70]/30 bg-[#081020]/40">
+    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[13px] transition-colors group" href="#">
+      <span class="material-symbols-outlined text-[18px] text-[#64748B] group-hover:text-[#CBD5E1]">settings</span>
+      <span>Cài đặt</span>
+    </a>
+    {# TODO: đổi href thành route đăng xuất khi làm phần đăng nhập #}
+    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#f87171]/90 hover:text-[#f87171] hover:bg-[#7f1d1d]/20 text-[13px] transition-colors group" href="#">
+      <span class="material-symbols-outlined text-[18px] text-[#f87171]/80 group-hover:text-[#f87171]">logout</span>
+      <span>Đăng xuất</span>
+    </a>
+  </div>
+
+  <script>
+  /* Thu/mở nhóm "Phân tích học tập"; nhớ trạng thái khi chuyển trang */
+  (function () {
+    var btn = document.getElementById('analytics-toggle');
+    var menu = document.getElementById('analytics-menu');
+    var chevron = document.getElementById('analytics-chevron');
+    if (!btn || !menu || !chevron) return;
+    var KEY = 'sidebar.analytics.open';
+
+    function render(open) {
+      menu.classList.toggle('hidden', !open);
+      chevron.classList.toggle('rotate-180', !open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    render(saved === null ? true : saved === '1');   // mặc định: mở
+
+    btn.addEventListener('click', function () {
+      var open = menu.classList.contains('hidden');
+      render(open);
+      try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {}
+    });
+  })();
+</script>
+</aside>
