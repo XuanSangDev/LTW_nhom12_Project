@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+{% from "partials/_macros.html" import page_header %}
+
+{% block title %}Tiến độ chương trình • {{ app_name }}{% endblock %}
+
+{% block content %}
+  {% call page_header("Tiến độ chương trình") %}
+    <span class="inline-flex items-center gap-1.5 px-space-md py-space-xs rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm">
+      <span class="material-symbols-outlined text-[16px]">school</span>
+      Theo dõi tín chỉ tích lũy
+    </span>
+  {% endcall %}
+
+  <div class="flex flex-col w-full gap-4">
+    <!-- Các chỉ số tổng quan và tiến độ theo khối kiến thức -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+      <!-- Left Card: Circular Progress & Key Stat -->
+      <div class="lg:col-span-4 bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between pb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[20px]">donut_large</span>
+            <span class="font-title-sm text-title-sm text-primary font-semibold">Tín chỉ tích lũy</span>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">HK5 / 8</span>
+        </div>
+
+        <div class="flex items-center justify-center gap-5 my-2">
+          <div class="relative w-28 h-28 flex items-center justify-center shrink-0">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle class="text-surface-container stroke-current fill-none" cx="50" cy="50" r="41" stroke-width="9"></circle>
+              <circle class="text-primary-container stroke-current fill-none transition-all duration-700" cx="50" cy="50" r="41" stroke-dasharray="257.6" stroke-dashoffset="103.04" stroke-linecap="round" stroke-width="9"></circle>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="font-display-lg text-headline-lg font-bold text-primary leading-none">60%</span>
+              <span class="font-label-sm text-[10px] text-outline font-semibold uppercase tracking-wider mt-0.5">Tích lũy</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-0">
+            <span class="font-headline-sm text-headline-sm text-primary font-bold">78 <span class="font-body-sm text-body-sm text-outline font-normal">/ 130 tín</span></span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 pt-2 bg-surface-container-low/70 rounded-lg p-2.5 text-center">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-[11px] text-outline">Đã tích lũy</span>
+            <span class="font-title-sm text-title-sm text-primary font-bold">78 tín</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-label-sm text-[11px] text-outline">Đang học (HK5)</span>
+            <span class="font-title-sm text-title-sm text-secondary font-bold">18 tín</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-label-sm text-[11px] text-outline">Sau HK5</span>
+            <span class="font-title-sm text-title-sm text-primary font-bold">96 tín (73.8%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Card: Progress Bars by 4 Knowledge Blocks -->
+      <div class="lg:col-span-5 bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between pb-1">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[20px]">layers</span>
+            <span class="font-title-sm text-title-sm text-primary font-semibold">Tiến độ theo khối kiến thức</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2.5 my-1">
+          <!-- 1: Kiến thức đại cương -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center font-body-sm text-body-sm">
+              <span class="font-title-sm text-title-sm text-on-surface">Kiến thức đại cương</span>
+              <div class="flex items-center gap-2">
+                <span class="font-body-sm text-body-sm text-on-surface-variant font-medium">32 / 34 tín</span>
+                <span class="px-1.5 py-0.5 rounded text-[11px] font-bold bg-primary-fixed text-primary">94.1%</span>
+              </div>
+            </div>
+            <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+              <div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 94.1%"></div>
+            </div>
+          </div>
+
+          <!-- 2: Cơ sở ngành -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center font-body-sm text-body-sm">
+              <span class="font-title-sm text-title-sm text-on-surface">Cơ sở ngành</span>
+              <div class="flex items-center gap-2">
+                <span class="font-body-sm text-body-sm text-on-surface-variant font-medium">28 / 36 tín</span>
+                <span class="px-1.5 py-0.5 rounded text-[11px] font-bold bg-primary-fixed text-primary">77.8%</span>
+              </div>
+            </div>
+            <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+              <div class="bg-primary-container h-full rounded-full transition-all duration-500" style="width: 77.8%"></div>
+            </div>
+          </div>
+
+          <!-- 3: Chuyên ngành -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center font-body-sm text-body-sm">
+              <span class="font-title-sm text-title-sm text-on-surface">Chuyên ngành</span>
+              <div class="flex items-center gap-2">
+                <span class="font-body-sm text-body-sm text-on-surface-variant font-medium">18 / 46 tín</span>
+                <span class="px-1.5 py-0.5 rounded text-[11px] font-bold bg-secondary-fixed text-on-secondary-fixed-variant">39.1%</span>
+              </div>
+            </div>
+            <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+              <div class="bg-secondary-container h-full rounded-full transition-all duration-500" style="width: 39.1%"></div>
+            </div>
+          </div>
+
+          <!-- 4: Thực tập & Khóa luận -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center font-body-sm text-body-sm">
+              <span class="font-title-sm text-title-sm text-on-surface">Thực tập &amp; Khóa luận</span>
+              <div class="flex items-center gap-2">
+                <span class="font-body-sm text-body-sm text-outline font-medium">0 / 14 tín</span>
+                <span class="px-1.5 py-0.5 rounded text-[11px] font-bold bg-surface-container-high text-outline">0.0%</span>
+              </div>
+            </div>
+            <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+              <div class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-1 font-label-sm text-[11px] text-outline"></div>
+      </div>
+
+      <!-- Right Card: Graduation Projection & Requirements -->
+      <div class="lg:col-span-3 bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Tín chỉ cần thêm</span>
+            <div class="flex items-baseline gap-1 mt-0.5">
+              <span class="font-display-lg text-headline-lg font-bold text-secondary">52</span>
+              <span class="font-title-sm text-title-sm text-on-surface-variant font-medium">tín chỉ</span>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary-fixed/80 text-primary font-label-sm text-[11px] font-bold">
+            <span class="material-symbols-outlined text-[13px]">event_available</span>
+            Đúng hạn
+          </span>
+        </div>
+
+        <div class="p-2.5 rounded-lg bg-surface-container-low my-2">
+          <span class="font-label-sm text-[11px] text-outline uppercase tracking-wider block">Dự kiến tốt nghiệp</span>
+          <span class="font-title-sm text-title-sm text-primary font-bold">Tháng 06/2027 • Niên khóa 2023 - 2027</span>
+        </div>
+
+        <div class="space-y-1.5">
+          <span class="font-label-sm text-[11px] text-outline uppercase tracking-wider font-semibold block">Điều kiện chuẩn đầu ra</span>
+
+          <div class="flex items-center justify-between text-body-sm font-body-sm">
+            <span class="flex items-center gap-1 text-on-surface">
+              <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+              Ngoại ngữ
+            </span>
+            <span class="font-semibold text-primary text-[11px]">Đạt</span>
+          </div>
+
+          <div class="flex items-center justify-between text-body-sm font-body-sm">
+            <span class="flex items-center gap-1 text-on-surface">
+              <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+              MOS
+            </span>
+            <span class="font-semibold text-primary text-[11px]">Đạt</span>
+          </div>
+
+          <div class="flex items-center justify-between text-body-sm font-body-sm">
+            <span class="flex items-center gap-1 text-on-surface">
+              <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+              GD thể chất &amp; GDQP-AN
+            </span>
+            <span class="font-semibold text-primary text-[11px]">Hoàn thành</span>
+          </div>
+
+          <div class="flex items-center justify-between text-body-sm font-body-sm">
+            <span class="flex items-center gap-1 text-outline">
+              <span class="material-symbols-outlined text-[16px] text-secondary">hourglass_empty</span>
+              Khóa luận / TT doanh nghiệp
+            </span>
+            <span class="font-semibold text-secondary text-[11px]">Chưa đăng ký</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Danh sách học phần trong chương trình -->
+    <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col gap-3">
+
+      <!-- Controls Bar -->
+      <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+
+        <!-- Filter Tabs -->
+        <div class="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0" id="filter-tabs">
+          <button class="filter-btn px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm transition-all whitespace-nowrap" data-filter="all" type="button">
+            Tất cả khối (130 TC)
+          </button>
+          <button class="filter-btn px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-all whitespace-nowrap" data-filter="daicuong" type="button">
+            Đại cương (34 TC)
+          </button>
+          <button class="filter-btn px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-all whitespace-nowrap" data-filter="coso" type="button">
+            Cơ sở ngành (36 TC)
+          </button>
+          <button class="filter-btn px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-all whitespace-nowrap" data-filter="chuyennganh" type="button">
+            Chuyên ngành (46 TC)
+          </button>
+          <button class="filter-btn px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-all whitespace-nowrap" data-filter="khoaluan" type="button">
+            TT &amp; Khóa luận (14 TC)
+          </button>
+        </div>
+
+        <!-- Search Input -->
+        <div class="flex items-center w-full md:w-64 bg-surface-container-low px-3 py-1.5 rounded-lg">
+          <span class="material-symbols-outlined text-outline text-[18px] mr-1.5">search</span>
+          <input class="w-full bg-transparent border-none outline-none font-body-sm text-body-sm text-on-surface placeholder:text-outline" id="course-search-input" placeholder="Tìm mã hoặc tên học phần..." type="text"/>
+        </div>
+      </div>
+
+      <!-- Structured Data Table -->
+      <div class="overflow-x-auto rounded-lg">
+        <table class="w-full text-left border-collapse" id="courses-table">
+          <thead>
+            <tr class="bg-surface-container-low text-outline font-label-sm text-label-sm tracking-wider uppercase">
+              <th class="py-2.5 px-3 font-semibold">Mã HP</th>
+              <th class="py-2.5 px-3 font-semibold">Tên học phần</th>
+              <th class="py-2.5 px-3 font-semibold">Khối kiến thức</th>
+              <th class="py-2.5 px-3 font-semibold text-center">Số TC</th>
+              <th class="py-2.5 px-3 font-semibold text-center">HK theo CTĐT</th>
+              <th class="py-2.5 px-3 font-semibold">Điểm / Đánh giá</th>
+              <th class="py-2.5 px-3 font-semibold text-right">Trạng thái</th>
+            </tr>
+          </thead>
+
+          <tbody class="font-body-sm text-body-sm divide-y-0 text-on-surface" id="courses-tbody">
+
+            <!-- Row 1 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors" data-group="daicuong">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">LLCT1101</td>
+              <td class="py-2.5 px-3 font-medium">Triết học Mác - Lênin</td>
+              <td class="py-2.5 px-3 text-outline">Kiến thức đại cương</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center">HK1</td>
+              <td class="py-2.5 px-3 font-semibold text-primary">7.5 (B)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed/80 text-primary font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">done_all</span> Đã hoàn thành
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 2 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors bg-surface-container-lowest" data-group="daicuong">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">TOAN1102</td>
+              <td class="py-2.5 px-3 font-medium">Toán cao cấp cho CNTT</td>
+              <td class="py-2.5 px-3 text-outline">Kiến thức đại cương</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center">HK1</td>
+              <td class="py-2.5 px-3 font-semibold text-primary">8.0 (B+)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed/80 text-primary font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">done_all</span> Đã hoàn thành
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 3 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors" data-group="coso">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">ITEC1101</td>
+              <td class="py-2.5 px-3 font-medium">Lập trình căn bản C++</td>
+              <td class="py-2.5 px-3 text-outline">Cơ sở ngành</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center">HK2</td>
+              <td class="py-2.5 px-3 font-semibold text-primary">8.5 (A)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed/80 text-primary font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">done_all</span> Đã hoàn thành
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 4 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors bg-surface-container-lowest" data-group="coso">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">ITEC2102</td>
+              <td class="py-2.5 px-3 font-medium">Cấu trúc dữ liệu &amp; Giải thuật</td>
+              <td class="py-2.5 px-3 text-outline">Cơ sở ngành</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center">HK3</td>
+              <td class="py-2.5 px-3 font-semibold text-primary">8.0 (B+)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-fixed/80 text-primary font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">done_all</span> Đã hoàn thành
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 5 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors" data-group="coso">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">ITEC1120</td>
+              <td class="py-2.5 px-3 font-medium">Lập trình Web</td>
+              <td class="py-2.5 px-3 text-outline">Cơ sở ngành</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center font-bold text-secondary">HK5</td>
+              <td class="py-2.5 px-3 font-medium text-secondary">Đang học (GK: 8.5)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">sync</span> Đang học
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 6 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors bg-surface-container-lowest" data-group="coso">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">ITEC1125</td>
+              <td class="py-2.5 px-3 font-medium">Cơ sở dữ liệu</td>
+              <td class="py-2.5 px-3 text-outline">Cơ sở ngành</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center font-bold text-secondary">HK5</td>
+              <td class="py-2.5 px-3 font-medium text-secondary">Đang học (GK: 5.5)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">sync</span> Đang học
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 7 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors" data-group="chuyennganh">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-primary font-bold">ITEC2105</td>
+              <td class="py-2.5 px-3 font-medium">Phân tích thiết kế hệ thống</td>
+              <td class="py-2.5 px-3 text-outline">Chuyên ngành</td>
+              <td class="py-2.5 px-3 text-center font-semibold">3 TC</td>
+              <td class="py-2.5 px-3 text-center font-bold text-secondary">HK5</td>
+              <td class="py-2.5 px-3 font-medium text-secondary">Đang học (GK: 7.8)</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">sync</span> Đang học
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 8 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors bg-surface-container-lowest" data-group="chuyennganh">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-outline font-bold">ITEC3101</td>
+              <td class="py-2.5 px-3 font-medium text-outline">Trí tuệ nhân tạo</td>
+              <td class="py-2.5 px-3 text-outline">Chuyên ngành</td>
+              <td class="py-2.5 px-3 text-center text-outline">3 TC</td>
+              <td class="py-2.5 px-3 text-center text-outline">HK6</td>
+              <td class="py-2.5 px-3 text-outline">—</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-outline font-label-sm text-label-sm font-medium">
+                  Chưa học
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 9 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors" data-group="chuyennganh">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-outline font-bold">ITEC3108</td>
+              <td class="py-2.5 px-3 font-medium text-outline">Kiến trúc Microservices</td>
+              <td class="py-2.5 px-3 text-outline">Chuyên ngành</td>
+              <td class="py-2.5 px-3 text-center text-outline">3 TC</td>
+              <td class="py-2.5 px-3 text-center text-outline">HK6</td>
+              <td class="py-2.5 px-3 text-outline">—</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-outline font-label-sm text-label-sm font-medium">
+                  Chưa học
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 10 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors bg-surface-container-lowest" data-group="chuyennganh">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-outline font-bold">ITEC3105</td>
+              <td class="py-2.5 px-3 font-medium text-outline">An toàn và bảo mật thông tin</td>
+              <td class="py-2.5 px-3 text-outline">Chuyên ngành</td>
+              <td class="py-2.5 px-3 text-center text-outline">3 TC</td>
+              <td class="py-2.5 px-3 text-center text-outline">HK7</td>
+              <td class="py-2.5 px-3 text-outline">—</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-outline font-label-sm text-label-sm font-medium">
+                  Chưa học
+                </span>
+              </td>
+            </tr>
+
+            <!-- Row 11 -->
+            <tr class="course-row hover:bg-surface-container-low/60 transition-colors" data-group="khoaluan">
+              <td class="py-2.5 px-3 font-title-sm text-title-sm text-outline font-bold">ITEC4199</td>
+              <td class="py-2.5 px-3 font-medium text-outline">Khóa luận tốt nghiệp CNTT</td>
+              <td class="py-2.5 px-3 text-outline">TT &amp; Khóa luận</td>
+              <td class="py-2.5 px-3 text-center text-outline font-bold">10 TC</td>
+              <td class="py-2.5 px-3 text-center text-outline">HK8</td>
+              <td class="py-2.5 px-3 text-outline">—</td>
+              <td class="py-2.5 px-3 text-right">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-outline font-label-sm text-label-sm font-medium">
+                  Chưa học
+                </span>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="progress-empty-state" class="hidden rounded-xl bg-surface-container-lowest p-8 text-center text-body-sm text-outline">
+      Không tìm thấy học phần phù hợp.
+    </div>
+
+    <p class="text-center py-2 font-body-sm text-body-sm text-outline">Dữ liệu minh họa phục vụ mục đích học tập.</p>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(() => {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const searchInput = document.getElementById('course-search-input');
+  const rows = document.querySelectorAll('.course-row');
+  let currentFilter = 'all';
+
+  function applyFilters() {
+    const query = (searchInput?.value || '').trim().toLocaleLowerCase('vi');
+    let visibleCount = 0;
+
+    rows.forEach((row) => {
+      const group = row.getAttribute('data-group');
+      const text = (row.innerText || '').toLocaleLowerCase('vi');
+      const matchesFilter = currentFilter === 'all' || group === currentFilter;
+      const matchesSearch = !query || text.includes(query);
+      const visible = matchesFilter && matchesSearch;
+
+      row.style.display = visible ? '' : 'none';
+
+      if (visible) visibleCount += 1;
+    });
+
+    const emptyState = document.getElementById('progress-empty-state');
+
+    if (emptyState) {
+      emptyState.classList.toggle('hidden', visibleCount !== 0);
+    }
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach((item) => {
+        item.className = 'filter-btn px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-all whitespace-nowrap';
+        item.setAttribute('aria-pressed', 'false');
+      });
+
+      button.className = 'filter-btn px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm transition-all whitespace-nowrap';
+      button.setAttribute('aria-pressed', 'true');
+
+      currentFilter = button.getAttribute('data-filter') || 'all';
+
+      applyFilters();
+    });
+  });
+
+  searchInput?.addEventListener('input', applyFilters);
+})();
+</script>
+{% endblock %}

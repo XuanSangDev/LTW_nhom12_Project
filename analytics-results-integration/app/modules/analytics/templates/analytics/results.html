@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% from "partials/_macros.html" import page_header %}
+
+{% block title %}Kết quả học tập • {{ app_name }}{% endblock %}
+
+{% block content %}
+  {% call page_header("Kết quả học tập") %}
+    <span class="inline-flex items-center gap-1.5 px-space-md py-space-xs rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm">
+      <span class="material-symbols-outlined text-[16px]">school</span>
+      Bảng điểm sinh viên
+    </span>
+  {% endcall %}
+
+  <!-- Bộ lọc và công cụ -->
+  <section class="grid grid-cols-1 md:grid-cols-12 gap-3 bg-surface-container-lowest p-space-md rounded-xl shadow-sm items-center">
+    <div class="md:col-span-4">
+      <label for="semesterSelect" class="sr-only">Chọn học kỳ</label>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">calendar_month</span>
+        <select id="semesterSelect" class="w-full pl-9 pr-8 py-2 bg-surface-container-low rounded-lg font-title-sm text-title-sm text-on-surface outline-none focus:ring-2 focus:ring-primary-container">
+          {% for semester_option in results_semesters %}
+            <option value="{{ semester_option.value }}" {% if semester_option.value == selected_semester %}selected{% endif %}>{{ semester_option.label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="md:col-span-5">
+      <label for="subjectSearch" class="sr-only">Tìm kiếm học phần</label>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">search</span>
+        <input id="subjectSearch" type="search" placeholder="Tìm tên hoặc mã học phần (vd: ITEC1120, Web...)" class="w-full pl-9 pr-4 py-2 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline outline-none focus:ring-2 focus:ring-primary-container">
+      </div>
+    </div>
+
+    <div class="md:col-span-3 flex md:justify-end">
+      <div class="inline-flex p-1 bg-surface-container-low rounded-lg gap-1" role="group" aria-label="Chọn thang điểm">
+        <button type="button" id="scale10Btn" data-scale="10" aria-pressed="true" class="px-3 py-1.5 rounded-md font-label-sm text-label-sm font-semibold bg-surface-container-lowest text-primary shadow-sm">Thang 10</button>
+        <button type="button" id="scale4Btn" data-scale="4" aria-pressed="false" class="px-3 py-1.5 rounded-md font-label-sm text-label-sm text-outline hover:text-on-surface">Thang 4</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nội dung chính -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+    <div class="lg:col-span-8 min-w-0 flex flex-col gap-space-lg">
+      <!-- Biểu đồ điểm theo môn -->
+      <section class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-md">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+            <h2 class="font-headline-sm text-headline-sm text-primary font-bold">Điểm tổng kết theo môn</h2>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 font-label-sm text-label-sm text-on-surface-variant">
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-2.5 rounded-sm bg-primary-container"></span> Đạt chuẩn (≥7.0)</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-2.5 rounded-sm bg-secondary-container"></span> Cần cải thiện (&lt;7.0)</span>
+          </div>
+        </div>
+
+        <div class="relative w-full h-48 pt-2 pb-1">
+          <svg id="resultsChart" class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 680 150" role="img" aria-label="Biểu đồ điểm tổng kết theo học phần">
+            {% for tick in [10, 7.5, 5, 0] %}
+              {% set y = 120 - tick * 10 %}
+              <line x1="40" x2="660" y1="{{ y }}" y2="{{ y }}" stroke="{{ '#c5c6cf' if tick == 0 else '#e0e3e5' }}" stroke-width="1" stroke-dasharray="{{ '0' if tick == 0 else '3 3' }}"></line>
+              <text data-axis-tick="{{ tick }}" x="30" y="{{ y + 4 }}" text-anchor="end" font-size="11" fill="#75777f">{{ tick }}</text>
+            {% endfor %}
+
+            {% for course in results_courses %}
+              {% set x = 75 + loop.index0 * 100 %}
+              {% set bar_height = course.total * 10 %}
+              {% set bar_y = 120 - bar_height %}
+              <g class="result-chart-bar">
+                <rect data-score-bar data-score10="{{ course.total }}" data-score4="{{ course.points }}" x="{{ x }}" y="{{ bar_y }}" width="46" height="{{ bar_height }}" rx="4" fill="{{ '#0f2042' if course.total >= 7 else '#fe932c' }}" class="transition-all"></rect>
+                <text data-score-label data-score10="{{ '%.1f'|format(course.total) }}" data-score4="{{ '%.1f'|format(course.points) }}" x="{{ x + 23 }}" y="{{ bar_y - 7 }}" text-anchor="middle" font-size="12" font-weight="700" fill="#0f2042">{{ "%.1f"|format(course.total) }}</text>
+                <text x="{{ x + 23 }}" y="140" text-anchor="middle" font-size="10" fill="#45464e">{{ course.short_name }}</text>
+              </g>
+            {% endfor %}
+          </svg>
+        </div>
+      </section>
+
+      <!-- Bảng điểm chi tiết -->
+      <section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+        <div class="px-space-md py-3 flex flex-wrap items-center justify-between gap-2 bg-surface-container-low/60">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[20px] text-primary">table_chart</span>
+            <h2 class="font-headline-sm text-title-md text-primary font-bold">Chi tiết điểm học phần</h2>
+            <span class="px-2 py-0.5 rounded-full bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant">{{ results_courses|length }} môn học</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[780px] text-left font-body-sm text-body-sm border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+                <th class="py-3 px-3 w-9"></th>
+                <th class="py-3 px-3">Môn học</th>
+                <th class="py-3 px-2 text-center">Tín chỉ</th>
+                <th class="py-3 px-2 text-center">Chuyên cần</th>
+                <th class="py-3 px-2 text-center">Giữa kỳ</th>
+                <th class="py-3 px-2 text-center">Cuối kỳ</th>
+                <th class="py-3 px-2 text-center">Tổng kết</th>
+                <th class="py-3 px-2 text-center">Điểm chữ</th>
+              </tr>
+            </thead>
+            <tbody id="gradesTableBody" class="text-on-surface">
+              {% for course in results_courses %}
+                <tr class="grade-main-row border-b border-surface-container-low hover:bg-surface-container-low/40 transition-colors {% if course.total < 7 %}bg-secondary-fixed/10{% endif %}" data-course-search="{{ course.name|lower }} {{ course.code|lower }}">
+                  <td class="py-2.5 px-3 text-center">
+                    <button type="button" class="detail-toggle text-outline hover:text-primary transition-colors" aria-expanded="false" aria-label="Xem chi tiết {{ course.name }}" data-detail-id="result-detail-{{ loop.index }}">
+                      <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                    </button>
+                  </td>
+                  <td class="py-2.5 px-3">
+                    <div class="font-title-sm text-title-sm text-primary font-semibold">{{ course.name }}</div>
+                    <div class="font-label-sm text-label-sm text-outline">{{ course.code }}</div>
+                  </td>
+                  <td class="py-2.5 px-2 text-center font-medium">{{ course.credits }}</td>
+                  <td class="py-2.5 px-2 text-center">{{ "%.1f"|format(course.attendance) }}</td>
+                  <td class="py-2.5 px-2 text-center">{{ "%.1f"|format(course.midterm) }}</td>
+                  <td class="py-2.5 px-2 text-center">{{ "%.1f"|format(course.final) }}</td>
+                  <td class="py-2.5 px-2 text-center font-title-sm text-title-sm font-bold text-primary">
+                    <span data-score-value data-score10="{{ '%.1f'|format(course.total) }}" data-score4="{{ '%.1f'|format(course.points) }}">{{ "%.1f"|format(course.total) }}</span>
+                  </td>
+                  <td class="py-2.5 px-2 text-center">
+                    <span class="px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-primary-fixed text-on-primary-fixed">{{ course.letter }} ({{ "%.1f"|format(course.points) }})</span>
+                  </td>
+                </tr>
+                <tr id="result-detail-{{ loop.index }}" class="hidden bg-surface-container-low/30">
+                  <td class="p-3" colspan="8">
+                    <div class="p-3 bg-surface-container-lowest rounded-lg grid grid-cols-1 md:grid-cols-3 gap-2 text-body-sm">
+                      <div><span class="text-outline">Trọng số:</span> {{ course.weight }}</div>
+                      <div><span class="text-outline">Hình thức đánh giá:</span> {{ course.assessment }}</div>
+                      <div><span class="text-outline">Ghi chú:</span> {{ course.note }}</div>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div id="emptySearchResult" class="hidden p-space-lg text-center text-body-sm text-outline">Không tìm thấy học phần phù hợp.</div>
+      </section>
+    </div>
+
+    <!-- Tổng kết học kỳ -->
+    <aside class="lg:col-span-4 flex flex-col gap-space-lg">
+      <section class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-primary-fixed/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center justify-between relative">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Tổng kết kỳ này</span>
+            <h2 class="font-headline-sm text-title-lg text-primary font-bold">{{ results_summary.semester_label }}</h2>
+          </div>
+          <span class="p-2 rounded-lg bg-surface-container text-primary"><span class="material-symbols-outlined text-[22px]">workspace_premium</span></span>
+        </div>
+
+        <div class="p-space-md rounded-xl bg-gradient-to-br from-primary-container to-tertiary-container text-on-primary flex flex-col gap-2 relative shadow-sm">
+          <span class="font-label-md text-label-md text-on-primary-container uppercase font-semibold">GPA học kỳ</span>
+          <div class="flex items-baseline gap-2">
+            <span class="font-display-lg text-display-lg text-on-primary font-bold leading-none tracking-tight">{{ "%.2f"|format(results_summary.gpa) }}</span>
+            <span class="font-title-sm text-title-sm text-on-primary-container">/ 4.00</span>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t border-surface-container-lowest/10 font-body-sm text-body-sm text-on-primary-container">
+            <span>Điểm trung bình hệ 10:</span>
+            <span class="font-bold text-on-primary">{{ "%.2f"|format(results_summary.average_score) }} / 10</span>
+          </div>
+        </div>
+
+        <div class="space-y-3 relative">
+          <div class="flex justify-between items-center text-body-sm">
+            <span class="text-on-surface-variant font-medium">Tín chỉ đăng ký:</span>
+            <span class="font-title-sm text-title-sm font-bold text-primary">{{ results_summary.registered_credits }} tín chỉ ({{ results_summary.course_count }} môn)</span>
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex justify-between flex-wrap gap-1 font-label-sm text-label-sm">
+              <span class="text-emerald-700 font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span>{{ results_summary.passed_count }} môn đạt</span>
+              <span class="text-outline">{{ results_summary.not_passed_count }} chưa đạt</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+              <div class="h-full bg-emerald-700 rounded-full" style="width: {{ (results_summary.passed_count / results_summary.course_count * 100) if results_summary.course_count else 0 }}%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="material-symbols-outlined text-primary">info</span>
+          <h3 class="font-title-md text-title-md text-primary">Thông tin dữ liệu</h3>
+        </div>
+        <p class="font-body-sm text-outline leading-relaxed">Dữ liệu điểm trong trang này là dữ liệu mô phỏng phục vụ mục đích học tập và trình diễn hệ thống.</p>
+      </section>
+    </aside>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(() => {
+  const searchInput = document.getElementById('subjectSearch');
+  const tableBody = document.getElementById('gradesTableBody');
+  const emptyState = document.getElementById('emptySearchResult');
+  const scale10Btn = document.getElementById('scale10Btn');
+  const scale4Btn = document.getElementById('scale4Btn');
+
+  // Mở/đóng dòng thông tin chi tiết của từng học phần.
+  document.querySelectorAll('.detail-toggle').forEach((button) => {
+    button.addEventListener('click', () => {
+      const detailRow = document.getElementById(button.dataset.detailId);
+      if (!detailRow) return;
+      const isOpening = detailRow.classList.contains('hidden');
+      detailRow.classList.toggle('hidden', !isOpening);
+      button.setAttribute('aria-expanded', String(isOpening));
+      detailRow.dataset.open = String(isOpening);
+      const icon = button.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = isOpening ? 'keyboard_arrow_down' : 'chevron_right';
+    });
+  });
+
+  // Lọc bảng theo tên hoặc mã học phần.
+  if (searchInput && tableBody) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLocaleLowerCase('vi');
+      let visibleCount = 0;
+      tableBody.querySelectorAll('.grade-main-row').forEach((row) => {
+        const matched = row.dataset.courseSearch.includes(query);
+        row.classList.toggle('hidden', !matched);
+        const detailRow = row.nextElementSibling;
+        if (detailRow && detailRow.id.startsWith('result-detail-')) {
+          if (!matched) detailRow.classList.add('hidden');
+          else if (detailRow.dataset.open === 'true') detailRow.classList.remove('hidden');
+        }
+        if (matched) visibleCount += 1;
+      });
+      if (emptyState) emptyState.classList.toggle('hidden', visibleCount !== 0);
+    });
+  }
+
+  // Chuyển cách hiển thị điểm trên biểu đồ và cột tổng kết.
+  function setScale(scale) {
+    const isFour = scale === '4';
+    [scale10Btn, scale4Btn].forEach((button) => {
+      if (!button) return;
+      const active = button.dataset.scale === scale;
+      button.setAttribute('aria-pressed', String(active));
+      button.className = active
+        ? 'px-3 py-1.5 rounded-md font-label-sm text-label-sm font-semibold bg-surface-container-lowest text-primary shadow-sm'
+        : 'px-3 py-1.5 rounded-md font-label-sm text-label-sm text-outline hover:text-on-surface';
+    });
+
+    document.querySelectorAll('[data-score-value]').forEach((element) => {
+      element.textContent = element.dataset[isFour ? 'score4' : 'score10'];
+    });
+    document.querySelectorAll('[data-score-label]').forEach((element) => {
+      const score = Number(element.dataset[isFour ? 'score4' : 'score10']);
+      const max = isFour ? 4 : 10;
+      const height = score / max * 100;
+      element.textContent = score.toFixed(1);
+      element.setAttribute('y', String(120 - height - 7));
+    });
+    document.querySelectorAll('[data-score-bar]').forEach((element) => {
+      const score = Number(element.dataset[isFour ? 'score4' : 'score10']);
+      const max = isFour ? 4 : 10;
+      const height = score / max * 100;
+      element.setAttribute('height', String(height));
+      element.setAttribute('y', String(120 - height));
+    });
+    document.querySelectorAll('[data-axis-tick]').forEach((element) => {
+      const value = Number(element.dataset.axisTick);
+      element.textContent = isFour ? (value / 2.5).toFixed(value % 2.5 ? 1 : 0) : String(value);
+    });
+  }
+
+  if (scale10Btn) scale10Btn.addEventListener('click', () => setScale('10'));
+  if (scale4Btn) scale4Btn.addEventListener('click', () => setScale('4'));
+})();
+</script>
+{% endblock %}

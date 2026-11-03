@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ app_name }}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>html,body{margin:0;padding:0}body{overscroll-behavior:none}::-webkit-scrollbar{display:none}</style>
+  {# Tailwind CDN chỉ dùng khi phát triển/demo. Khi triển khai thật nên biên dịch Tailwind ra 1 file CSS. #}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{{ url_for('static', filename='js/tailwind-config.js') }}"></script>
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen">
+
+  {# Sidebar DÙNG CHUNG: mục đang mở tự xác định theo request.endpoint #}
+  {% include "partials/_sidebar.html" %}
+
+  <div class="pl-[260px]">
+    {# Thanh trên DÙNG CHUNG #}
+    <header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest shadow-sm z-40 flex items-center justify-between px-gutter">
+      <div class="flex items-center gap-space-lg">
+
+        <div class="flex items-center w-80">
+          <div class="flex items-center w-full bg-surface-container-low px-space-md py-space-xs rounded-lg focus-within:ring-2 focus-within:ring-primary-container">
+            <span class="material-symbols-outlined text-outline text-[20px] mr-space-xs">search</span>
+            <input class="w-full bg-transparent border-none outline-none font-body-sm text-body-sm text-on-surface placeholder:text-outline" placeholder="Tìm kiếm học liệu, môn học, phân tích..." type="text">
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-lg">
+        {# Số trên chuông = số cảnh báo chưa đọc, lấy từ dữ liệu, không viết cứng #}
+        <a href="{{ url_for('analytics.alerts') }}" class="relative p-space-xs rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant flex items-center justify-center" aria-label="Thông báo">
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+          {% if unread_alerts %}
+          <span class="absolute top-1 right-1 w-4 h-4 bg-error text-on-error rounded-full font-label-sm text-[10px] leading-tight flex items-center justify-center font-bold">{{ unread_alerts }}</span>
+          {% endif %}
+        </a>
+        <div class="h-8 w-px bg-surface-container-high"></div>
+        <div class="flex items-center gap-space-sm">
+          <div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-title-sm text-title-sm font-semibold">{{ current_student.initials }}</div>
+          <div class="flex flex-col text-left">
+            <span class="font-title-sm text-title-sm text-on-surface font-semibold leading-tight">{{ current_student.name }}</span>
+            <span class="font-label-sm text-label-sm text-outline leading-tight">MSV: {{ current_student.id }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {# pt-16 chừa chỗ thanh trên; pt-6 trong khối nội dung = khoảng cách 24px với thanh trên #}
+    <main class="pt-16 min-h-[calc(100vh-64px)]">
+      <div class="w-full px-gutter pt-6 pb-space-xl">
+        <div class="flex flex-col w-full space-y-4">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+
+    {% include "partials/_footer.html" %}
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

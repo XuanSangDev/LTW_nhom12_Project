@@ -1,0 +1,320 @@
+
+{% extends "base.html" %}
+{% from "partials/_macros.html" import page_header, breadcrumb %}
+{% block title %}Tổng quan học tập • {{ app_name }}{% endblock %}
+{% block breadcrumb %}{{ breadcrumb("Phân tích học tập", "Tổng quan học tập") }}{% endblock %}
+
+{% block content %}
+
+  {# 1. Đầu trang: khung trắng bo góc + 2 bộ chọn bên phải #}
+  {% call page_header("Tổng quan học tập") %}
+    <div class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-high text-on-surface shadow-sm">
+      <span class="material-symbols-outlined text-secondary text-[16px]">school</span>
+      <span class="font-label-md text-label-md font-semibold text-primary">{{ student.year_label }}</span>
+    </div>
+    <div class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-primary-container text-on-primary shadow-sm cursor-pointer hover:bg-tertiary-container transition-colors">
+      <span class="material-symbols-outlined text-secondary-fixed text-[16px]">event_repeat</span>
+      <span class="font-label-md text-label-md font-medium">{{ semester.label }}</span>
+      <span class="material-symbols-outlined text-on-primary-container text-[16px]">unfold_more</span>
+    </div>
+  {% endcall %}
+
+  {# 2. Thẻ sinh viên + 4 chỉ số #}
+  <div class="relative bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+    <div class="p-space-lg md:p-space-xl bg-gradient-to-r from-primary-container via-tertiary-container to-primary-container text-on-primary flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg relative">
+      <div class="absolute -right-12 -bottom-12 w-64 h-64 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none"></div>
+      <div class="flex items-start sm:items-center gap-space-lg relative z-10">
+        <div class="relative">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-tr from-secondary-container to-secondary-fixed text-on-secondary-fixed font-headline-md text-headline-md flex items-center justify-center font-bold shadow-md">{{ student.initials }}</div>
+          <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center" title="Trạng thái học vụ bình thường">
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500"></span>
+          </span>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center gap-space-sm flex-wrap">
+            <h2 class="font-headline-sm text-headline-sm text-on-primary tracking-tight">{{ student.name }}</h2>
+            <span class="px-space-sm py-[2px] rounded bg-secondary-fixed/20 text-secondary-fixed font-label-sm text-label-sm font-semibold tracking-wide uppercase">{{ student.program_type }}</span>
+          </div>
+          <p class="font-body-md text-body-md text-on-primary-container">Mã số sinh viên: <span class="font-semibold text-on-primary">{{ student.id }}</span> • {{ student.faculty }} • Lớp: {{ student.class_name }}</p>
+          <div class="flex items-center gap-space-md pt-space-xs text-on-primary-container font-body-sm text-body-sm">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-secondary-container">domain</span> Trường ĐH Kinh tế Quốc dân</span>
+            <span class="hidden sm:inline">•</span>
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-secondary-container">workspace_premium</span> Khóa tuyển sinh: {{ student.cohort }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 p-space-lg gap-space-lg bg-surface-container-lowest">
+
+      {# Điểm tích lũy #}
+      <div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between space-y-space-md">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Điểm tích lũy toàn khóa</span>
+            <div class="flex items-baseline gap-space-xs pt-1">
+              <span class="font-display-lg text-display-lg text-primary font-bold">{{ "%.2f"|format(kpi.cumulative_gpa) }}</span>
+              <span class="font-body-md text-body-md text-outline">/ 4.00</span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-surface-container-lowest text-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[22px]">military_tech</span></div>
+        </div>
+        <div class="flex items-center justify-between pt-space-xs">
+          <span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-space-sm py-[2px] rounded-full bg-emerald-50 text-emerald-700 font-semibold"><span class="material-symbols-outlined text-[14px]">trending_up</span> Xếp loại: {{ kpi.classification }}</span>
+        </div>
+      </div>
+
+      {# GPA học kỳ trước #}
+      <div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between space-y-space-md">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">GPA học kỳ trước</span>
+            <div class="flex items-baseline gap-space-xs pt-1">
+              <span class="font-display-lg text-display-lg text-primary font-bold">{{ "%.2f"|format(kpi.last_term_gpa) }}</span>
+              <span class="font-body-md text-body-md text-outline">/ 4.00</span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-surface-container-lowest text-secondary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[22px]">history_edu</span></div>
+        </div>
+        {% if kpi.last_term_delta is not none %}
+        <div class="flex items-center justify-between pt-space-xs">
+          <span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-space-sm py-[2px] rounded-full {{ 'bg-emerald-50 text-emerald-700' if kpi.last_term_delta >= 0 else 'bg-red-50 text-red-700' }} font-semibold">
+            <span class="material-symbols-outlined text-[14px]">{{ 'trending_up' if kpi.last_term_delta >= 0 else 'trending_down' }}</span>
+            {{ '%+.2f'|format(kpi.last_term_delta) }} so với kỳ trước đó
+          </span>
+        </div>
+        {% endif %}
+      </div>
+
+      {# Tiến độ tín chỉ #}
+      <div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between space-y-space-md">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Tiến độ tín chỉ chương trình</span>
+            <div class="flex items-baseline gap-space-xs pt-1">
+              <span class="font-display-lg text-display-lg text-primary font-bold">{{ kpi.earned_credits }}</span>
+              <span class="font-body-md text-body-md text-outline">/ {{ kpi.total_credits }} tín</span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-surface-container-lowest text-primary-container flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[22px]">donut_large</span></div>
+        </div>
+        <div class="space-y-space-xs pt-space-xs">
+          <div class="flex justify-between items-center font-label-sm text-label-sm">
+            <span class="text-on-surface font-medium">Hoàn thành {{ kpi.done_pct }}%</span>
+            <span class="text-outline">Còn lại {{ kpi.remaining_credits }} tín</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+           <div class="h-full bg-gradient-to-r from-secondary-container to-secondary rounded-full" style="width: {{ kpi.done_pct }}%;"></div>
+          </div>
+        </div>
+      </div>
+
+      {# Học kỳ hiện tại #}
+      <div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between space-y-space-md">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Học kỳ hiện tại</span>
+            <div class="flex items-baseline gap-space-xs pt-1">
+              <span class="font-headline-lg text-headline-lg text-primary font-bold">{{ kpi.course_count }} môn</span>
+              <span class="font-body-md text-body-md text-outline">({{ kpi.current_credits }} tín chỉ)</span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-surface-container-lowest text-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[22px]">calendar_month</span></div>
+        </div>
+        <div class="flex items-center justify-between pt-space-xs">
+          <span class="font-label-sm text-label-sm text-on-surface-variant font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-secondary">pace</span> Tuần thứ {{ semester.week }} / {{ semester.total_weeks }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# 3. Banner cảnh báo #}
+  {% if alert_banner.entries %}
+  <div class="p-space-md rounded-xl bg-amber-50 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+    <div class="flex items-start gap-space-md">
+      <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[24px]">crisis_alert</span></div>
+      <div class="space-y-1">
+        <div class="flex items-center gap-space-xs">
+          <span class="font-title-sm text-title-sm text-amber-900 font-bold">Cảnh báo học vụ sớm ({{ alert_banner.term }})</span>
+          <span class="px-space-xs py-[1px] rounded bg-amber-200 text-amber-900 font-label-sm text-label-sm font-semibold">Chú ý</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-amber-800 leading-relaxed">
+          {% for a in alert_banner.entries %}Môn <strong class="font-semibold text-amber-950">{{ a.course }}</strong> ghi nhận <strong>{{ a.detail }}</strong>{{ "; " if not loop.last else "." }}{% endfor %}
+          Hãy xem chi tiết tại mục Cảnh báo sớm.
+        </p>
+      </div>
+    </div>
+    <div class="shrink-0 self-start md:self-center">
+      <a href="{{ url_for('analytics.alerts') }}" class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-amber-600 hover:bg-amber-700 text-on-primary font-label-md text-label-md transition-colors shadow-sm">
+        <span>Chi tiết cảnh báo</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+
+    {# 4. Biểu đồ GPA + 3 chỉ số phụ #}
+    <div class="lg:col-span-7 space-y-space-xl">
+      <div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm space-y-space-lg">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Phân tích dọc</span>
+            <h3 class="font-headline-sm text-headline-sm text-primary">Xu hướng GPA qua {{ gpa_chart.points|length }} học kỳ</h3>
+          </div>
+          <div class="inline-flex items-center gap-1 px-space-sm py-space-xs rounded-lg bg-surface-container-low text-on-surface font-label-sm text-label-sm font-medium">
+            <span class="material-symbols-outlined text-emerald-600 text-[16px]">show_chart</span> {{ gpa_chart.trend_label }}
+          </div>
+        </div>
+
+        {# Biểu đồ GPA: chỉ còn một SVG #}
+        <div class="p-space-md rounded-xl bg-surface-container-low/60 space-y-space-md">
+          {% set c = gpa_chart %}
+
+          <div class="flex items-center justify-between font-label-sm text-label-sm text-outline">
+            <span>Thang điểm 4.00</span>
+            <span class="inline-flex items-center gap-1.5 text-primary font-medium">
+              <svg width="22" height="6" aria-hidden="true">
+                <line x1="0" y1="3" x2="22" y2="3" stroke="#4f5e83" stroke-width="1.5" stroke-dasharray="3 4"></line>
+              </svg>
+              Mục tiêu tốt nghiệp: {{ "%.2f"|format(gpa_target) }}
+            </span>
+          </div>
+
+          <svg
+            id="gpa-chart"
+            class="w-full h-auto block"
+            viewBox="0 0 {{ c.w }} {{ c.h }}"
+            role="img"
+            aria-label="Biểu đồ GPA qua {{ c.points|length }} học kỳ">
+
+            <defs>
+              <linearGradient id="gpaGradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#fe932c" stop-opacity="0.28"></stop>
+                <stop offset="100%" stop-color="#fe932c" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+
+            {% for t in c.ticks %}
+            <line
+              x1="{{ c.left }}" x2="{{ c.right }}"
+              y1="{{ t.y }}" y2="{{ t.y }}"
+              stroke="#d9dce1" stroke-width="1" stroke-dasharray="4 5"></line>
+            <text
+              x="{{ c.left - 10 }}" y="{{ t.y + 4 }}"
+              text-anchor="end" font-size="12" fill="#75777f">{{ "%.1f"|format(t.gpa) }}</text>
+            {% endfor %}
+
+            <line
+              x1="{{ c.left }}" x2="{{ c.right }}"
+              y1="{{ c.base }}" y2="{{ c.base }}"
+              stroke="#c5c6cf" stroke-width="1.5"></line>
+
+            <line
+              x1="{{ c.left }}" x2="{{ c.right }}"
+              y1="{{ c.target.y }}" y2="{{ c.target.y }}"
+              stroke="#4f5e83" stroke-width="1.5" stroke-dasharray="3 5"></line>
+
+            {% for p in c.points %}
+            <text
+              x="{{ p.x }}" y="{{ c.base + 28 }}"
+              text-anchor="middle" font-size="13"
+              font-weight="{{ 700 if p.last else 500 }}"
+              fill="{{ '#0f2042' if p.last else '#75777f' }}">{{ p.label }}</text>
+            {% endfor %}
+
+            <g id="gpa-series">
+              <polyline
+                points="{{ c.line }}"
+                fill="none" stroke="#fe932c" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round"></polyline>
+
+              {% for p in c.points %}
+              <circle
+                cx="{{ p.x }}" cy="{{ p.y }}"
+                r="{{ 6 if p.last else 5 }}"
+                fill="{{ '#fe932c' if p.last else '#0f2042' }}"
+                stroke="#ffffff" stroke-width="2.5"></circle>
+              <text
+                x="{{ p.x }}" y="{{ p.y - 16 }}"
+                text-anchor="middle" font-size="14" font-weight="700"
+                fill="{{ '#904d00' if p.last else '#0f2042' }}">{{ "%.2f"|format(p.gpa) }}</text>
+              {% endfor %}
+            </g>
+          </svg>
+
+          <script type="application/json" id="gpa-chart-data">{{ c|tojson }}</script>
+        </div>
+
+        {# 3 chỉ số phụ #}
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md pt-space-xs">
+          <div class="p-space-md rounded-lg bg-surface-container-low space-y-1">
+            <span class="font-label-sm text-label-sm text-outline">Môn tích lũy cao nhất</span>
+            <div class="font-title-sm text-title-sm text-primary font-bold">{{ highlights.best_course.name }} ({{ highlights.best_course.letter }})</div>
+            <span class="font-body-sm text-body-sm text-emerald-700">Điểm {{ "%.1f"|format(highlights.best_course.points) }} / 4.00</span>
+          </div>
+
+          <div class="p-space-md rounded-lg bg-surface-container-low space-y-1">
+            <span class="font-label-sm text-label-sm text-outline">Số tín chỉ loại A/A+</span>
+            <div class="font-title-sm text-title-sm text-primary font-bold">{{ highlights.a_credits }} tín chỉ</div>
+            <span class="font-body-sm text-body-sm text-outline">Chiếm {{ highlights.a_pct }}% số tín chỉ đã tích lũy</span>
+          </div>
+
+          <div class="p-space-md rounded-lg bg-surface-container-low space-y-1">
+            <span class="font-label-sm text-label-sm text-outline">Mục tiêu GPA</span>
+            <div class="font-title-sm text-title-sm text-primary font-bold">{{ "%.2f"|format(gpa_target) }} / 4.00</div>
+            <a href="{{ url_for('analytics.goal') }}" class="font-body-sm text-body-sm text-secondary hover:underline">Xem mục tiêu &amp; mô phỏng</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# 5. Danh sách học phần đang học #}
+    <div class="lg:col-span-5 space-y-space-lg">
+      <div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm space-y-space-md">
+        <div class="flex items-center justify-between pb-space-xs">
+          <div>
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Đang theo học</span>
+            <h3 class="font-headline-sm text-headline-sm text-primary">Học phần {{ semester.label|replace(' - ', '-') }}</h3>
+          </div>
+          <span class="font-label-sm text-label-sm px-space-sm py-1 rounded-full bg-surface-container-high text-primary font-bold">{{ courses|length }} học phần</span>
+        </div>
+
+        <div class="space-y-space-sm">
+          {% for c in courses %}
+          {% set warn = c.status == 'warning' %}
+          <div class="p-space-md rounded-lg {{ 'bg-amber-50/70 hover:bg-amber-100/60' if warn else 'bg-surface-container-low hover:bg-surface-container' }} transition-colors flex items-center justify-between gap-space-sm">
+            <div class="space-y-1">
+              <div class="flex items-center gap-space-xs">
+                <span class="font-label-sm text-label-sm {{ 'text-amber-800' if warn else 'text-secondary' }} font-semibold">{{ c.code }}</span>
+                <span class="w-1 h-1 rounded-full {{ 'bg-amber-600' if warn else 'bg-outline' }}"></span>
+                <span class="font-label-sm text-label-sm {{ 'text-amber-800' if warn else 'text-outline' }}">{{ c.credits }} tín chỉ</span>
+              </div>
+              <h4 class="font-title-sm text-title-sm {{ 'text-amber-950' if warn else 'text-primary' }} font-semibold">{{ c.name }}</h4>
+              <p class="font-body-sm text-body-sm {{ 'text-amber-800' if warn else 'text-outline' }}">{{ c.note }}</p>
+            </div>
+
+            {% if c.status == 'good' %}
+            <span class="px-space-sm py-[2px] rounded bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold whitespace-nowrap">Tiến độ tốt</span>
+            {% elif warn %}
+            <span class="px-space-sm py-[2px] rounded bg-amber-200 text-amber-900 font-label-sm text-label-sm font-semibold whitespace-nowrap">Cảnh báo</span>
+            {% else %}
+            <span class="px-space-sm py-[2px] rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold whitespace-nowrap">Bình thường</span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="pt-space-xs">
+          <a href="{{ url_for('analytics.results') }}" class="w-full inline-flex items-center justify-center gap-space-xs py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md transition-colors">
+            Xem bảng điểm chi tiết các học kỳ<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/analytics/gpa-chart.js') }}"></script>
+{% endblock %}
