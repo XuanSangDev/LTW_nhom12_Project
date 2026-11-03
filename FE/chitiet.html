@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Chi tiết yêu cầu #YC-2026-0985 - NEU Learning Hub</title>
+
+    <!-- Tailwind CSS CDN với Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <!-- Custom CSS File Link -->
+    <link rel="stylesheet" href="chitiet.css">
+</head>
+<body class="bg-[#f8fafc] text-slate-800 antialiased min-h-screen flex">
+
+<!-- BEGIN: LeftSidebar (Đồng bộ cấu trúc lề chuẩn) -->
+<aside class="w-64 bg-[#0A1128] text-slate-300 flex-shrink-0 flex flex-col justify-between border-r border-slate-800 min-h-screen" data-purpose="application-sidebar">
+    <div class="flex flex-col">
+        <!-- App Branding Logo & Header -->
+        <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-800/60" data-purpose="sidebar-brand">
+            <div class="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3P_atGfMAC2rrJ9-dansIrYUUkE1MF_t6bsNIHucLWlRP_t2JWGhvnBITmhr16cifAvMacKE6oIt4wReEH43wFtDP0m6zfITyeqiFPH7Juw-lWe78PUbtl_CipU_JmRwb1NDHeQ4_ick6MaFQttnlZVkqP1Cc1VbVgahyunDPXeScYq_tSAxatsvscl9XJ2tKiuS_Xz3iOVOwaYt9hjFhgHhQwmlzCXMUir-l6WvWIaSaF2zxLTqF5A" alt="NEU Learning Hub Logo" class="w-full h-full object-cover rounded-xl">
+            </div>
+            <div>
+                <h1 class="text-white text-sm font-semibold tracking-wide leading-tight">NEU Learning Hub</h1>
+                <p class="text-[11px] text-slate-400">Đại học Kinh tế Quốc dân</p>
+            </div>
+        </div>
+
+        <!-- Navigation Section: PHÂN HỆ HỌC VỤ -->
+        <div class="px-3 pt-6 pb-2" data-purpose="sidebar-menu">
+            <span class="px-3 text-[11px] font-semibold text-slate-400 tracking-wider uppercase block mb-2">
+                Phân hệ học vụ
+            </span>
+            <nav class="space-y-1">
+                <!-- Item: Học liệu & Tài nguyên -->
+                <a class="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-[#131e33] rounded-lg transition-colors group" href="#">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-book-open text-slate-400 group-hover:text-slate-300 w-4 text-center"></i>
+                        <span>Học liệu &amp; Tài nguyên</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 group-hover:text-slate-400"></i>
+                </a>
+
+                <!-- Item: Phân tích học tập -->
+                <a class="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-[#131e33] rounded-lg transition-colors group" href="#">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-chart-column text-slate-400 group-hover:text-slate-300 w-4 text-center"></i>
+                        <span>Phân tích học tập</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 group-hover:text-slate-400"></i>
+                </a>
+
+                <!-- Group Item: Hỗ trợ người học (Expanded) -->
+                <div class="pt-1 space-y-2">
+                    <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <i class="fa-solid fa-headset text-base"></i>
+                            </div>
+                            <span class="text-white font-semibold text-xs tracking-tight">Hỗ trợ người học</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
+                    </div>
+
+                    <!-- Submenu Items (Định dạng lề & padding đồng nhất) -->
+                    <div class="ml-4 pl-3.5 pr-3 border-l border-slate-700/60 space-y-1.5 py-1" data-purpose="support-submenu">
+                        <!-- Gửi yêu cầu hỗ trợ -->
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="guihotro.html">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <i class="fa-solid fa-paper-plane text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
+                                <span class="truncate">Gửi yêu cầu hỗ trợ</span>
+                            </div>
+                        </a>
+
+                        <!-- Yêu cầu của tôi -->
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="myhotro.html">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <i class="fa-regular fa-rectangle-list text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
+                                <span class="truncate">Yêu cầu của tôi</span>
+                            </div>
+                        </a>
+
+                        <!-- Chi tiết yêu cầu (ĐANG ACTIVE TẠI TRANG NÀY) -->
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="chitiet.html">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <i class="fa-solid fa-magnifying-glass text-xs text-blue-400 w-4 text-center flex-shrink-0"></i>
+                                <span class="truncate">Chi tiết yêu cầu</span>
+                            </div>
+                        </a>
+
+                        <!-- FAQ & Hướng dẫn -->
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="faq.html">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <i class="fa-regular fa-circle-question text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
+                                <span class="truncate">FAQ &amp; Hướng dẫn</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Bottom section: Cài đặt & Đăng xuất -->
+    <div class="p-3 border-t border-slate-800/70 space-y-1" data-purpose="sidebar-footer">
+        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#131e33] transition-colors text-xs font-medium" href="#">
+            <i class="fa-solid fa-gear text-slate-400 text-sm w-4 text-center"></i>
+            <span>Cài đặt</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors text-xs font-medium" href="#">
+            <i class="fa-solid fa-arrow-right-from-bracket text-sm w-4 text-center"></i>
+            <span>Đăng xuất</span>
+        </a>
+    </div>
+</aside>
+<!-- END: LeftSidebar -->
+
+<!-- BEGIN: MainContentContainer -->
+<div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+    <!-- BEGIN: TopBar -->
+        <header class="h-16 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between flex-shrink-0" data-purpose="app-header">
+            <!-- Search Input -->
+            <div class="relative w-80">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-xs">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white text-slate-700 placeholder-slate-400" placeholder="Tìm kiếm học phần, cảnh báo" type="text">
+            </div>
+
+            <!-- Right Profile & Notification Controls -->
+            <div class="flex items-center gap-5">
+                <!-- Notification Bell -->
+                <button class="relative p-1.5 text-slate-500 hover:text-slate-700 transition-colors" title="Thông báo">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span class="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white leading-none">2</span>
+                </button>
+
+                <!-- User Information -->
+                <div class="flex items-center gap-3 pl-2">
+                    <div class="w-8 h-8 rounded-full bg-slate-900 text-white font-semibold text-xs flex items-center justify-center tracking-tight shadow-sm">
+                        NA
+                    </div>
+                    <span class="text-xs font-semibold text-slate-800">Nguyễn Văn An</span>
+                </div>
+            </div>
+        </header>
+        <!-- END: TopBar -->
+
+    <!-- BEGIN: PageMainBody -->
+    <main class="p-8 max-w-7xl w-full mx-auto space-y-6">
+        <!-- Back Navigation Link -->
+        <div>
+            <a class="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition-colors font-medium" href="myhotro.html">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                Quay lại danh sách yêu cầu
+            </a>
+        </div>
+
+        <!-- Ticket Title and Status Header Box -->
+        <section class="space-y-3 pb-2" data-purpose="ticket-header-banner">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-1 rounded bg-[#1e293b] text-white text-xs font-medium tracking-wide">
+                    #YC-2026-0985
+                </span>
+                <span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium flex items-center gap-1.5 border border-blue-100">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                    Đang xử lý
+                </span>
+                <span class="px-2.5 py-1 rounded-full bg-red-50 text-rose-600 text-xs font-medium flex items-center gap-1 border border-red-100">
+                    <i class="fa-regular fa-clock text-xs"></i>
+                    Mức độ: Gấp
+                </span>
+                <span class="px-2.5 py-1 text-slate-500 text-xs flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar-days text-slate-400 text-xs"></i>
+                    Ngày tạo: 27/10/2026 lúc 14:30
+                </span>
+            </div>
+            <h1 class="text-xl md:text-[22px] font-bold text-slate-900 tracking-tight leading-snug">
+                Yêu cầu #YC-2026-0985: Lỗi không tải được slide bài giảng tuần 4 môn Lập trình Web
+            </h1>
+        </section>
+
+        <!-- Main Two-Column Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Left Column: Timeline & Discussion (lg:col-span-8) -->
+            <div class="lg:col-span-8 space-y-4">
+                <div class="flex items-center justify-between py-1">
+                    <div class="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                        <i class="fa-regular fa-comments text-blue-600"></i>
+                        <span>Lịch sử trao đổi &amp; Tiến trình giải quyết</span>
+                    </div>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">
+                        4 cập nhật liên quan
+                    </span>
+                </div>
+
+                <!-- Message 1 (Student) -->
+                <div class="flex items-start gap-3" data-purpose="chat-message">
+                    <div class="w-8 h-8 rounded-full bg-[#1e293b] text-white text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                        VA
+                    </div>
+                    <div class="flex-1 bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-900 text-sm">Nguyễn Văn An</span>
+                                <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-blue-50 text-blue-600 border border-blue-100">
+                                    Sinh viên người gửi
+                                </span>
+                            </div>
+                            <span class="text-slate-400">27/10/2026 • 14:30</span>
+                        </div>
+                        <p class="text-xs md:text-[13px] text-slate-700 leading-relaxed">
+                            Em chào thầy cô, từ sáng nay em truy cập vào mục Học liệu môn Lập trình Web IT308 nhưng khi ấn tải file <code class="bg-slate-100 text-slate-800 px-1 py-0.5 rounded font-mono text-xs">Slide_Chapter4.pdf</code> thì báo lỗi <span class="font-bold text-rose-600">403 Forbidden</span>. Nhờ thầy cô hỗ trợ giúp em để kịp chuẩn bị bài học chiều mai ạ.
+                        </p>
+                        <div class="pt-1">
+                            <div class="text-[11px] text-slate-400 mb-1.5 font-medium">Tệp đính kèm sự cố:</div>
+                            <div class="flex items-center justify-between p-2.5 rounded-lg border border-slate-200 bg-[#fbfcfd] max-w-sm">
+                                <div class="flex items-center gap-2.5 overflow-hidden">
+                                    <div class="w-7 h-7 rounded bg-red-50 text-red-500 flex items-center justify-center shrink-0 border border-red-100">
+                                        <i class="fa-regular fa-image text-xs"></i>
+                                    </div>
+                                    <div class="truncate">
+                                        <div class="text-xs font-semibold text-slate-800 truncate">screenshot_loi_403.png</div>
+                                        <div class="text-[11px] text-slate-400">542 KB • Ảnh chụp màn hình lỗi</div>
+                                    </div>
+                                </div>
+                                <button class="shrink-0 text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 pl-2">
+                                    <i class="fa-regular fa-eye text-xs"></i>
+                                    Xem trước
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message 2 (Officer) -->
+                <div class="flex items-start gap-3" data-purpose="chat-message">
+                    <div class="w-8 h-8 rounded-full bg-amber-500 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        MT
+                    </div>
+                    <div class="flex-1 bg-white border border-amber-200/70 rounded-xl p-4 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-900 text-sm">Nguyễn Minh Tuấn</span>
+                                <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                                    Chuyên viên Trung tâm CNTT
+                                </span>
+                            </div>
+                            <span class="text-slate-400">27/10/2026 • 15:38</span>
+                        </div>
+                        <p class="text-xs md:text-[13px] text-slate-700 leading-relaxed">
+                            Chào bạn An, bộ phận CNTT đã ghi nhận sự cố phân quyền trên máy chủ lưu trữ học liệu môn IT308. Kỹ thuật viên đang tiến hành cấp lại quyền truy cập cho sinh viên K63. Bạn vui lòng kiểm tra lại sau 30 phút nhé.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Message 3 (Student) -->
+                <div class="flex items-start gap-3" data-purpose="chat-message">
+                    <div class="w-8 h-8 rounded-full bg-[#1e293b] text-white text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                        VA
+                    </div>
+                    <div class="flex-1 bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-900 text-sm">Nguyễn Văn An</span>
+                                <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-600">
+                                    Sinh viên
+                                </span>
+                            </div>
+                            <span class="text-slate-400">27/10/2026 • 15:45</span>
+                        </div>
+                        <p class="text-xs md:text-[13px] text-slate-700 leading-relaxed">
+                            Em đã thử lại và tải được file rồi ạ, nhưng còn file đính kèm <code class="bg-slate-100 text-slate-800 px-1 py-0.5 rounded font-mono text-xs">Code_Demo.zip</code> vẫn bị lỗi tương tự ạ.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Message 4 (Officer - Latest) -->
+                <div class="flex items-start gap-3" data-purpose="chat-message">
+                    <div class="w-8 h-8 rounded-full bg-amber-500 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        MT
+                    </div>
+                    <div class="flex-1 bg-white border border-emerald-300 rounded-xl p-4 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-900 text-sm">Nguyễn Minh Tuấn</span>
+                                <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    Phản hồi mới nhất
+                                </span>
+                            </div>
+                            <span class="text-slate-400">27/10/2026 • 16:05</span>
+                        </div>
+                        <p class="text-xs md:text-[13px] text-slate-700 leading-relaxed">
+                            Đã cập nhật toàn bộ thư mục bài giảng tuần 4. Bạn thử tải lại giúp mình nhé.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Reply Box Container -->
+                <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-3.5 mt-6" data-purpose="reply-form-card">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                            <i class="fa-solid fa-reply text-blue-600"></i>
+                            <span>Phản hồi trao đổi tiếp</span>
+                        </div>
+                        <span class="text-xs text-slate-400">Tối đa 1000 ký tự</span>
+                    </div>
+                    <div>
+                        <textarea class="w-full text-xs md:text-sm p-3 rounded-lg border border-slate-200 bg-[#fcfdfe] placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white transition-all resize-none" placeholder="Nhập nội dung phản hồi của bạn tới cán bộ hỗ trợ kỹ thuật..." rows="4"></textarea>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                        <div class="flex items-center gap-4">
+                            <button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors" type="button">
+                                <i class="fa-solid fa-paperclip text-slate-500"></i>
+                                Đính kèm tệp / ảnh
+                            </button>
+                            <label class="flex items-center gap-2 cursor-pointer select-none">
+                                <input class="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0" type="checkbox">
+                                <span class="text-xs text-slate-600">Đóng yêu cầu nếu đã được giải quyết</span>
+                            </label>
+                        </div>
+                        <button class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#0d1527] hover:bg-[#1a2542] text-white text-xs font-semibold shadow-sm transition-colors" type="button">
+                            <i class="fa-solid fa-paper-plane text-blue-300 text-xs"></i>
+                            Gửi phản hồi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Ticket Meta & Survey (lg:col-span-4) -->
+            <div class="lg:col-span-4 space-y-5">
+                <!-- Card 1: Ticket Metadata -->
+                <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-4" data-purpose="info-card">
+                    <div class="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-3">
+                        <i class="fa-solid fa-circle-info text-blue-600 text-sm"></i>
+                        <span>Thông tin xử lý</span>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-500">Mã ticket:</span>
+                            <span class="font-bold text-slate-800">#YC-2026-0985</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-500">Danh mục:</span>
+                            <span class="font-medium text-slate-800 flex items-center gap-1">
+                                🎓 Học tập &amp; Bài tập
+                            </span>
+                        </div>
+                        <div class="pt-1">
+                            <span class="text-slate-500 block mb-2">Cán bộ tiếp nhận:</span>
+                            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-amber-500 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                                    MT
+                                </div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900 leading-tight">Nguyễn Minh Tuấn</div>
+                                    <div class="text-[11px] text-slate-500">Chuyên viên Trung tâm CNTT</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="text-slate-500">Email cán bộ:</span>
+                            <a class="text-blue-600 font-medium hover:underline" href="mailto:tuanng@neu.edu.vn">tuanng@neu.edu.vn</a>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-500">Thời gian tiếp nhận:</span>
+                            <span class="font-medium text-slate-700">27/10/2026 14:45</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-500">SLA dự kiến hoàn tất:</span>
+                            <span class="font-semibold text-emerald-600 flex items-center gap-1">
+                                <i class="fa-regular fa-circle-check"></i>
+                                28/10/2026 14:45
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-3 rounded-lg bg-amber-50/70 border border-amber-200/80 text-[11px] leading-relaxed text-amber-900 flex items-start gap-2.5 mt-2">
+                        <i class="fa-solid fa-shield-halved text-amber-600 shrink-0 mt-0.5 text-xs"></i>
+                        <span>
+                            <strong>Đội ngũ CNTT NEU</strong> cam kết hỗ trợ sinh viên liên tục trong giờ hành chính từ 08:00 đến 17:30 thứ 2 đến thứ 6.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Satisfaction Feedback -->
+                <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-3" data-purpose="survey-card">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                            <i class="fa-solid fa-star text-amber-500"></i>
+                            <span>Đánh giá mức độ hài lòng</span>
+                        </div>
+                        <span class="text-[10px] font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Khi hoàn tất
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        Khi sự cố được giải quyết triệt để, vui lòng cho biết mức độ hài lòng của bạn đối với tốc độ và chất lượng phục vụ của cán bộ phụ trách:
+                    </p>
+                    <div class="flex items-center justify-center gap-3 py-2 text-slate-300">
+                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
+                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
+                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
+                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
+                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
+                    </div>
+                    <div class="text-[10px] text-slate-400 text-center italic">
+                        * Khảo sát sẽ mở chính thức khi ticket chuyển sang trạng thái "Đã giải quyết"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- END: PageMainBody -->
+</div>
+<!-- END: MainContentContainer -->
+
+</body>
+</html>
