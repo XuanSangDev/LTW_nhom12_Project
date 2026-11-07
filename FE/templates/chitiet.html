@@ -25,56 +25,73 @@
 <aside class="w-64 bg-[#0A1128] text-slate-300 flex-shrink-0 flex flex-col justify-between border-r border-slate-800 min-h-screen" data-purpose="application-sidebar">
     <div class="flex flex-col">
         <!-- App Branding Logo & Header -->
-        <div class="flex items-center gap-3 px-5 py-5 border-b border-slate-800/60" data-purpose="sidebar-brand">
+
+
+        <!-- Navigation Section: PHÂN HỆ HỌC VỤ -->
+        <div class="px-5 py-5 flex items-center gap-3 border-b border-slate-800/60">
             <div class="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center">
                 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3P_atGfMAC2rrJ9-dansIrYUUkE1MF_t6bsNIHucLWlRP_t2JWGhvnBITmhr16cifAvMacKE6oIt4wReEH43wFtDP0m6zfITyeqiFPH7Juw-lWe78PUbtl_CipU_JmRwb1NDHeQ4_ick6MaFQttnlZVkqP1Cc1VbVgahyunDPXeScYq_tSAxatsvscl9XJ2tKiuS_Xz3iOVOwaYt9hjFhgHhQwmlzCXMUir-l6WvWIaSaF2zxLTqF5A" alt="NEU Learning Hub Logo" class="w-full h-full object-cover rounded-xl">
             </div>
             <div>
-                <h1 class="text-white text-sm font-semibold tracking-wide leading-tight">NEU Learning Hub</h1>
-                <p class="text-[11px] text-slate-400">Đại học Kinh tế Quốc dân</p>
+                <div class="text-white font-bold text-sm tracking-tight leading-snug">NEU Learning Hub</div>
+                <div class="text-[11px] text-slate-400 font-normal">Đại học Kinh tế Quốc dân</div>
             </div>
         </div>
 
-        <!-- Navigation Section: PHÂN HỆ HỌC VỤ -->
-        <div class="px-3 pt-6 pb-2" data-purpose="sidebar-menu">
-            <span class="px-3 text-[11px] font-semibold text-slate-400 tracking-wider uppercase block mb-2">
-                Phân hệ học vụ
-            </span>
-            <nav class="space-y-1">
-                <!-- Item: Học liệu & Tài nguyên -->
-                <a class="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-[#131e33] rounded-lg transition-colors group" href="#">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-book-open text-slate-400 group-hover:text-slate-300 w-4 text-center"></i>
-                        <span>Học liệu &amp; Tài nguyên</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 group-hover:text-slate-400"></i>
-                </a>
+        <!-- Navigation Section -->
+        <nav class="px-3 py-4 space-y-1">
+            <div class="px-3 pt-2 pb-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                PHÂN HỆ HỌC VỤ
+            </div>
 
-                <!-- Item: Phân tích học tập -->
-                <a class="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-[#131e33] rounded-lg transition-colors group" href="#">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-chart-column text-slate-400 group-hover:text-slate-300 w-4 text-center"></i>
-                        <span>Phân tích học tập</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 group-hover:text-slate-400"></i>
-                </a>
+            <!-- Academic Resource Menu Item -->
+            <a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#131e33] transition-colors text-xs font-medium group" href="#">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-book-open text-slate-400 group-hover:text-slate-300 text-sm"></i>
+                    <span>Học liệu &amp; Tài nguyên</span>
+                </div>
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 group-hover:text-slate-400"></i>
+            </a>
+
+            <!-- Learning Analytics Menu Item -->
+            <a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#131e33] transition-colors text-xs font-medium group" href="#">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-chart-simple text-slate-400 group-hover:text-slate-300 text-sm"></i>
+                    <span>Phân tích học tập</span>
+                </div>
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 group-hover:text-slate-400"></i>
+            </a>
+
 
                 <!-- Group Item: Hỗ trợ người học (Expanded) -->
                 <div class="pt-1 space-y-2">
-                    <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
-                                <i class="fa-solid fa-headset text-base"></i>
-                            </div>
-                            <span class="text-white font-semibold text-xs tracking-tight">Hỗ trợ người học</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
-                    </div>
+
+<a href="{{ url_for('hotro') }}"
+   class="block no-underline">
+
+    <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer hover:bg-[#1c304d] transition-colors">
+
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                <i class="fa-solid fa-headset text-base"></i>
+            </div>
+
+            <span class="text-white font-semibold text-xs tracking-tight">
+                Hỗ trợ người học
+            </span>
+        </div>
+
+        <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
+
+    </div>
+
+</a>
+
 
                     <!-- Submenu Items (Định dạng lề & padding đồng nhất) -->
                     <div class="ml-4 pl-3.5 pr-3 border-l border-slate-700/60 space-y-1.5 py-1" data-purpose="support-submenu">
                         <!-- Gửi yêu cầu hỗ trợ -->
-                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="guihotro.html">
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('guihotro') }}">
                             <div class="flex items-center gap-3 min-w-0">
                                 <i class="fa-solid fa-paper-plane text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
                                 <span class="truncate">Gửi yêu cầu hỗ trợ</span>
@@ -82,7 +99,7 @@
                         </a>
 
                         <!-- Yêu cầu của tôi -->
-                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="myhotro.html">
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('myhotro') }}">
                             <div class="flex items-center gap-3 min-w-0">
                                 <i class="fa-regular fa-rectangle-list text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
                                 <span class="truncate">Yêu cầu của tôi</span>
@@ -90,7 +107,7 @@
                         </a>
 
                         <!-- Chi tiết yêu cầu (ĐANG ACTIVE TẠI TRANG NÀY) -->
-                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="chitiet.html">
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="{{ url_for('chitiet') }}">
                             <div class="flex items-center gap-3 min-w-0">
                                 <i class="fa-solid fa-magnifying-glass text-xs text-blue-400 w-4 text-center flex-shrink-0"></i>
                                 <span class="truncate">Chi tiết yêu cầu</span>
@@ -98,7 +115,7 @@
                         </a>
 
                         <!-- FAQ & Hướng dẫn -->
-                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="faq.html">
+                        <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('faq') }}">
                             <div class="flex items-center gap-3 min-w-0">
                                 <i class="fa-regular fa-circle-question text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
                                 <span class="truncate">FAQ &amp; Hướng dẫn</span>
@@ -203,6 +220,8 @@
                     </span>
                 </div>
 
+                <div id="message-list" class="space-y-4">
+
                 <!-- Message 1 (Student) -->
                 <div class="flex items-start gap-3" data-purpose="chat-message">
                     <div class="w-8 h-8 rounded-full bg-[#1e293b] text-white text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
@@ -233,10 +252,12 @@
                                         <div class="text-[11px] text-slate-400">542 KB • Ảnh chụp màn hình lỗi</div>
                                     </div>
                                 </div>
-                                <button class="shrink-0 text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 pl-2">
-                                    <i class="fa-regular fa-eye text-xs"></i>
-                                    Xem trước
-                                </button>
+                                <button type="button"
+        onclick="previewAttachment('screenshot_loi_403.png')"
+        class="shrink-0 text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 pl-2">
+    <i class="fa-regular fa-eye text-xs"></i>
+    Xem trước
+</button>
                             </div>
                         </div>
                     </div>
@@ -304,36 +325,97 @@
                         </p>
                     </div>
                 </div>
+                    </div>
 
-                <!-- Reply Box Container -->
-                <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-3.5 mt-6" data-purpose="reply-form-card">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2 text-sm font-semibold text-slate-900">
-                            <i class="fa-solid fa-reply text-blue-600"></i>
-                            <span>Phản hồi trao đổi tiếp</span>
-                        </div>
-                        <span class="text-xs text-slate-400">Tối đa 1000 ký tự</span>
-                    </div>
-                    <div>
-                        <textarea class="w-full text-xs md:text-sm p-3 rounded-lg border border-slate-200 bg-[#fcfdfe] placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white transition-all resize-none" placeholder="Nhập nội dung phản hồi của bạn tới cán bộ hỗ trợ kỹ thuật..." rows="4"></textarea>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
-                        <div class="flex items-center gap-4">
-                            <button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors" type="button">
-                                <i class="fa-solid fa-paperclip text-slate-500"></i>
-                                Đính kèm tệp / ảnh
-                            </button>
-                            <label class="flex items-center gap-2 cursor-pointer select-none">
-                                <input class="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0" type="checkbox">
-                                <span class="text-xs text-slate-600">Đóng yêu cầu nếu đã được giải quyết</span>
-                            </label>
-                        </div>
-                        <button class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#0d1527] hover:bg-[#1a2542] text-white text-xs font-semibold shadow-sm transition-colors" type="button">
-                            <i class="fa-solid fa-paper-plane text-blue-300 text-xs"></i>
-                            Gửi phản hồi
-                        </button>
-                    </div>
-                </div>
+
+<!-- Reply Box Container -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-3.5 mt-6"
+     data-purpose="reply-form-card">
+
+    <!-- Tiêu đề -->
+    <div class="flex items-center gap-2 text-sm font-semibold text-slate-900">
+        <i class="fa-solid fa-reply text-blue-600"></i>
+        <span>Phản hồi trao đổi tiếp</span>
+    </div>
+
+    <!-- Nội dung phản hồi -->
+    <div>
+        <textarea
+            id="reply-content"
+            class="w-full text-xs md:text-sm p-3 rounded-lg border border-slate-200 bg-[#fcfdfe] placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white transition-all resize-none"
+            placeholder="Nhập nội dung phản hồi của bạn tới cán bộ hỗ trợ kỹ thuật..."
+            rows="4"></textarea>
+    </div>
+
+    <!-- KHU VỰC TẢI TỆP -->
+    <div class="space-y-3">
+
+        <div
+            id="reply-upload-area"
+            class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center bg-slate-50/50 hover:bg-slate-50 hover:border-blue-400 transition cursor-pointer">
+
+            <div class="w-10 h-10 rounded-full bg-white shadow-sm border border-slate-200 flex items-center justify-center mx-auto mb-2 text-slate-400">
+                <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
+            </div>
+
+            <p class="text-xs font-medium text-slate-700">
+                Kéo thả ảnh chụp màn hình hoặc tệp minh chứng vào đây
+            </p>
+
+            <p class="text-[11px] text-slate-400 mt-1">
+                PNG, JPG, JPEG, PDF, DOC, DOCX, XLS, XLSX, TXT, ZIP
+                (Dung lượng tối đa 10MB/tệp)
+            </p>
+
+            <!-- Input chọn tệp -->
+            <input
+                type="file"
+                id="reply-attachment"
+                name="attachment"
+                accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"
+                multiple
+                hidden>
+
+            <!-- Nút chọn tệp -->
+            <button
+                type="button"
+                id="reply-choose-file"
+                class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg shadow-sm hover:bg-slate-100 transition">
+
+                <i class="fa-solid fa-paperclip text-slate-500"></i>
+                Chọn tệp từ máy tính
+            </button>
+
+        </div>
+
+        <!-- DANH SÁCH TỆP ĐÃ CHỌN -->
+        <div
+            id="reply-file-preview"
+            class="hidden mt-3 space-y-2">
+        </div>
+
+    </div>
+
+    <!-- KHU VỰC NÚT GỬI -->
+    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+
+        <span class="text-[11px] text-slate-400">
+            Có thể đính kèm nhiều tệp minh chứng.
+        </span>
+
+        <button
+            id="send-reply"
+            class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#0d1527] hover:bg-[#1a2542] text-white text-xs font-semibold shadow-sm transition-colors"
+            type="button">
+
+            <i class="fa-solid fa-paper-plane text-blue-300 text-xs"></i>
+            Gửi phản hồi
+        </button>
+
+    </div>
+
+</div>
+
             </div>
 
             <!-- Right Column: Ticket Meta & Survey (lg:col-span-4) -->
@@ -405,16 +487,31 @@
                     <p class="text-[11px] text-slate-500 leading-relaxed">
                         Khi sự cố được giải quyết triệt để, vui lòng cho biết mức độ hài lòng của bạn đối với tốc độ và chất lượng phục vụ của cán bộ phụ trách:
                     </p>
-                    <div class="flex items-center justify-center gap-3 py-2 text-slate-300">
-                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
-                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
-                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
-                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
-                        <i class="fa-regular fa-star text-xl hover:text-amber-400 cursor-not-allowed transition-colors"></i>
-                    </div>
-                    <div class="text-[10px] text-slate-400 text-center italic">
-                        * Khảo sát sẽ mở chính thức khi ticket chuyển sang trạng thái "Đã giải quyết"
-                    </div>
+                   <div class="flex items-center justify-center gap-3 py-2"
+     id="rating-stars">
+
+    <i class="fa-regular fa-star text-xl text-slate-300 cursor-pointer transition-colors"
+       data-rating="1"></i>
+
+    <i class="fa-regular fa-star text-xl text-slate-300 cursor-pointer transition-colors"
+       data-rating="2"></i>
+
+    <i class="fa-regular fa-star text-xl text-slate-300 cursor-pointer transition-colors"
+       data-rating="3"></i>
+
+    <i class="fa-regular fa-star text-xl text-slate-300 cursor-pointer transition-colors"
+       data-rating="4"></i>
+
+    <i class="fa-regular fa-star text-xl text-slate-300 cursor-pointer transition-colors"
+       data-rating="5"></i>
+
+</div>
+
+<p id="rating-message"
+   class="text-center text-xs text-slate-500">
+    Vui lòng chọn mức độ hài lòng
+</p>
+
                 </div>
             </div>
         </div>
@@ -422,6 +519,32 @@
     <!-- END: PageMainBody -->
 </div>
 <!-- END: MainContentContainer -->
+
+<!-- Cửa sổ xem trước ảnh -->
+<div id="preview-modal"
+     class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4">
+
+    <div class="bg-white rounded-xl p-4 max-w-3xl w-full relative">
+
+        <button type="button"
+                onclick="closePreview()"
+                class="absolute top-3 right-3 text-slate-500 hover:text-red-500">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+
+        <h3 class="font-semibold text-slate-800 mb-4">
+            Xem trước tệp đính kèm
+        </h3>
+
+        <img id="preview-image"
+             src=""
+             alt="Ảnh đính kèm"
+             class="max-h-[70vh] max-w-full mx-auto object-contain rounded-lg">
+
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
 </html>

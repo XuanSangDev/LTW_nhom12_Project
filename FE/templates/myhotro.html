@@ -81,21 +81,33 @@
 
             <!-- Support Center (Active Accordion) -->
             <div class="pt-1.5 space-y-2">
-                <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
-                            <i class="fa-solid fa-headset text-base"></i>
-                        </div>
-                        <span class="text-white font-semibold text-xs tracking-tight">Hỗ trợ người học</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
-                </div>
+
+<a href="{{ url_for('hotro') }}"
+   class="block no-underline">
+
+    <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer hover:bg-[#1c304d] transition-colors">
+
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                <i class="fa-solid fa-headset text-base"></i>
+            </div>
+
+            <span class="text-white font-semibold text-xs tracking-tight">
+                Hỗ trợ người học
+            </span>
+        </div>
+
+        <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
+
+    </div>
+
+</a>
 
                 <!-- Submenu Items -->
 <div class="ml-4 pl-3.5 pr-3 border-l border-slate-700/60 space-y-1.5 py-1" data-purpose="support-submenu">
 
     <!-- Gửi yêu cầu hỗ trợ (Thường) -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="guihotro.html">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('guihotro') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-solid fa-paper-plane text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
             <span class="truncate">Gửi yêu cầu hỗ trợ</span>
@@ -103,7 +115,7 @@
     </a>
 
     <!-- Yêu cầu của tôi (ACTIVE tại trang này) -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="myhotro.html">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="{{ url_for('myhotro') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-regular fa-rectangle-list text-xs text-blue-400 w-4 text-center flex-shrink-0"></i>
             <span class="truncate">Yêu cầu của tôi</span>
@@ -111,7 +123,7 @@
     </a>
 
     <!-- Chi tiết yêu cầu -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="#">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('chitiet') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-solid fa-magnifying-glass text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
             <span class="truncate">Chi tiết yêu cầu</span>
@@ -119,7 +131,7 @@
     </a>
 
     <!-- FAQ & Hướng dẫn -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="#">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('faq') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-regular fa-circle-question text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
             <span class="truncate">FAQ &amp; Hướng dẫn</span>
@@ -183,10 +195,13 @@
                     <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Yêu cầu của tôi</h2>
                     <p class="text-xs text-slate-500 mt-1">Theo dõi tiến độ và lịch sử phản hồi các yêu cầu hỗ trợ của bạn.</p>
                 </div>
-                <button class="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-medium rounded-lg transition-colors shadow-sm shadow-orange-500/20 whitespace-nowrap">
-                    <i class="fa-solid fa-plus text-xs"></i>
-                    <span class="">Tạo yêu cầu mới</span>
-                </button>
+                <a href="{{ url_for('guihotro') }}"
+   class="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-medium rounded-lg transition-colors shadow-sm shadow-orange-500/20 whitespace-nowrap">
+
+    <i class="fa-solid fa-plus text-xs"></i>
+    <span>Tạo yêu cầu mới</span>
+
+                </a>
             </div>
             <!-- END: PageTitleArea -->
 
@@ -269,13 +284,8 @@
                             <input class="pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 w-52" placeholder="Tìm theo mã hoặc tiêu đề..." type="text">
                         </div>
 
-                        <!-- Category Filter Dropdown -->
-                        <div class="relative">
-                            <button class="px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 rounded-lg text-slate-600 flex items-center gap-2 hover:bg-slate-50">
-                                <span class="">Tất cả danh mục</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                            </button>
-                        </div>
+
+
 
                         <!-- Time Filter Dropdown -->
                         <div class="relative">
@@ -295,12 +305,11 @@
                                 <th class="py-3.5 px-6 font-semibold w-32">MÃ YÊU CẦU</th>
                                 <th class="py-3.5 px-6 font-semibold">TIÊU ĐỀ YÊU CẦU &amp; DANH MỤC</th>
                                 <th class="py-3.5 px-6 font-semibold w-28">NGÀY GỬI</th>
-                                <th class="py-3.5 px-6 font-semibold text-center w-36">TRẠNG THÁI</th>
                                 <th class="py-3.5 px-6 font-semibold">PHẢN HỒI CUỐI</th>
                                 <th class="py-3.5 px-6 font-semibold text-right w-28"></th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 text-xs">
+                        <tbody class="divide-y divide-slate-100 text-xs" id="page-1">
                             <!-- Row 1 -->
                             <tr class="hover:bg-slate-50/60 transition-colors">
                                 <td class="py-4 px-6 font-medium text-slate-500 align-top whitespace-nowrap">
@@ -317,11 +326,7 @@
                                     <div class="font-bold leading-tight">28/10/2026</div>
                                     <div class="text-[11px] text-slate-400 font-normal mt-0.5">09:30</div>
                                 </td>
-                                <td class="py-4 px-6 align-top text-center whitespace-nowrap">
-                                    <span class="inline-block px-3 py-1 bg-amber-50 text-amber-600 border border-amber-200/80 rounded-full text-[11px] font-medium">
-                                        Chờ xử lý
-                                    </span>
-                                </td>
+
                                 <td class="py-4 px-6 align-top">
                                     <div class="flex items-center gap-2.5">
                                         <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0">
@@ -334,9 +339,10 @@
                                     </div>
                                 </td>
                                 <td class="py-4 px-6 align-top text-right whitespace-nowrap">
-                                    <button class="px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
-                                        Xem chi tiết
-                                    </button>
+                                    <a href="/chitiet?code=YC-2026-1042"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
                                 </td>
                             </tr>
 
@@ -356,11 +362,7 @@
                                     <div class="font-bold leading-tight">25/10/2026</div>
                                     <div class="text-[11px] text-slate-400 font-normal mt-0.5">14:15</div>
                                 </td>
-                                <td class="py-4 px-6 align-top text-center whitespace-nowrap">
-                                    <span class="inline-block px-3 py-1 bg-blue-50 text-blue-600 border border-blue-200/80 rounded-full text-[11px] font-medium">
-                                        Đang xử lý
-                                    </span>
-                                </td>
+
                                 <td class="py-4 px-6 align-top">
                                     <div class="flex items-center gap-2.5">
                                         <div class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold text-[10px] flex items-center justify-center flex-shrink-0">
@@ -373,9 +375,10 @@
                                     </div>
                                 </td>
                                 <td class="py-4 px-6 align-top text-right whitespace-nowrap">
-                                    <button class="px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
-                                        Xem chi tiết
-                                    </button>
+                                    <a href="/chitiet?code=YC-2026-0985"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
                                 </td>
                             </tr>
 
@@ -395,11 +398,7 @@
                                     <div class="font-semibold leading-tight">18/10/2026</div>
                                     <div class="text-[11px] text-slate-400 font-normal mt-0.5">10:00</div>
                                 </td>
-                                <td class="py-4 px-6 align-top text-center whitespace-nowrap">
-                                    <span class="inline-block px-3 py-1 bg-amber-50 text-amber-600 border border-amber-200/80 rounded-full text-[11px] font-medium">
-                                        Chờ xử lý
-                                    </span>
-                                </td>
+
                                 <td class="py-4 px-6 align-top">
                                     <div class="flex items-center gap-2.5">
                                         <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0">
@@ -412,9 +411,10 @@
                                     </div>
                                 </td>
                                 <td class="py-4 px-6 align-top text-right whitespace-nowrap">
-                                    <button class="px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
-                                        Xem chi tiết
-                                    </button>
+                                    <a href="/chitiet?code=YC-2026-0870"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
                                 </td>
                             </tr>
 
@@ -434,11 +434,7 @@
                                     <div class="font-semibold leading-tight">10/10/2026</div>
                                     <div class="text-[11px] text-slate-400 font-normal mt-0.5">16:40</div>
                                 </td>
-                                <td class="py-4 px-6 align-top text-center whitespace-nowrap">
-                                    <span class="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 border border-emerald-200/80 rounded-full text-[11px] font-medium">
-                                        Đã giải quyết
-                                    </span>
-                                </td>
+
                                 <td class="py-4 px-6 align-top">
                                     <div class="flex items-center gap-2.5">
                                         <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center flex-shrink-0">
@@ -451,13 +447,135 @@
                                     </div>
                                 </td>
                                 <td class="py-4 px-6 align-top text-right whitespace-nowrap">
-                                    <button class="px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
-                                        Xem chi tiết
-                                    </button>
+                                    <a href="/chitiet?code=YC-2026-0742"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
                                 </td>
                             </tr>
+</tbody>
+
+  <tbody class="divide-y divide-slate-100 text-xs" id="page-2" style="display: none;>
+                            <!-- Yêu cầu 5 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+    <td class="py-4 px-6 font-medium text-slate-500 align-top whitespace-nowrap">
+        #YC-2026-0691
+    </td>
+    <td class="py-4 px-6 align-top">
+        <p class="font-bold text-slate-900 text-sm">
+            Không xem được điểm thành phần học phần
+        </p>
+        <p class="text-slate-400 text-xs mt-1">
+            Học tập &amp; Bài tập
+        </p>
+    </td>
+    <td class="py-4 px-6 align-top whitespace-nowrap text-slate-700">
+        <div class="font-bold">08/10/2026</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">08:45</div>
+    </td>
+    <td class="py-4 px-6 align-top">
+        <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center">HN</div>
+            <div>
+                <p class="font-bold text-slate-800">KTV Hoàng Nam</p>
+                <p class="text-[11px] text-slate-400">Đã kiểm tra hệ thống</p>
+            </div>
+        </div>
+    </td>
+    <td class="py-4 px-6 text-right whitespace-nowrap">
+        <a href="/chitiet?code=YC-2026-0691"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
+    </td>
+</tr>
+
+<!-- Yêu cầu 6 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+    <td class="py-4 px-6 font-medium text-slate-500 whitespace-nowrap">#YC-2026-0618</td>
+    <td class="py-4 px-6">
+        <p class="font-bold text-slate-900 text-sm">Không nhận được mã xác thực đăng nhập</p>
+        <p class="text-slate-400 text-xs mt-1">Tài khoản &amp; Email</p>
+    </td>
+    <td class="py-4 px-6 whitespace-nowrap text-slate-700">
+        <div class="font-bold">05/10/2026</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">13:20</div>
+    </td>
+    <td class="py-4 px-6">
+        <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center">TH</div>
+            <div>
+                <p class="font-bold text-slate-800">CVHT Trần Thu Hà</p>
+                <p class="text-[11px] text-slate-400">Đã gửi hướng dẫn</p>
+            </div>
+        </div>
+    </td>
+    <td class="py-4 px-6 text-right whitespace-nowrap">
+    <a href="/chitiet?code=YC-2026-0618"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
+    </td>
+</tr>
+
+<!-- Yêu cầu 7 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+    <td class="py-4 px-6 font-medium text-slate-500 whitespace-nowrap">#YC-2026-0536</td>
+    <td class="py-4 px-6">
+        <p class="font-bold text-slate-900 text-sm">Hỏi về biên lai học phí học kỳ mới</p>
+        <p class="text-slate-400 text-xs mt-1">Học phí &amp; Giấy tờ</p>
+    </td>
+    <td class="py-4 px-6 whitespace-nowrap text-slate-700">
+        <div class="font-bold">02/10/2026</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">09:10</div>
+    </td>
+    <td class="py-4 px-6">
+        <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center">HN</div>
+            <div>
+                <p class="font-bold text-slate-800">KTV Hoàng Nam</p>
+                <p class="text-[11px] text-slate-400">Đang hỗ trợ tra cứu</p>
+            </div>
+        </div>
+    </td>
+    <td class="py-4 px-6 text-right whitespace-nowrap">
+        <a href="/chitiet?code=YC-2026-0536"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
+    </td>
+</tr>
+
+<!-- Yêu cầu 8 -->
+<tr class="hover:bg-slate-50/60 transition-colors">
+    <td class="py-4 px-6 font-medium text-slate-500 whitespace-nowrap">#YC-2026-0479</td>
+    <td class="py-4 px-6">
+        <p class="font-bold text-slate-900 text-sm">Lỗi truy cập cổng thông tin sinh viên</p>
+        <p class="text-slate-400 text-xs mt-1">Tài khoản &amp; Email</p>
+    </td>
+    <td class="py-4 px-6 whitespace-nowrap text-slate-700">
+        <div class="font-bold">29/09/2026</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">15:30</div>
+    </td>
+    <td class="py-4 px-6">
+        <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold text-[10px] flex items-center justify-center">TH</div>
+            <div>
+                <p class="font-bold text-slate-800">CVHT Trần Thu Hà</p>
+                <p class="text-[11px] text-slate-400">Đã tiếp nhận yêu cầu</p>
+            </div>
+        </div>
+    </td>
+    <td class="py-4 px-6 text-right whitespace-nowrap">
+        <a href="/chitiet?code=YC-2026-0479"
+   class="inline-block px-3 py-1.5 border border-slate-200 hover:border-slate-300 text-slate-700 font-medium rounded-lg text-xs hover:bg-slate-50 transition-colors shadow-2xs">
+    Xem chi tiết
+</a>
+    </td>
+</tr>
                         </tbody>
                     </table>
+
                 </div>
 
                 <!-- BEGIN: PaginationFooter -->
@@ -469,16 +587,17 @@
                         <button aria-label="Previous page" class="w-8 h-8 rounded border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50 text-xs transition-colors" disabled="">
                             <i class="fa-solid fa-chevron-left text-[10px]"></i>
                         </button>
-                        <button class="w-8 h-8 rounded bg-slate-900 text-white font-semibold text-xs flex items-center justify-center">
+                        <button id="btn-page-1" onclick="showPage(1)" class="w-8 h-8 rounded bg-slate-900 text-white font-semibold text-xs flex items-center justify-center" >
                             1
                         </button>
-                        <button class="w-8 h-8 rounded border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium text-xs flex items-center justify-center transition-colors">
+                        <button id="btn-page-2" onclick="showPage(2)" class="w-8 h-8 rounded border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium text-xs flex items-center justify-center transition-colors">
                             2
                         </button>
                         <button aria-label="Next page" class="w-8 h-8 rounded border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 text-xs transition-colors">
                             <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </button>
                     </div>
+
                 </div>
                 <!-- END: PaginationFooter -->
             </div>
@@ -487,6 +606,6 @@
         <!-- END: PageContent -->
     </div>
     <!-- END: MainContentWrapper -->
-
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

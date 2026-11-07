@@ -20,3 +20,7 @@
 .sidebar-scroll::-webkit-scrollbar-thumb {
   background: #1e293b;
 }
+
+.hidden {
+    display: none !important;
+}
