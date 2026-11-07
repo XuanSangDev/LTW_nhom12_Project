@@ -201,7 +201,6 @@
                             Mức thấp
                         </span>
                         <span class="text-xs text-outline">5 ngày trước</span>
-                        <span class="ml-auto text-xs text-outline">Đã đọc</span>
                     </div>
 
                     <h3 class="text-base font-semibold text-primary">
@@ -212,8 +211,9 @@
                         Bạn nên kiểm tra tiến độ và hoàn thiện các phần còn thiếu.
                     </p>
 
-                    <div class="mt-4 pt-3 border-t border-slate-100">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-slate-100">
                         <span class="text-xs text-outline">Học phần: IT308</span>
+                        <span class="read-state inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-transparent bg-slate-100 text-slate-500 text-sm font-semibold cursor-default"><span class="material-symbols-outlined text-base">check</span>Đã đọc</span>
                     </div>
                 </div>
             </article>
@@ -302,6 +302,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("unreadCount").textContent = unread;
         document.getElementById("readCount").textContent = read;
 
+        // đồng bộ số trên chuông thông báo (thanh trên)
+        const bell = document.getElementById("bellBadge");
+        if (bell) {
+            bell.textContent = unread;
+            bell.classList.toggle("hidden", unread === 0);
+        }
+
         document.getElementById("highCount").textContent =
             cards.filter(card => card.dataset.severity === "high").length;
         document.getElementById("mediumCount").textContent =
@@ -359,13 +366,11 @@ document.addEventListener("DOMContentLoaded", function () {
             card.dataset.status = "read";
 
             const indicator = card.querySelector(".unread-indicator");
-            if (indicator) {
-                indicator.outerHTML =
-                    '<span class="ml-auto text-xs text-outline">Đã đọc</span>';
-            }
+            if (indicator) indicator.remove();
 
             button.outerHTML =
-                '<span class="text-xs text-outline italic">Đã đọc</span>';
+                '<span class="read-state inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-transparent bg-slate-100 text-slate-500 text-sm font-semibold cursor-default">' +
+                '<span class="material-symbols-outlined text-base">check</span>Đã đọc</span>';
 
             updateCounts();
             applyFilters();

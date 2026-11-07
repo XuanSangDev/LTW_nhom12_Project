@@ -34,10 +34,11 @@ class OverviewPageTest(unittest.TestCase):
                      "Phòng 402", "Học bổng", "Dự báo mô phỏng", "Lịch học", "googleusercontent"]:
             self.assertNotIn(text, html, text)
 
-    def test_notification_badge_from_data_and_single_footer(self):
+    def test_notification_badge_from_data_and_no_footer_note(self):
         html = self.client.get("/phan-tich/tong-quan").get_data(as_text=True)
         self.assertIn(">2</span>", html)
-        self.assertEqual(html.count("Dữ liệu minh họa phục vụ mục đích học tập."), 1)
+        # đã chủ động bỏ các dòng ghi chú dữ liệu minh họa ở chân trang
+        self.assertEqual(html.count("Dữ liệu minh họa phục vụ mục đích học tập."), 0)
 
     def test_api_overview_same_service(self):
         r = self.client.get("/api/analytics/overview")

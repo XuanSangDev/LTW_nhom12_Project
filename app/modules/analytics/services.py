@@ -7,6 +7,7 @@ import math
 from flask import current_app
 
 from app.shared import current_student
+from .grading import final_total, score_to_points, WEIGHTS_TEXT
 
 # ---------------- Tham số do nhóm tự quy định ----------------
 # Ngưỡng xếp loại theo thang 4: (điểm tối thiểu, tên xếp loại).
@@ -16,6 +17,9 @@ CLASSIFICATION = [(3.6, "Xuất sắc"), (3.2, "Giỏi"), (2.5, "Khá"), (2.0, "
 # ---------------- DỮ LIỆU MẪU (mô phỏng) ----------------
 CUMULATIVE_GPA = 3.12
 EARNED_CREDITS = 78
+# Số môn chỉ là dữ liệu DEMO để mô phỏng GPA theo trung bình số môn, không phải dữ liệu NEU.
+EARNED_GPA_COURSES = 24
+TOTAL_GPA_COURSES = 40
 GPA_TARGET =  3.40
 GPA_BY_TERM = [  # 5 học kỳ đã hoàn thành
     ("HK1 24-25", 2.80),
@@ -135,56 +139,32 @@ RESULTS_SEMESTERS = [
     {"value": "hk2-24-25", "label": "Học kỳ 2 • 2024 - 2025"},
 ]
 
-RESULTS_COURSES = [
-    {
-        "code": "ITEC1120", "name": "Lập trình Web", "short_name": "L.Trình Web",
-        "credits": 3, "attendance": 10.0, "midterm": 8.5, "final": 8.0,
-        "total": 8.3, "letter": "A-", "points": 3.7,
-        "weight": "Chuyên cần 10% • Giữa kỳ 30% • Cuối kỳ 60%",
-        "assessment": "Thực hành phòng máy", "note": "Dữ liệu minh họa.",
-    },
-    {
-        "code": "ITEC1125", "name": "Cơ sở dữ liệu", "short_name": "CS Dữ liệu",
-        "credits": 3, "attendance": 9.0, "midterm": 5.5, "final": 6.5,
-        "total": 6.2, "letter": "C", "points": 2.0,
-        "weight": "Chuyên cần 10% • Giữa kỳ 30% • Cuối kỳ 60%",
-        "assessment": "Bài tập và bài thi cuối kỳ", "note": "Cần chú ý cải thiện kết quả học tập.",
-    },
-    {
-        "code": "ITEC2105", "name": "Phân tích thiết kế hệ thống", "short_name": "PTTK H.Thống",
-        "credits": 3, "attendance": 9.0, "midterm": 8.0, "final": 8.0,
-        "total": 8.1, "letter": "A", "points": 3.5,
-        "weight": "Chuyên cần 10% • Giữa kỳ 30% • Cuối kỳ 60%",
-        "assessment": "Bài tập lớn và bài thi", "note": "Dữ liệu minh họa.",
-    },
-    {
-        "code": "ECON1101", "name": "Kinh tế vi mô", "short_name": "Kinh tế Vi mô",
-        "credits": 3, "attendance": 8.0, "midterm": 6.5, "final": 6.5,
-        "total": 6.8, "letter": "B-", "points": 2.7,
-        "weight": "Chuyên cần 10% • Giữa kỳ 30% • Cuối kỳ 60%",
-        "assessment": "Tự luận", "note": "Dữ liệu minh họa.",
-    },
-    {
-        "code": "STAT1102", "name": "Xác suất thống kê", "short_name": "Xác suất TK",
-        "credits": 3, "attendance": 9.5, "midterm": 7.5, "final": 7.8,
-        "total": 7.9, "letter": "B", "points": 3.0,
-        "weight": "Chuyên cần 10% • Giữa kỳ 30% • Cuối kỳ 60%",
-        "assessment": "Bài tập và bài thi", "note": "Dữ liệu minh họa.",
-    },
-    {
-        "code": "ENGL2201", "name": "Tiếng Anh chuyên ngành", "short_name": "Anh chuyên ngành",
-        "credits": 3, "attendance": 10.0, "midterm": 8.0, "final": 8.5,
-        "total": 8.5, "letter": "A", "points": 4.0,
-        "weight": "Chuyên cần 10% • Giữa kỳ 30% • Cuối kỳ 60%",
-        "assessment": "Thuyết trình và bài thi", "note": "Dữ liệu minh họa.",
-    },
+_RESULTS_COURSE_INPUTS = [
+    {"code": "ITEC1120", "name": "Lập trình Web", "short_name": "L.Trình Web", "credits": 3, "attendance": 10.0, "midterm": 8.5, "final": 8.0, "assessment": "Thực hành phòng máy", "note": "Dữ liệu minh họa."},
+    {"code": "ITEC1125", "name": "Cơ sở dữ liệu", "short_name": "CS Dữ liệu", "credits": 3, "attendance": 9.0, "midterm": 5.5, "final": 6.5, "assessment": "Bài tập và bài thi cuối kỳ", "note": "Cần chú ý cải thiện kết quả học tập."},
+    {"code": "ITEC2105", "name": "Phân tích thiết kế hệ thống", "short_name": "PTTK H.Thống", "credits": 3, "attendance": 9.0, "midterm": 8.0, "final": 8.0, "assessment": "Bài tập lớn và bài thi", "note": "Dữ liệu minh họa."},
+    {"code": "ECON1101", "name": "Kinh tế vi mô", "short_name": "Kinh tế Vi mô", "credits": 3, "attendance": 8.0, "midterm": 6.5, "final": 6.5, "assessment": "Tự luận", "note": "Dữ liệu minh họa."},
+    {"code": "STAT1102", "name": "Xác suất thống kê", "short_name": "Xác suất TK", "credits": 3, "attendance": 9.5, "midterm": 7.5, "final": 7.8, "assessment": "Bài tập và bài thi", "note": "Dữ liệu minh họa."},
+    {"code": "ENGL2201", "name": "Tiếng Anh chuyên ngành", "short_name": "Anh chuyên ngành", "credits": 3, "attendance": 10.0, "midterm": 8.0, "final": 8.5, "assessment": "Thuyết trình và bài thi", "note": "Dữ liệu minh họa."},
 ]
+
+# Mọi điểm mẫu đều được tính lại từ cùng một quy tắc 10-40-50 và bảng quy đổi chung.
+RESULTS_COURSES = []
+for _course in _RESULTS_COURSE_INPUTS:
+    _total = final_total(_course["attendance"], _course["midterm"], _course["final"])
+    _points, _letter = score_to_points(_total)
+    RESULTS_COURSES.append({
+        **_course, "total": round(_total, 2), "letter": _letter, "points": _points,
+        "weight": WEIGHTS_TEXT,
+    })
 
 
 def get_results():
     """Dữ liệu hiển thị cho trang Kết quả học tập (bản demo, chưa nối CSDL)."""
     courses = [dict(course) for course in RESULTS_COURSES]
     total_credits = sum(course["credits"] for course in courses)
+    average_score = sum(course["total"] for course in courses) / len(courses) if courses else 0.0
+    semester_gpa = sum(course["points"] for course in courses) / len(courses) if courses else 0.0
     return {
         "student": current_student(),
         "results_semesters": RESULTS_SEMESTERS,
@@ -192,8 +172,8 @@ def get_results():
         "results_courses": courses,
         "results_summary": {
             "semester_label": "HK1 2026 - 2027",
-            "gpa": 3.25,
-            "average_score": 7.63,
+            "gpa": round(semester_gpa, 2),
+            "average_score": round(average_score, 2),
             "registered_credits": total_credits,
             "course_count": len(courses),
             "passed_count": len(courses),
