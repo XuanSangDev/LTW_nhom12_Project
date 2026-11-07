@@ -38,7 +38,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Liên kết đến file CSS riêng -->
-    <link rel="stylesheet" href="hotro.css">
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/guihotro.css') }}">
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex bg-[#f8fafc]">
 
@@ -82,21 +83,34 @@
 
             <!-- Support Center (Active Accordion) -->
             <div class="pt-1.5 space-y-2">
-                <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
-                            <i class="fa-solid fa-headset text-base"></i>
-                        </div>
-                        <span class="text-white font-semibold text-xs tracking-tight">Hỗ trợ người học</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
-                </div>
+
+<a href="{{ url_for('hotro') }}"
+   class="block no-underline">
+
+    <div class="bg-[#152238] rounded-2xl p-2.5 pr-3 flex items-center justify-between border border-blue-500/20 shadow-sm cursor-pointer hover:bg-[#1c304d] transition-colors">
+
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                <i class="fa-solid fa-headset text-base"></i>
+            </div>
+
+            <span class="text-white font-semibold text-xs tracking-tight">
+                Hỗ trợ người học
+            </span>
+        </div>
+
+        <i class="fa-solid fa-chevron-up text-[10px] text-blue-400"></i>
+
+    </div>
+
+</a>
+
 
               <!-- Submenu Items -->
 <div class="ml-4 pl-3.5 pr-3 border-l border-slate-700/60 space-y-1.5 py-1" data-purpose="support-submenu">
 
     <!-- Gửi yêu cầu hỗ trợ (ĐÃ CHUYỂN SANG ACTIVE TẠI ĐÂY) -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="guihotro.html">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold text-white bg-[#152238] border border-blue-500/30 rounded-lg shadow-sm transition-colors group" href="{{ url_for('guihotro') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-solid fa-paper-plane text-xs text-blue-400 w-4 text-center flex-shrink-0"></i>
             <span class="truncate">Gửi yêu cầu hỗ trợ</span>
@@ -104,7 +118,7 @@
     </a>
 
     <!-- Yêu cầu của tôi (Thường) -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="myhotro.html">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('myhotro') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-regular fa-rectangle-list text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
             <span class="truncate">Yêu cầu của tôi</span>
@@ -112,7 +126,7 @@
     </a>
 
     <!-- Chi tiết yêu cầu (Đã chuyển về Thường) -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="chitiet.html">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('chitiet') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-solid fa-magnifying-glass text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
             <span class="truncate">Chi tiết yêu cầu</span>
@@ -120,7 +134,7 @@
     </a>
 
     <!-- FAQ & Hướng dẫn (Thường) -->
-    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="faq.html">
+    <a class="w-full flex items-center justify-between px-3 py-1.5 text-xs font-normal text-slate-300 hover:text-white transition-colors group" href="{{ url_for('faq') }}">
         <div class="flex items-center gap-3 min-w-0">
             <i class="fa-regular fa-circle-question text-xs text-slate-400 group-hover:text-white w-4 text-center flex-shrink-0"></i>
             <span class="truncate">FAQ &amp; Hướng dẫn</span>
@@ -215,15 +229,21 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-50 rounded-lg transition" title="Sao chép thông tin" type="button">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                        </button>
+                        <button onclick="copyStudentInfo()"
+        class="text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-50 rounded-lg transition"
+        title="Sao chép thông tin"
+        type="button">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+</button>
                     </div>
 
                     <!-- Main Input Form Card -->
-                    <form class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-5" data-purpose="support-request-form">
+                    <form method="POST"
+      action="{{ url_for('guihotro') }}"
+      enctype="multipart/form-data"
+                            class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-5" data-purpose="support-request-form">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1.5" for="category">
                                 Danh mục vấn đề <span class="text-red-500">*</span>
@@ -234,11 +254,10 @@
                                     <option>Đăng ký tín chỉ &amp; Học phí</option>
                                     <option>Tài khoản &amp; Email sinh viên</option>
                                     <option>Thi trực tuyến &amp; Điểm số</option>
+                                    <option>Khác</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                    </svg>
+
                                 </div>
                             </div>
                             <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
@@ -253,120 +272,229 @@
                             <input class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition font-normal" id="subject" type="text" value="Không xem được bài giảng tuần 4 môn Lập trình Web">
                         </div>
 
-                        <div>
-                            <div class="flex items-center justify-between mb-2">
-                                <label class="block text-xs font-bold text-slate-700">
-                                    Mức độ ưu tiên <span class="text-red-500">*</span>
-                                </label>
-                                <span class="text-[11px] text-amber-600 font-medium flex items-center gap-1">
-                                    <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                    Cam kết thời gian phản hồi (SLA: 24h - 48h)
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <label class="relative flex flex-col justify-between p-3 rounded-lg border-2 border-slate-800 bg-white cursor-pointer shadow-xs transition">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs font-bold text-slate-900">Bình thường</span>
-                                        <input checked="" class="w-4 h-4 text-slate-900 border-slate-300 focus:ring-slate-900" name="priority" type="radio" value="normal">
-                                    </div>
-                                    <span class="text-[11px] text-slate-500 mt-2 block">Phản hồi trong 24h - 48h làm việc</span>
-                                </label>
-                                <label class="relative flex flex-col justify-between p-3 rounded-lg border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs font-bold text-slate-700">Gấp</span>
-                                        <input class="w-4 h-4 text-slate-900 border-slate-300 focus:ring-slate-900" name="priority" type="radio" value="urgent">
-                                    </div>
-                                    <span class="text-[11px] text-slate-400 mt-2 block">Phản hồi trong 12h - 24h</span>
-                                </label>
-                                <label class="relative flex flex-col justify-between p-3 rounded-lg border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs font-bold text-rose-600 flex items-center gap-1.5">
-                                            <span class="w-2 h-2 rounded-full bg-rose-600"></span>
-                                            Rất khẩn cấp
-                                        </span>
-                                        <input class="w-4 h-4 text-slate-900 border-slate-300 focus:ring-slate-900" name="priority" type="radio" value="critical">
-                                    </div>
-                                    <span class="text-[11px] text-slate-400 mt-2 block">Sắp hết hạn nộp / Giờ thi</span>
-                                </label>
-                            </div>
-                        </div>
 
-                        <div>
-                            <div class="flex items-center justify-between mb-1.5">
-                                <label class="block text-xs font-bold text-slate-700" for="description">
-                                    Mô tả chi tiết vấn đề <span class="text-red-500">*</span>
-                                </label>
-                                <span class="text-[11px] text-slate-400 font-medium">Tối thiểu 30 ký tự</span>
-                            </div>
-                            <textarea class="w-full bg-white border border-slate-300 rounded-lg p-3 text-xs text-slate-700 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition font-normal" id="description" rows="6">Em xin chào quý Thầy/Cô quản trị hệ thống.
+
+
+
+<!-- MỨC ĐỘ ƯU TIÊN -->
+
+<div class="mb-6">
+    <div class="flex items-center justify-between mb-3">
+        <label class="text-sm font-semibold text-slate-800">
+            Mức độ ưu tiên <span class="text-red-500">*</span>
+        </label>
+
+        <span class="text-xs text-orange-500">
+            <i class="fa-regular fa-clock"></i>
+            Cam kết thời gian phản hồi (SLA: 24h - 48h)
+        </span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 priority-list">
+
+        <!-- Bình thường -->
+        <label class="priority-item">
+            <input type="radio" name="priority"
+                   value="Bình thường" required>
+
+            <div class="priority-box">
+                <div class="priority-content">
+                    <span class="font-semibold text-sm text-slate-800">
+                        Bình thường
+                    </span>
+                    <span class="priority-circle">
+                        <span></span>
+                    </span>
+                </div>
+                <p>Phản hồi trong 24h - 48h làm việc</p>
+            </div>
+        </label>
+
+        <!-- Gấp -->
+        <label class="priority-item">
+            <input type="radio" name="priority"
+                   value="Gấp">
+
+            <div class="priority-box">
+                <div class="priority-content">
+                    <span class="font-semibold text-sm text-slate-800">
+                        Gấp
+                    </span>
+                    <span class="priority-circle">
+                        <span></span>
+                    </span>
+                </div>
+                <p>Phản hồi trong 12h - 24h</p>
+            </div>
+        </label>
+
+        <!-- Rất khẩn cấp -->
+        <label class="priority-item">
+            <input type="radio" name="priority"
+                   value="Rất khẩn cấp">
+
+            <div class="priority-box">
+                <div class="priority-content">
+                    <span class="font-semibold text-sm text-rose-600">
+                        <i class="fa-solid fa-circle text-[9px] mr-1"></i>
+                        Rất khẩn cấp
+                    </span>
+                    <span class="priority-circle">
+                        <span></span>
+                    </span>
+                </div>
+                <p>Sắp hết hạn nộp / Giờ thi</p>
+            </div>
+        </label>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- MÔ TẢ CHI TIẾT VẤN ĐỀ -->
+<div>
+    <div class="flex items-center justify-between mb-1.5">
+        <label class="block text-xs font-bold text-slate-700" for="description">
+            Mô tả chi tiết vấn đề <span class="text-red-500">*</span>
+        </label>
+    </div>
+
+    <textarea
+        name="description"
+        class="w-full bg-white border border-slate-300 rounded-lg p-3 text-xs text-slate-700 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition font-normal"
+        id="description"
+        rows="6"
+        minlength="30"
+        required
+>Em xin chào quý Thầy/Cô quản trị hệ thống.
 Vào khoảng 14:30 chiều nay khi em đăng nhập vào khoá học Lập trình Web nâng cao - Lớp 02 để xem video bài giảng tuần 4 (Chủ đề: RESTful API với NodeJS), video liên tục báo mã lỗi 403: "Không thể tải nguồn tài nguyên số". Em đã thử đổi mạng và xóa cache trình duyệt nhưng vẫn không xem được. Kính mong thầy cô kiểm tra lại quyền truy cập giúp em ạ.</textarea>
-                        </div>
+</div>
 
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1.5">
-                                Tệp đính kèm hoặc ảnh chụp minh chứng
-                            </label>
-                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center bg-slate-50/50 hover:bg-slate-50 transition cursor-pointer">
-                                <div class="w-10 h-10 rounded-full bg-white shadow-xs border border-slate-200 flex items-center justify-center mx-auto mb-2 text-slate-400">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                        <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                </div>
-                                <p class="text-xs font-medium text-slate-700">Kéo thả ảnh chụp màn hình hoặc tệp minh chứng vào đây</p>
-                                <p class="text-[11px] text-slate-400 mt-1">Hỗ trợ định dạng PNG, JPG, PDF (Dung lượng tối đa 10MB)</p>
-                                <button class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg shadow-2xs hover:bg-slate-100 transition" type="button">
-                                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                    Chọn tệp từ máy tính
-                                </button>
-                            </div>
-                            <div class="mt-3 flex items-center justify-between p-3 bg-white border border-slate-200 rounded-lg shadow-2xs">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-500 shrink-0">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="text-xs font-medium text-slate-800">screenshot_error_lms.png</div>
-                                        <div class="text-[11px] text-slate-400 flex items-center gap-1">
-                                            <span>1.2 MB</span>
-                                            <span>•</span>
-                                            <span class="text-emerald-600 font-medium flex items-center gap-0.5">
-                                                <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                </svg>
-                                                Đã tải lên
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <button class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded transition" title="Xem trước" type="button">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="p-1.5 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition" title="Xóa tệp" type="button">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+<!-- TỆP ĐÍNH KÈM -->
+<div>
+    <label class="block text-xs font-bold text-slate-700 mb-1.5">
+        Tệp đính kèm hoặc ảnh chụp minh chứng
+    </label>
+
+    <!-- Khung tải tệp -->
+    <div
+        id="upload-area"
+        class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center bg-slate-50/50 hover:bg-slate-50 hover:border-blue-400 transition cursor-pointer"
+    >
+
+        <div class="w-10 h-10 rounded-full bg-white shadow-xs border border-slate-200 flex items-center justify-center mx-auto mb-2 text-slate-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    stroke-linecap="round" stroke-linejoin="round">
+                </path>
+            </svg>
+        </div>
+
+        <p class="text-xs font-medium text-slate-700">
+            Kéo thả ảnh chụp màn hình hoặc tệp minh chứng vào đây
+        </p>
+
+        <p class="text-[11px] text-slate-400 mt-1">
+            Hỗ trợ định dạng PNG, JPG, PDF (Dung lượng tối đa 10MB)
+        </p>
+
+        <!-- Input chọn tệp thật -->
+        <input
+            type="file"
+            id="attachment"
+            name="attachment"
+            accept=".png,.jpg,.jpeg,.pdf"
+            class="hidden"
+        >
+
+        <button
+            type="button"
+            id="choose-file"
+            class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg shadow-2xs hover:bg-slate-100 transition"
+        >
+            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                    stroke-linecap="round" stroke-linejoin="round">
+                </path>
+            </svg>
+            Chọn tệp từ máy tính
+        </button>
+    </div>
+
+    <!-- KHU VỰC HIỂN THỊ TỆP ĐÃ CHỌN -->
+    <div
+        id="file-preview"
+        class="hidden mt-3 items-center justify-between p-3 bg-white border border-slate-200 rounded-lg shadow-2xs"
+    >
+        <div class="flex items-center gap-3 min-w-0">
+            <div class="w-8 h-8 rounded bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-500 shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                </svg>
+            </div>
+
+            <div class="min-w-0">
+                <div
+                    id="file-name"
+                    class="text-xs font-medium text-slate-800 truncate"
+                ></div>
+
+                <div class="text-[11px] text-slate-400 flex items-center gap-1">
+                    <span id="file-size"></span>
+                    <span>•</span>
+                    <span class="text-emerald-600 font-medium">
+                        Đã chọn
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-1 shrink-0">
+
+            <!-- Xem trước -->
+            <button
+                type="button"
+                id="preview-file"
+                class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded transition"
+                title="Xem trước"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                </svg>
+            </button>
+
+            <!-- Xóa tệp -->
+            <button
+                type="button"
+                id="remove-file"
+                class="p-1.5 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition"
+                title="Xóa tệp"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
                     </form>
 
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1" data-purpose="form-actions-bottom">
                         <div class="flex items-center gap-2 text-slate-400 text-xs">
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                            <span>Thông tin được bảo mật nội bộ tại NEU</span>
+
                         </div>
                         <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
                             <button class="px-4 py-2 border border-slate-300 text-xs font-semibold text-slate-700 bg-white rounded-lg hover:bg-slate-50 transition shadow-2xs" type="button">
@@ -487,6 +615,8 @@ Vào khoảng 14:30 chiều nay khi em đăng nhập vào khoá học Lập trì
             </div>
         </main>
     </div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
 
 </body>
 </html>

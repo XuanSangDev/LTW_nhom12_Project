@@ -1,0 +1,125 @@
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f8fafc;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+/* ===== KHUNG MỨC ĐỘ ƯU TIÊN ===== */
+
+.priority-item {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    cursor: pointer !important;
+}
+
+/* Ẩn radio mặc định */
+.priority-item > input[type="radio"] {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Khung bao quanh từng lựa chọn */
+.priority-box {
+    display: block !important;
+    width: 100% !important;
+    min-height: 78px !important;
+    box-sizing: border-box !important;
+    padding: 12px !important;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Nội dung bên trong */
+.priority-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* Mô tả */
+.priority-box p {
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+    color: #94a3b8 !important;
+    font-size: 12px !important;
+}
+
+/* Vòng tròn */
+.priority-circle {
+    width: 20px !important;
+    height: 20px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+/* Dấu chấm */
+.priority-circle span {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    background: #0f172a !important;
+    opacity: 0 !important;
+    transform: scale(0) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Khi được chọn: viền khung đậm */
+.priority-item > input[type="radio"]:checked
++ .priority-box {
+    border: 2px solid #1e293b !important;
+}
+
+/* Khi được chọn: hiện dấu chấm */
+.priority-item > input[type="radio"]:checked
++ .priority-box .priority-circle span {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+/* Khi được chọn: viền vòng tròn đậm */
+.priority-item > input[type="radio"]:checked
++ .priority-box .priority-circle {
+    border-color: #1e293b !important;
+}
+
+/* Hover */
+.priority-item:hover .priority-box {
+    border-color: #94a3b8 !important;
+}
+
+.priority-item > input[type="radio"]:checked:hover
++ .priority-box {
+    border-color: #1e293b !important;
+}
+
+
+
