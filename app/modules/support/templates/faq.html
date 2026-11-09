@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ & Hướng dẫn - NEU Learning Hub{% endblock %}
+
+{% block head_extra %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='support/css/faq.css') }}">
+{% endblock %}
+
+{% block content %}
+        <!-- BEGIN: PageHeader -->
+        <section class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Câu hỏi thường gặp &amp; Hướng dẫn</h1>
+        
+            </div>
+            <div>
+                <button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[11px] font-medium text-slate-700 shadow-sm transition">
+                    <i class="fa-solid fa-headset text-blue-600 text-xs"></i>
+                    <span>
+    Không tìm thấy câu trả lời?
+    <a href="{{ url_for('support.guihotro') }}"
+       class="font-semibold text-slate-900 underline decoration-slate-300 hover:text-blue-600 transition">
+        Gửi yêu cầu hỗ trợ
+    </a>
+</span>
+                </button>
+            </div>
+        </section>
+        <!-- END: PageHeader -->
+
+        <!-- BEGIN: SearchAndFilters -->
+        <section class="space-y-4">
+            <!-- Big Search Bar -->
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
+                <div class="pl-2 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                </div>
+                <input class="flex-1 border-0 focus:ring-0 text-xs text-slate-700 placeholder-slate-400 p-0" placeholder="Tìm kiếm theo từ khóa (ví dụ: đăng ký tín chỉ, email, điểm thi, nộp bài)..." type="text">
+
+                <button class="px-5 py-2 rounded-lg bg-[#0F1A30] hover:bg-slate-800 text-white text-xs font-medium transition shadow-sm">
+                    Tìm kiếm
+                </button>
+            </div>
+            <!-- Category Tags / Filters -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+                <button class="px-3.5 py-1.5 rounded-full bg-[#0F1A30] text-white font-medium flex items-center gap-2 whitespace-nowrap shadow-sm">
+                    <span>Tất cả câu hỏi</span>
+                    <span class="bg-slate-700 text-[10px] px-1.5 py-0.2 rounded-full font-semibold">24</span>
+                </button>
+                <button class="px-3 py-1.5 rounded-full bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-normal flex items-center gap-2 whitespace-nowrap transition">
+                    <span>Tài khoản &amp; Email</span>
+                    <span class="text-slate-400 text-[10px]">5</span>
+                </button>
+                <button class="px-3 py-1.5 rounded-full bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-normal flex items-center gap-2 whitespace-nowrap transition">
+                    <span>Đăng ký học phần</span>
+                    <span class="text-slate-400 text-[10px]">5</span>
+                </button>
+                <button class="px-3 py-1.5 rounded-full bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-normal flex items-center gap-2 whitespace-nowrap transition">
+                    <span>Học tập &amp; Bài tập</span>
+                    <span class="text-slate-400 text-[10px]">7</span>
+                </button>
+                <button class="px-3 py-1.5 rounded-full bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-normal flex items-center gap-2 whitespace-nowrap transition">
+                    <span>Thi trực tuyến</span>
+                    <span class="text-slate-400 text-[10px]">4</span>
+                </button>
+                <button class="px-3 py-1.5 rounded-full bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-normal flex items-center gap-2 whitespace-nowrap transition">
+                    <span>Học phí &amp; Học bổng</span>
+                    <span class="text-slate-400 text-[10px]">2</span>
+                </button>
+            </div>
+        </section>
+        <!-- END: SearchAndFilters -->
+
+        <!-- BEGIN: FAQAccordionList -->
+
+<section class="space-y-3" data-purpose="faq-list">
+
+    <!-- FAQ 1 -->
+    <div class="faq-item bg-white rounded-xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <button type="button"
+            class="faq-toggle w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/60 transition"
+            aria-expanded="true">
+            <div class="flex items-center gap-3.5">
+                <div class="faq-number w-6 h-6 rounded-full bg-[#0F1A30] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900">Làm thế nào để đổi mật khẩu tài khoản cổng sinh viên và email @neu.edu.vn?</h3>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Chủ đề: Tài khoản &amp; Email</div>
+                </div>
+            </div>
+            <i class="faq-icon fa-solid fa-chevron-up text-xs text-slate-400 ml-4"></i>
+        </button>
+
+        <div class="faq-content px-5 pb-5 pt-1 border-t border-slate-100">
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Khi cần đổi hoặc cấp lại mật khẩu, sinh viên nên sử dụng chức năng quản lý tài khoản hoặc kênh hỗ trợ CNTT chính thức của Đại học. Không chia sẻ mật khẩu hay mã OTP cho người khác.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4">
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 1</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra tài khoản</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Truy cập cổng thông tin người học và kiểm tra khả năng đăng nhập bằng tài khoản được cấp.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 2</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Thực hiện cấp lại</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Sử dụng chức năng đổi hoặc quên mật khẩu nếu được cung cấp. Thực hiện xác minh theo hướng dẫn của hệ thống.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 3</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra đăng nhập</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Đăng nhập lại các dịch vụ liên quan và liên hệ bộ phận CNTT nếu tài khoản chưa được đồng bộ.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-[11px] text-amber-900">
+                <i class="fa-solid fa-shield-halved mr-1"></i>
+                Không cung cấp mật khẩu, mã OTP hoặc thông tin xác thực cho bất kỳ người nào tự xưng là nhân viên hỗ trợ.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 2 -->
+    <div class="faq-item bg-white rounded-xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <button type="button"
+            class="faq-toggle w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/60 transition"
+            aria-expanded="false">
+            <div class="flex items-center gap-3.5">
+                <div class="faq-number w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900">Quy trình xin hoãn thi hoặc chuyển ca thi khi gặp sự cố?</h3>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Chủ đề: Thi trực tuyến • Hoãn thi và thi bổ sung</div>
+                </div>
+            </div>
+            <i class="faq-icon fa-solid fa-chevron-down text-xs text-slate-400 ml-4"></i>
+        </button>
+
+        <div class="faq-content hidden px-5 pb-5 pt-1 border-t border-slate-100">
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Khi không thể tham dự kỳ thi theo lịch vì lý do chính đáng, sinh viên cần thực hiện thủ tục hoãn thi theo hướng dẫn của Phòng Quản lý đào tạo. Việc hoãn thi hoặc chuyển ca không được tự động chấp thuận chỉ vì sinh viên gửi yêu cầu.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4">
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 1</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Chuẩn bị minh chứng</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Chuẩn bị đơn và giấy tờ chứng minh lý do xin hoãn thi, ví dụ giấy xác nhận y tế nếu nghỉ thi vì lý do sức khỏe.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 2</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Gửi yêu cầu</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Thực hiện đăng ký trên Cổng thông tin người học theo hướng dẫn và thời hạn của từng đợt thi.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 3</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Theo dõi kết quả</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Theo dõi trạng thái xử lý và thông báo về lịch thi bổ sung hoặc kỳ thi phụ nếu được chấp thuận.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg text-[11px] text-blue-900">
+                <i class="fa-solid fa-circle-info mr-1"></i>
+                Tra cứu tại <a href="https://nguoihoc.neu.edu.vn" target="_blank" rel="noopener" class="font-semibold underline">Cổng thông tin người học NEU</a> và <a href="https://daotao.neu.edu.vn" target="_blank" rel="noopener" class="font-semibold underline">Phòng Quản lý đào tạo</a>.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 3 -->
+    <div class="faq-item bg-white rounded-xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <button type="button"
+            class="faq-toggle w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/60 transition"
+            aria-expanded="false">
+            <div class="flex items-center gap-3.5">
+                <div class="faq-number w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900">Thời hạn và thủ tục nộp đơn phúc khảo bài thi kết thúc học phần?</h3>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Chủ đề: Học tập &amp; Bài tập • Phúc khảo điểm thi</div>
+                </div>
+            </div>
+            <i class="faq-icon fa-solid fa-chevron-down text-xs text-slate-400 ml-4"></i>
+        </button>
+
+        <div class="faq-content hidden px-5 pb-5 pt-1 border-t border-slate-100">
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Nếu nhận thấy điểm thi kết thúc học phần chưa phản ánh đúng kết quả làm bài, sinh viên có thể đề nghị xem lại bài thi theo quy trình phúc khảo do Phòng Khảo thí và Đảm bảo chất lượng giáo dục thông báo.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4">
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 1</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra điểm</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Đối chiếu điểm được công bố với thông tin học phần, mã lớp và kỳ thi tương ứng.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 2</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Nộp đơn phúc khảo</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Điền biểu mẫu hoặc đăng ký theo thông báo chính thức, đúng thời hạn và hướng dẫn nộp lệ phí nếu có.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 3</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Theo dõi kết quả</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Theo dõi thông báo kết quả phúc khảo trên kênh chính thức của trường.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-[11px] text-amber-900">
+                <i class="fa-solid fa-clock mr-1"></i>
+                Thời hạn phúc khảo phụ thuộc thông báo của từng đợt thi. Sinh viên cần kiểm tra thời gian cụ thể, không nên mặc định một thời hạn chung.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 4 -->
+    <div class="faq-item bg-white rounded-xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <button type="button"
+            class="faq-toggle w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/60 transition"
+            aria-expanded="false">
+            <div class="flex items-center gap-3.5">
+                <div class="faq-number w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs flex-shrink-0">4</div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900">Làm thế nào khi giảng viên chưa cập nhật điểm thành phần trên hệ thống LMS?</h3>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Chủ đề: Học tập &amp; Bài tập • Tra cứu và đối chiếu điểm</div>
+                </div>
+            </div>
+            <i class="faq-icon fa-solid fa-chevron-down text-xs text-slate-400 ml-4"></i>
+        </button>
+
+        <div class="faq-content hidden px-5 pb-5 pt-1 border-t border-slate-100">
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Điểm chuyên cần và điểm đánh giá quá trình thường được giảng viên phụ trách học phần quản lý, công bố theo kế hoạch của học phần. Nếu chưa thấy điểm hoặc phát hiện sai lệch, sinh viên nên chủ động kiểm tra và liên hệ đúng đầu mối.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4">
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 1</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra thông tin</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Kiểm tra đúng lớp học phần, tài khoản và thời điểm công bố điểm theo đề cương hoặc thông báo của giảng viên.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 2</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Liên hệ giảng viên</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Gửi email bằng tài khoản sinh viên, nêu rõ học phần, lớp, mã sinh viên và nội dung cần kiểm tra.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 3</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Đề nghị hỗ trợ</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Nếu chưa được giải quyết, liên hệ cố vấn học tập hoặc đơn vị quản lý đào tạo để được hướng dẫn.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg text-[11px] text-blue-900">
+                <i class="fa-solid fa-lightbulb mr-1"></i>
+                Nên lưu lại bài tập, điểm trên LMS và email trao đổi để thuận tiện đối chiếu khi cần.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 5 -->
+    <div class="faq-item bg-white rounded-xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <button type="button"
+            class="faq-toggle w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/60 transition"
+            aria-expanded="false">
+            <div class="flex items-center gap-3.5">
+                <div class="faq-number w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs flex-shrink-0">5</div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900">Hướng dẫn cài đặt và sử dụng ứng dụng NEU trên thiết bị di động?</h3>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Chủ đề: Tài khoản &amp; Email • Ứng dụng sinh viên</div>
+                </div>
+            </div>
+            <i class="faq-icon fa-solid fa-chevron-down text-xs text-slate-400 ml-4"></i>
+        </button>
+
+        <div class="faq-content hidden px-5 pb-5 pt-1 border-t border-slate-100">
+            <p class="text-xs text-slate-600 leading-relaxed">
+                NEU có các ứng dụng phục vụ những nhu cầu khác nhau của sinh viên. Trước khi cài đặt, sinh viên cần xác định đúng ứng dụng cần sử dụng và tải từ Google Play hoặc App Store.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4">
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 1</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Tìm ứng dụng</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Tra cứu tên ứng dụng cần dùng trong danh mục ứng dụng chính thức của Đại học và kho ứng dụng điện thoại.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 2</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Cài đặt và đăng nhập</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Cài đặt ứng dụng, mở ứng dụng và đăng nhập bằng thông tin tài khoản được trường hướng dẫn.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 3</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra chức năng</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Kiểm tra các mục thông tin cá nhân, thông báo và chức năng học tập mà ứng dụng hỗ trợ.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg text-[11px] text-blue-900">
+                <i class="fa-solid fa-mobile-screen-button mr-1"></i>
+                Xem danh mục ứng dụng tại <a href="https://fit.neu.edu.vn/post/website-ung-dung-va-kenh-thong-tin-chinh-thuc-cua-neu" target="_blank" rel="noopener" class="font-semibold underline">Danh sách website và ứng dụng chính thức của NEU</a>.
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ 6 -->
+    <div class="faq-item bg-white rounded-xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <button type="button"
+            class="faq-toggle w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/60 transition"
+            aria-expanded="false">
+            <div class="flex items-center gap-3.5">
+                <div class="faq-number w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs flex-shrink-0">6</div>
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-900">Quy định hủy học phần đã đăng ký và hoàn trả học phí?</h3>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Chủ đề: Học phí &amp; Học bổng • Đăng ký học tập</div>
+                </div>
+            </div>
+            <i class="faq-icon fa-solid fa-chevron-down text-xs text-slate-400 ml-4"></i>
+        </button>
+
+        <div class="faq-content hidden px-5 pb-5 pt-1 border-t border-slate-100">
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Khi muốn rút hoặc hủy học phần đã đăng ký, sinh viên cần thực hiện theo quy trình và thời gian được Đại học thông báo trong học kỳ. Việc rút học phần và việc được hoàn học phí là hai vấn đề cần kiểm tra riêng.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4">
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 1</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra thời hạn</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Theo dõi lịch đăng ký, điều chỉnh và rút học phần của học kỳ trên cổng thông tin đào tạo.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 2</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Thực hiện thủ tục</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Thực hiện thao tác rút học phần hoặc gửi đơn theo đúng hướng dẫn của Phòng Quản lý đào tạo.</p>
+                </div>
+                <div class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/40">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Bước 3</span>
+                    <h4 class="text-xs font-semibold text-slate-900 mt-1">Kiểm tra học phí</h4>
+                    <p class="text-[11px] text-slate-500 mt-1">Liên hệ Phòng Tài chính - Kế toán để xác nhận nghĩa vụ học phí và điều kiện hoàn trả nếu thuộc trường hợp được giải quyết.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-[11px] text-amber-900">
+                <i class="fa-solid fa-circle-exclamation mr-1"></i>
+                Không phải mọi trường hợp rút học phần đều được hoàn học phí. Cần căn cứ thời điểm rút, quy định và thông báo học phí của từng học kỳ.
+            </div>
+        </div>
+    </div>
+
+</section>
+
+        <!-- END: FAQAccordionList -->
+
+        <!-- BEGIN: DirectSupportHelpSection -->
+        <section class="pt-8 pb-10" data-purpose="direct-support-channels">
+            <div class="text-center max-w-xl mx-auto mb-7">
+                <div class="text-[11px] font-bold text-orange-600 tracking-wider uppercase mb-1">Kênh trợ giúp trực tiếp</div>
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight">Bạn vẫn chưa tìm được giải pháp?</h2>
+                <p class="text-xs text-slate-500 mt-1">Đội ngũ cán bộ hỗ trợ người học và cố vấn học tập luôn sẵn sàng đồng hành cùng bạn trong mọi tình huống.</p>
+            </div>
+            <!-- 3 Channels Cards -->
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+                <!-- Channel 1: Ticket -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
+                            <i class="fa-regular fa-clone text-base"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-900 mb-1.5">Gửi yêu cầu hỗ trợ (Ticket)</h4>
+                        <p class="text-[11px] text-slate-500 leading-relaxed mb-4">
+                            Tạo phiếu yêu cầu trực tuyến. Nhận phản hồi chính thức từ phòng ban chức năng trong vòng 24 giờ.
+                        </p>
+                    </div>
+                    <div>
+                        <a class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-700" href="{{ url_for('support.guihotro') }}">
+                            <span>Tạo phiếu mới</span>
+                            <i class="fa-solid fa-arrow-right text-[10px] ml-1.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Channel 2: Phone Hotline -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-phone text-base"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-900 mb-1.5">Gọi tổng đài hỗ trợ</h4>
+                        <p class="text-[11px] text-slate-500 leading-relaxed mb-4">
+                            Đường dây nóng xử lý sự cố thi cử và kỹ thuật khẩn cấp trong giờ hành chính từ Thứ 2 đến Thứ 7.
+                        </p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-orange-600">024 36280280 (Máy lẻ 5588)</span>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <!-- END: DirectSupportHelpSection -->
+    
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='support/js/app.js') }}"></script>
+{% endblock %}

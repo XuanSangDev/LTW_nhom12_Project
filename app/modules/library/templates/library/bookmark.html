@@ -1,0 +1,416 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Học liệu đã tải & Bookmark - NEU Learning Hub{% endblock %}
+
+{% block head_extra %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <div class="text-[13px] text-gray-500 mb-1 flex items-center gap-2">
+                        <span class="text-blue-600 font-medium uppercase text-[10px]">Học liệu số LCMS</span> <i class="fa-solid fa-chevron-right text-[10px]"></i> <span>Bộ nhớ cá nhân</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-1">Học liệu đã tải & Bookmark</h2>
+                </div>
+            </div>
+
+            <!-- Tabs categories -->
+            <div class="flex items-center gap-3 mb-4 text-[13px]" id="bookmark-tabs">
+                <button id="btn-all-bm" class="bm-tab-btn bg-gray-900 text-white px-4 py-1.5 rounded-full font-medium transition" onclick="loadBookmarks('Tất cả', this)">
+                    Tất cả <span class="bg-gray-700 text-white text-[10px] px-1.5 rounded ml-1 font-normal">18</span>
+                </button>
+                <button class="bm-tab-btn bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full hover:bg-gray-50 transition" onclick="loadBookmarks('Đã tải về', this)">
+                    Đã tải về <span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 rounded ml-1 font-normal">12</span>
+                </button>
+                <button class="bm-tab-btn bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full hover:bg-gray-50 transition" onclick="loadBookmarks('Đã bookmark', this)">
+                    Đã bookmark <span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 rounded ml-1 font-normal">6</span>
+                </button>
+                <button class="bm-tab-btn bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full hover:bg-gray-50 transition" onclick="loadBookmarks('Ghi chú & highlight', this)">
+                    Ghi chú & highlight <span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 rounded ml-1 font-normal">4</span>
+                </button>
+                <button class="bm-tab-btn bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full hover:bg-gray-50 transition" onclick="loadBookmarks('Tài liệu offline', this)">
+                    Tài liệu offline
+                </button>
+                <div class="ml-auto text-[12px] text-gray-500 flex items-center gap-2">
+                    <i class="fa-solid fa-cloud text-orange-500"></i> Đồng bộ máy chủ LCMS: <span class="font-bold text-gray-900">Hoạt động</span>
+                </div>
+            </div>
+
+            <!-- Trạng thái bộ nhớ offline cache -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 mb-6 flex items-center justify-between">
+                <div class="w-2/3">
+                    <div class="flex items-center gap-3 mb-2">
+                        <i class="fa-solid fa-hard-drive text-xl text-gray-400"></i>
+                        <span class="font-bold text-[14px]">Bộ nhớ ngoại tuyến (Offline cache)</span>
+                        <span class="font-bold text-[14px] ml-4">1.6 GB <span class="text-gray-500 font-normal text-[12px]">/ 5.0 GB đã dùng (32%)</span></span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-2.5 flex overflow-hidden mt-3">
+                        <div class="bg-gray-800 h-2.5" style="width: 20%"></div>
+                        <div class="bg-yellow-500 h-2.5" style="width: 10%"></div>
+                        <div class="bg-blue-500 h-2.5" style="width: 2%"></div>
+                    </div>
+                </div>
+                <!-- Nút Dọn dẹp có Alert -->
+                <button onclick="alert('Đã dọn dẹp 1.6 GB bộ nhớ đệm thành công!')" class="text-orange-600 bg-orange-50 px-4 py-2 rounded-lg text-[13px] font-medium hover:bg-orange-100 flex items-center gap-2"><i class="fa-solid fa-broom"></i> Dọn dẹp bộ nhớ đệm</button>
+            </div>
+
+            <div class="flex gap-6">
+                <!-- Danh sách file -->
+                <div class="flex-1 space-y-4">
+                    <div id="bookmark-list-container" class="space-y-4"></div>
+                </div>
+
+                <!-- Cột phải -->
+                <div class="w-72 space-y-6">
+                    <div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-[13px] text-blue-900 flex items-center gap-2"><i class="fa-solid fa-cloud-arrow-up text-blue-500"></i> Quản lý đồng bộ Cloud</h3>
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-blue-100 mb-4 flex justify-between items-center">
+                            <div>
+                                <p class="text-[12px] font-bold text-gray-900">Tự động sao lưu</p>
+                                <p class="text-[10px] text-gray-500">OneDrive NEU K63</p>
+                            </div>
+                            <!-- Công tắc Tự động sao lưu (Đã gắn JS) -->
+                            <div onclick="toggleBackup(this)" class="w-9 h-5 bg-blue-600 rounded-full relative cursor-pointer transition-colors duration-300">
+                                <div class="toggle-circle w-4 h-4 bg-white rounded-full absolute top-0.5 right-0.5 shadow transition-all duration-300"></div>
+                            </div>
+                        </div>
+                        <!-- Nút Đồng bộ ngay có Alert -->
+                        <button onclick="alert('Đang tiến hành đồng bộ dữ liệu lên OneDrive NEU...')" class="w-full bg-white border border-gray-300 text-gray-700 py-2 rounded-lg text-[12px] font-medium hover:bg-gray-50"><i class="fa-solid fa-arrows-rotate"></i> Đồng bộ ngay</button>
+                    </div>
+                </div>
+            </div>
+</div>
+    <div id="preview-modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-[1000px] h-[85vh] flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div id="preview-icon-bg" class="w-8 h-8 bg-blue-100 text-blue-600 rounded flex items-center justify-center">
+                        <i id="preview-icon" class="fa-solid fa-file"></i>
+                    </div>
+                    <h3 id="preview-title" class="font-bold text-[15px] text-gray-900">Tên tài liệu</h3>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <button class="text-[13px] font-medium text-gray-600 hover:text-gray-900 border border-gray-300 px-3 py-1.5 rounded-lg bg-white shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Tải xuống
+                    </button>
+                    <button onclick="closePreview()" class="text-gray-400 hover:text-red-500 transition ml-2"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div id="preview-body" class="flex-1 bg-gray-200 p-6 overflow-y-auto flex items-start justify-center">
+                <!-- Giao diện xem PPTX -->
+                <div id="layout-pptx" class="hidden bg-white w-[900px] aspect-video shadow-md rounded flex-col items-center justify-center text-gray-400 border border-gray-300 relative overflow-hidden">
+                    <div class="absolute bottom-4 bg-gray-800 text-white rounded-full px-6 py-2 flex items-center gap-6 text-[13px] opacity-80 hover:opacity-100 transition z-10 shadow-lg">
+                        <button class="hover:text-blue-400"><i class="fa-solid fa-chevron-left text-lg"></i></button>
+                        <span class="font-medium">Slide 1 / 45</span>
+                        <button class="hover:text-blue-400"><i class="fa-solid fa-chevron-right text-lg"></i></button>
+                        <div class="border-l border-gray-600 h-4 mx-2"></div>
+                        <button class="hover:text-blue-400"><i class="fa-solid fa-expand"></i></button>
+                    </div>
+                    <i class="fa-solid fa-desktop text-7xl mb-6 text-gray-300"></i>
+                    <h2 id="pptx-title" class="text-xl font-bold text-gray-700 mb-2">Tên Slide</h2>
+                    <p class="font-medium text-[14px] text-gray-500">Giao diện trình chiếu Slide toàn màn hình.</p>
+                </div>
+
+                <!-- Giao diện xem PDF -->
+                <div id="layout-pdf" class="hidden bg-white w-[650px] min-h-[800px] shadow-md rounded flex-col items-center justify-center text-gray-400 border border-gray-300 relative">
+                    <div class="absolute top-4 bg-gray-800 text-white rounded-md px-4 py-2 flex gap-4 text-[12px] opacity-80 hover:opacity-100 transition">
+                        <button><i class="fa-solid fa-minus"></i></button>
+                        <span>100%</span>
+                        <button><i class="fa-solid fa-plus"></i></button>
+                        <div class="border-l border-gray-600 pl-4 ml-2">Trang 1 / 15</div>
+                    </div>
+                    <i class="fa-solid fa-file-lines text-6xl mb-4 text-gray-300 mt-20"></i>
+                    <p class="font-medium text-[15px] text-gray-500">Đang tải nội dung bản xem trước PDF...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. POPUP TRÌNH SOẠN THẢO GHI CHÚ -->
+    <div id="editor-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-[800px] h-[75vh] flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded flex items-center justify-center"><i class="fa-solid fa-pen"></i></div>
+                    <h3 id="editor-title" class="font-bold text-[15px] text-gray-900">Sửa Ghi chú</h3>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <button onclick="alert('Đã lưu nội dung ghi chú lên Cloud thành công!')" class="text-[13px] font-medium text-white bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded-lg shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Lưu thay đổi
+                    </button>
+                    <button onclick="closeEditor()" class="text-gray-400 hover:text-red-500 transition ml-2"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+            </div>
+            <!-- Body -->
+            <div class="flex-1 bg-gray-50 p-6">
+                <textarea class="w-full h-full bg-white border border-gray-200 rounded-lg p-4 font-mono text-[14px] text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none shadow-inner leading-relaxed">- Ôn kỹ phần Kiến trúc Component & Props.
+- Xem lại cách gọi API bằng fetch() và Axios.
+- JWT: header, payload, signature.
+
+Ghi chú buổi thực hành:
+- Đã fix xong lỗi CORS.
+- (Gõ văn bản tại đây...)
+</textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. POPUP FILE EXPLORER (MỞ THƯ MỤC) -->
+    <div id="folder-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-[900px] h-[75vh] flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-gray-100 shrink-0">
+                <div class="flex items-center gap-4">
+                    <div class="flex gap-2 text-gray-400">
+                        <i class="fa-solid fa-arrow-left hover:text-gray-800 cursor-pointer"></i>
+                        <i class="fa-solid fa-arrow-right hover:text-gray-800 cursor-pointer"></i>
+                        <i class="fa-solid fa-rotate-right hover:text-gray-800 cursor-pointer ml-2"></i>
+                    </div>
+                    <div class="bg-white border border-gray-300 rounded px-3 py-1 text-[13px] text-gray-700 w-96 flex items-center gap-2">
+                        <i class="fa-regular fa-folder text-yellow-500"></i>
+                        <span id="folder-title">Source_Code_Tham_Khao_Do_An</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-white border border-gray-300 rounded px-3 py-1 text-[13px] text-gray-400 flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                    </div>
+                    <button onclick="closeFolder()" class="text-gray-500 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+            </div>
+            <!-- Body -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Cột trái (Cây thư mục) -->
+                <div class="w-56 bg-gray-50 border-r border-gray-200 p-4 overflow-y-auto text-[13px] text-gray-700">
+                    <div class="flex items-center gap-2 font-bold mb-3"><i class="fa-solid fa-desktop text-gray-400"></i> My Computer</div>
+                    <div class="pl-4 space-y-2">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-download text-blue-400"></i> Downloads</div>
+                        <div class="flex items-center gap-2 text-blue-600 bg-blue-50 py-1 px-2 rounded -ml-2"><i class="fa-regular fa-folder-open text-yellow-500"></i> Code_Do_An</div>
+                        <div class="pl-4 space-y-2 mt-1 text-gray-500">
+                            <div class="flex items-center gap-2"><i class="fa-regular fa-folder text-yellow-400"></i> css</div>
+                            <div class="flex items-center gap-2"><i class="fa-regular fa-folder text-yellow-400"></i> js</div>
+                            <div class="flex items-center gap-2"><i class="fa-regular fa-folder text-yellow-400"></i> images</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cột phải (Danh sách File) -->
+                <div class="flex-1 bg-white p-6 overflow-y-auto">
+                    <div class="grid grid-cols-4 gap-6 content-start">
+                        <div class="flex flex-col items-center gap-2 p-2 hover:bg-blue-50 rounded cursor-pointer border border-transparent hover:border-blue-200">
+                            <i class="fa-regular fa-folder text-5xl text-yellow-400"></i>
+                            <span class="text-[12px] text-gray-700 text-center leading-tight">css</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 p-2 hover:bg-blue-50 rounded cursor-pointer border border-transparent hover:border-blue-200">
+                            <i class="fa-regular fa-folder text-5xl text-yellow-400"></i>
+                            <span class="text-[12px] text-gray-700 text-center leading-tight">js</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 p-2 hover:bg-blue-50 rounded cursor-pointer border border-transparent hover:border-blue-200">
+                            <i class="fa-brands fa-html5 text-5xl text-orange-500"></i>
+                            <span class="text-[12px] text-gray-700 text-center leading-tight">index.html</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 p-2 hover:bg-blue-50 rounded cursor-pointer border border-transparent hover:border-blue-200">
+                            <i class="fa-brands fa-python text-5xl text-blue-500"></i>
+                            <span class="text-[12px] text-gray-700 text-center leading-tight">app.py</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Explorer -->
+            <div class="h-8 bg-gray-100 border-t border-gray-200 flex items-center px-4 text-[11px] text-gray-500 gap-4">
+                <span>4 mục</span>
+                <div class="border-l border-gray-300 h-4"></div>
+                <span>Dung lượng: 125 MB</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const bookmarkData = [
+            {
+                type: 'Đã tải về', ext: 'PPTX', extClass: 'bg-orange-50 text-orange-600 border-orange-100',
+                subject: 'Lập trình Web (IT308)', size: '18.4 MB', statusHTML: '<i class="fa-solid fa-check text-green-500"></i> Đã tải về: Hôm qua',
+                title: 'Slide Chương 4: RESTful API & Xác thực JWT', desc: 'GV. TS. Trần Hoàng Minh • Viện CNTT & KTS',
+                btn1HTML: '<i class="fa-regular fa-folder-open"></i> Mở tệp', btn1Class: 'bg-gray-900 text-white hover:bg-black px-4 py-2',
+                btn1Action: "openPreview('Slide Chương 4: RESTful API & Xác thực JWT', 'PPTX')",
+                btn2HTML: '<i class="fa-regular fa-trash-can"></i>', btn2Class: 'w-9 h-9 border border-gray-200 text-gray-500 hover:bg-gray-50 flex items-center justify-center',
+                btn2Action: "alert('Xóa tệp này khỏi thiết bị?')",
+                isStarred: true
+            },
+            {
+                type: 'Đã tải về', ext: 'PDF', extClass: 'bg-red-50 text-red-600 border-red-100',
+                subject: 'Cơ sở dữ liệu (IT204)', size: '34.2 MB', statusHTML: '<i class="fa-solid fa-check text-green-500"></i> Đã tải về: 25/10/2026',
+                title: 'Giáo trình Cơ sở dữ liệu quan hệ & Phân tích', desc: 'NXB Đại học Kinh tế Quốc dân • Bản số hóa nội bộ',
+                btn1HTML: '<i class="fa-solid fa-book-open-reader"></i> Đọc ngay', btn1Class: 'bg-gray-900 text-white hover:bg-black px-4 py-2',
+                btn1Action: "openPreview('Giáo trình Cơ sở dữ liệu quan hệ & Phân tích', 'PDF')",
+                btn2HTML: '<i class="fa-solid fa-rotate-right"></i> Tải lại', btn2Class: 'border border-gray-200 text-gray-600 hover:bg-gray-50 px-3 py-2',
+                btn2Action: "alert('Đang làm mới dữ liệu tệp...')",
+                isStarred: false
+            },
+            {
+                type: 'Đã bookmark', ext: 'PDF', extClass: 'bg-red-50 text-red-600 border-red-100',
+                subject: 'Kinh tế lượng (KTL301)', size: '8.6 MB', statusHTML: '<span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded"><i class="fa-solid fa-star"></i> Đã bookmark</span>',
+                title: 'Bộ bài tập & Lời giải Kinh tế lượng', desc: 'Khoa Toán Kinh tế • Dành riêng cho lớp K63',
+                btn1HTML: '<i class="fa-regular fa-eye"></i> Xem chi tiết', btn1Class: 'border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2',
+                btn1Action: "openPreview('Bộ bài tập & Lời giải Kinh tế lượng', 'PDF')",
+                btn2HTML: '<i class="fa-solid fa-download"></i> Tải về', btn2Class: 'bg-gray-900 text-white hover:bg-black px-4 py-2',
+                btn2Action: "alert('Đang tải tệp: Bộ bài tập Kinh tế lượng. Vui lòng đợi!')",
+                isStarred: true
+            },
+            {
+                type: 'Ghi chú & highlight', ext: 'TXT', extClass: 'bg-blue-50 text-blue-600 border-blue-100',
+                subject: 'Lập trình Web (IT308)', size: '12 KB', statusHTML: '<i class="fa-solid fa-pen text-blue-500"></i> Ghi chú cá nhân',
+                title: 'Note_Ôn_tập_cuối_kỳ_Web.txt', desc: 'Tạo lúc 14:00 hôm nay • Đã đồng bộ lên Cloud',
+                btn1HTML: '<i class="fa-solid fa-pen-to-square"></i> Sửa nhanh', btn1Class: 'border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2',
+                btn1Action: "openEditor('Note_Ôn_tập_cuối_kỳ_Web.txt')",
+                btn2HTML: '<i class="fa-regular fa-trash-can"></i>', btn2Class: 'w-9 h-9 border border-gray-200 text-gray-500 hover:bg-gray-50 flex items-center justify-center',
+                btn2Action: "alert('Xóa tệp?')",
+                isStarred: false
+            },
+            {
+                type: 'Tài liệu offline', ext: 'ZIP', extClass: 'bg-purple-50 text-purple-600 border-purple-100',
+                subject: 'Đồ án Web (IT499)', size: '125 MB', statusHTML: '<i class="fa-solid fa-cloud-arrow-down text-purple-500"></i> Lưu offline',
+                title: 'Source_Code_Tham_Khao_Do_An.zip', desc: 'Đã lưu vào bộ nhớ đệm • Có thể mở không cần mạng',
+                btn1HTML: '<i class="fa-regular fa-folder-open"></i> Mở thư mục', btn1Class: 'bg-gray-900 text-white hover:bg-black px-4 py-2',
+                btn1Action: "openFolder('Source_Code_Tham_Khao_Do_An')",
+                btn2HTML: '<i class="fa-solid fa-rotate-right"></i> Cập nhật', btn2Class: 'border border-gray-200 text-gray-600 hover:bg-gray-50 px-3 py-2',
+                btn2Action: "alert('Đang đồng bộ thay đổi với thư mục ngoại tuyến...')",
+                isStarred: false
+            }
+        ];
+
+        function loadBookmarks(category, btnElement) {
+            const tabs = document.querySelectorAll('.bm-tab-btn');
+            tabs.forEach(tab => {
+                tab.className = "bm-tab-btn bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full hover:bg-gray-50 transition";
+                const span = tab.querySelector('span');
+                if(span) span.className = "text-[10px] bg-gray-100 text-gray-500 px-1.5 rounded ml-1 font-normal";
+            });
+
+            if(btnElement) {
+                btnElement.className = "bm-tab-btn bg-gray-900 text-white px-4 py-1.5 rounded-full font-medium transition";
+                const activeSpan = btnElement.querySelector('span');
+                if(activeSpan) activeSpan.className = "bg-gray-700 text-white text-[10px] px-1.5 rounded ml-1 font-normal";
+            }
+
+            const container = document.getElementById('bookmark-list-container');
+            container.innerHTML = '';
+            const filtered = category === 'Tất cả' ? bookmarkData : bookmarkData.filter(item => item.type === category);
+
+            filtered.forEach(item => {
+                let starIconClass = item.isStarred ? 'fa-solid text-orange-400' : 'fa-regular text-gray-300';
+                let starBtnClass = item.isStarred ? 'text-orange-400' : 'text-gray-300';
+
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between hover:border-blue-200 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-[10px] border ${item.extClass}">${item.ext}</div>
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-2 py-0.5 rounded">${item.subject}</span>
+                                    <span class="text-[11px] text-gray-400 border-l pl-2 border-gray-300">${item.size}</span>
+                                    <span class="text-[11px] text-gray-500 border-l pl-2 border-gray-300">${item.statusHTML}</span>
+                                </div>
+                                <h4 class="font-bold text-[15px] text-gray-900">${item.title}</h4>
+                                <p class="text-[11px] text-gray-400 mt-1">${item.desc}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="${item.btn1Action}" class="rounded-lg text-[13px] font-medium transition ${item.btn1Class}">${item.btn1HTML}</button>
+                            <button onclick="${item.btn2Action}" class="rounded-lg text-[13px] font-medium transition ${item.btn2Class}">${item.btn2HTML}</button>
+                            <button onclick="toggleStar(this)" class="w-9 h-9 rounded-lg text-lg transition ${starBtnClass} hover:bg-gray-50">
+                                <i class="fa-star ${starIconClass}"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- HÀM BẬT/TẮT NGÔI SAO ---
+        function toggleStar(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-solid')) {
+                icon.classList.replace('fa-solid', 'fa-regular');
+                icon.classList.replace('text-orange-400', 'text-gray-300');
+                btn.classList.replace('text-orange-400', 'text-gray-300');
+            } else {
+                icon.classList.replace('fa-regular', 'fa-solid');
+                icon.classList.replace('text-gray-300', 'text-orange-400');
+                btn.classList.replace('text-gray-300', 'text-orange-400');
+            }
+        }
+
+        // --- HÀM BẬT/TẮT TỰ ĐỘNG SAO LƯU ---
+        function toggleBackup(btn) {
+            const circle = btn.querySelector('.toggle-circle');
+            if (btn.classList.contains('bg-blue-600')) {
+                btn.classList.replace('bg-blue-600', 'bg-gray-300');
+                circle.classList.remove('right-0.5');
+                circle.classList.add('left-0.5');
+            } else {
+                btn.classList.replace('bg-gray-300', 'bg-blue-600');
+                circle.classList.remove('left-0.5');
+                circle.classList.add('right-0.5');
+            }
+        }
+
+        // --- HÀM XỬ LÝ MODAL POPUP ---
+        function openPreview(title, type) {
+            document.getElementById('preview-title').innerText = title;
+            const icon = document.getElementById('preview-icon');
+            const iconBg = document.getElementById('preview-icon-bg');
+
+            const layoutPptx = document.getElementById('layout-pptx');
+            const layoutPdf = document.getElementById('layout-pdf');
+
+            layoutPptx.classList.add('hidden'); layoutPptx.classList.remove('flex');
+            layoutPdf.classList.add('hidden'); layoutPdf.classList.remove('flex');
+
+            if (type === 'PPTX') {
+                icon.className = "fa-solid fa-file-powerpoint";
+                iconBg.className = "w-8 h-8 bg-orange-100 text-orange-600 rounded flex items-center justify-center";
+                document.getElementById('pptx-title').innerText = title;
+                layoutPptx.classList.remove('hidden'); layoutPptx.classList.add('flex');
+            } else {
+                icon.className = "fa-solid fa-file-pdf";
+                iconBg.className = "w-8 h-8 bg-red-100 text-red-600 rounded flex items-center justify-center";
+                layoutPdf.classList.remove('hidden'); layoutPdf.classList.add('flex');
+            }
+
+            document.getElementById('preview-modal').classList.remove('hidden');
+        }
+        function closePreview() { document.getElementById('preview-modal').classList.add('hidden'); }
+
+        function openEditor(title) {
+            document.getElementById('editor-title').innerText = title;
+            document.getElementById('editor-modal').classList.remove('hidden');
+        }
+        function closeEditor() { document.getElementById('editor-modal').classList.add('hidden'); }
+
+        function openFolder(title) {
+            document.getElementById('folder-title').innerText = title;
+            document.getElementById('folder-modal').classList.remove('hidden');
+        }
+        function closeFolder() { document.getElementById('folder-modal').classList.add('hidden'); }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadBookmarks('Tất cả', document.getElementById('btn-all-bm'));
+        });
+{% endblock %}

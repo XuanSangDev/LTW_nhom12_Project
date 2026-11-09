@@ -1,3 +1,4 @@
+
 from flask import Flask, redirect, url_for
 
 from .config import Config
@@ -9,12 +10,20 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Mỗi module = 1 blueprint. Module 1 và 3 đăng ký thêm ở đây khi merge.
+    # Đăng ký các module
     from .modules.analytics import bp as analytics_bp, api_bp as analytics_api_bp
+    from .modules.support.routes import support_bp, init_db
+    from .modules.library import bp as library_bp
+    from .modules.library.models import init_db as init_library_db
 
     app.register_blueprint(analytics_bp, url_prefix="/phan-tich")
     app.register_blueprint(analytics_api_bp, url_prefix="/api/analytics")
+    app.register_blueprint(support_bp)
+    app.register_blueprint(library_bp, url_prefix="/hoc-lieu")
 
+    # Khởi tạo database hỗ trợ sinh viên
+    init_db()
+    init_library_db()
     @app.route("/")
     def index():
         return redirect(url_for("analytics.overview"))

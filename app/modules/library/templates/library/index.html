@@ -1,0 +1,136 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Khóa học của tôi - NEU Learning Hub{% endblock %}
+
+{% block head_extra %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Khóa học của tôi</h2>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="openTimetable()" class="px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded-lg text-[13px] font-medium hover:bg-gray-50 shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Thời khóa biểu
+                    </button>
+                    <button onclick="alert('Hệ thống đang mở cổng đăng ký tín chỉ!')" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-[13px] font-medium hover:bg-blue-700 shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Đăng ký môn
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+                    <div><p class="text-gray-500 text-[12px] mb-0.5">Học phần</p><p class="text-xl font-bold text-gray-900">05 môn</p></div>
+                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-book"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+                    <div><p class="text-gray-500 text-[12px] mb-0.5">Tiến độ chung</p><p class="text-xl font-bold text-green-600">78%</p></div>
+                    <div class="w-10 h-10 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+                    <div><p class="text-gray-500 text-[12px] mb-0.5">Bài tập</p><p class="text-xl font-bold text-orange-500">3 bài</p></div>
+                    <div class="w-10 h-10 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center text-lg"><i class="fa-regular fa-clock"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+                    <div><p class="text-gray-500 text-[12px] mb-0.5">Thời gian học</p><p class="text-xl font-bold text-purple-600">28.5 giờ</p></div>
+                    <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
+                </div>
+            </div>
+
+            <div class="flex gap-6">
+                <div class="flex-1">
+                    <div class="flex items-center gap-6 border-b border-gray-200 mb-6 pb-2 text-[13px]" id="filter-tabs">
+                        <button id="btn-all" class="tab-btn font-medium text-blue-600 border-b-2 border-blue-600 pb-2 -mb-[9px] bg-blue-50 px-3 rounded-t-md" onclick="loadCourses('', this)">Tất cả (5)</button>
+                        <button class="tab-btn text-gray-500 hover:text-gray-900 pb-2" onclick="loadCourses('Công nghệ thông tin', this)">Công nghệ thông tin</button>
+                        <button class="tab-btn text-gray-500 hover:text-gray-900 pb-2" onclick="loadCourses('Kinh tế & Phân tích', this)">Kinh tế & Phân tích</button>
+                        <button class="tab-btn text-gray-500 hover:text-gray-900 pb-2" onclick="loadCourses('Tài chính', this)">Tài chính</button>
+                    </div>
+                    <div id="course-list-container" class="space-y-4"></div>
+                </div>
+
+                <div class="w-72 space-y-6">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                        <h3 class="text-[11px] font-bold text-gray-500 mb-4 tracking-wider uppercase">Cố vấn học tập</h3>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-sm border border-orange-200">TT</div>
+                            <div class="leading-tight">
+                                <p class="font-bold text-[13px]">TS. Nguyễn Thanh Tùng</p>
+                                <a href="#" class="text-[12px] text-blue-600 hover:underline">tungnt@neu.edu.vn</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+    <div id="timetable-modal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-[700px] overflow-hidden transform transition-transform scale-100">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <div class="flex items-center gap-2"><i class="fa-regular fa-calendar-days text-blue-600"></i><h3 class="font-bold text-[15px] text-gray-900">Thời khóa biểu - Tuần 09</h3></div>
+                <button onclick="closeTimetable()" class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6">
+                <table class="w-full text-[13px] text-left border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100 border-b border-gray-200 text-gray-600">
+                        <tr><th class="p-3 border-r border-gray-200">Thứ</th><th class="p-3 border-r border-gray-200">Ca học</th><th class="p-3">Môn học</th></tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <tr class="border-b border-gray-100 hover:bg-gray-50"><td class="p-3 border-r border-gray-100 font-bold">Thứ 2</td><td class="p-3 border-r border-gray-100">Ca 1</td><td class="p-3 font-medium">Lập trình Web & Ứng dụng</td></tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50"><td class="p-3 border-r border-gray-100 font-bold">Thứ 3</td><td class="p-3 border-r border-gray-100">Ca 2</td><td class="p-3 font-medium">Cơ sở dữ liệu nâng cao</td></tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50"><td class="p-3 border-r border-gray-100 font-bold">Thứ 4</td><td class="p-3 border-r border-gray-100">Ca 1</td><td class="p-3 font-medium">Kinh tế vi mô 2</td></tr>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50"><td class="p-3 border-r border-gray-100 font-bold">Thứ 5</td><td class="p-3 border-r border-gray-100">Ca 3</td><td class="p-3 font-medium">Kinh tế lượng ứng dụng</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="p-3 border-r border-gray-100 font-bold">Thứ 6</td><td class="p-3 border-r border-gray-100">Ca 4</td><td class="p-3 font-medium">Tài chính Doanh nghiệp</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function loadCourses(category, btnElement) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.className = "tab-btn text-gray-500 hover:text-gray-900 pb-2");
+            if(btnElement) btnElement.className = "tab-btn font-medium text-blue-600 border-b-2 border-blue-600 pb-2 -mb-[9px] bg-blue-50 px-3 rounded-t-md";
+
+            let url = '/hoc-lieu/api/courses' + (category ? `?category=${encodeURIComponent(category)}` : '');
+            fetch(url).then(res => res.json()).then(data => {
+                const container = document.getElementById('course-list-container');
+                container.innerHTML = '';
+                if(data.data.length === 0) return container.innerHTML = `<p class="text-gray-500 text-[13px] text-center py-6">Chưa có môn học nào.</p>`;
+
+                data.data.forEach(course => {
+                    let colorClass = course.progress >= 90 ? "bg-green-500" : "bg-blue-600";
+                    container.innerHTML += `
+                        <div class="bg-white border-gray-200 p-5 rounded-xl shadow-sm border relative overflow-hidden">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1.5"><span class="text-[11px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">${course.course_code}</span><span class="text-[12px] text-gray-500">${course.credits} Tín chỉ</span></div>
+                                    <h3 class="font-bold text-[15px] text-gray-900 mb-1">${course.name}</h3>
+                                    <p class="text-[12px] text-gray-500"><i class="fa-regular fa-user"></i> ${course.instructor}</p>
+                                </div>
+                                <button onclick="window.location.href='/hoc-lieu/khoa-hoc/${encodeURIComponent(course.course_code)}'" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-1.5 rounded-lg text-[13px] font-medium shadow-sm">Vào học</button>
+                            </div>
+                            <div class="flex items-center gap-3 mt-5">
+                                <div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="${colorClass} h-1.5 rounded-full" style="width: ${course.progress}%"></div></div>
+                                <span class="text-[12px] font-medium text-gray-700">${course.progress}%</span>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+        window.addEventListener('DOMContentLoaded', () => loadCourses('', document.getElementById('btn-all')));
+        function openTimetable() { document.getElementById('timetable-modal').classList.remove('hidden'); }
+        function closeTimetable() { document.getElementById('timetable-modal').classList.add('hidden'); }
+    </script>
+{% endblock %}
