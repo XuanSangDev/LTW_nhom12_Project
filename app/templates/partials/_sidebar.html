@@ -18,13 +18,49 @@
 
     <nav class="space-y-1.5 flex flex-col">
       {# Module 1: nối đường dẫn thật khi bạn làm module 1 có route #}
-      <a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-[#CBD5E1] hover:text-white hover:bg-[#1C3D70]/30 transition-colors group" href="#">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[19px] text-[#94A3B8] group-hover:text-white transition-colors">menu_book</span>
-          <span class="text-[13px] font-medium">Học liệu &amp; Tài nguyên</span>
-        </div>
-        <span class="material-symbols-outlined text-[17px] text-[#64748B] group-hover:text-[#94A3B8]">expand_more</span>
-      </a>
+      {# Module 1: Học liệu & Tài nguyên #}
+{# Module 1: Học liệu & Tài nguyên #}
+<details id="library-menu"
+         class="mt-1 rounded-2xl bg-[#0F2042]/70 border border-[#1C3D70]/50 p-2.5 transition-all shadow-inner group">
+
+  <summary class="flex items-center justify-between px-1 py-1 rounded-lg text-left cursor-pointer hover:bg-[#1C3D70]/20 transition-colors list-none">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-[#1C3D70] flex items-center justify-center text-[#93C5FD]">
+        <span class="material-symbols-outlined text-[18px]">menu_book</span>
+      </div>
+      <span class="text-[13px] font-semibold text-white">Học liệu &amp; Tài nguyên</span>
+    </div>
+
+    <span class="material-symbols-outlined text-[18px] text-[#94A3B8] transition-transform duration-200 group-open:rotate-180">
+      expand_more
+    </span>
+  </summary>
+
+  <div class="mt-2.5 pl-3 border-l border-[#1C3D70]/60 space-y-1 ml-3.5">
+
+    <a href="{{ url_for('library.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+      <span class="material-symbols-outlined text-[15px]">library_books</span>
+      <span>Khóa học của tôi</span>
+    </a>
+
+
+    <a href="{{ url_for('library.slide') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+      <span class="material-symbols-outlined text-[15px]">slideshow</span>
+      <span>Bài giảng &amp; Slide</span>
+    </a>
+
+    <a href="{{ url_for('library.lcms') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+      <span class="material-symbols-outlined text-[15px]">folder_open</span>
+      <span>Kho tài nguyên số LCMS</span>
+    </a>
+
+    <a href="{{ url_for('library.bookmark') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+      <span class="material-symbols-outlined text-[15px]">bookmark</span>
+      <span>Học liệu đã tải &amp; Bookmark</span>
+    </a>
+
+  </div>
+</details>
 
                  {# Module 2: Phân tích học tập (bấm tiêu đề để thu vào / mở ra) #}
       <div class="mt-1 rounded-2xl bg-[#0F2042]/70 border border-[#1C3D70]/50 p-2.5 transition-all shadow-inner">
@@ -55,14 +91,80 @@
         </div>
       </div>
 
-      {# Module 3: nối đường dẫn thật khi có route #}
-      <a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-[#CBD5E1] hover:text-white hover:bg-[#1C3D70]/30 transition-colors group" href="#">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[19px] text-[#94A3B8] group-hover:text-white transition-colors">support_agent</span>
-          <span class="text-[13px] font-medium">Hỗ trợ người học</span>
+           {# Module 3: Hỗ trợ người học #}
+      <details id="support-menu" class="mt-1 rounded-2xl bg-[#0F2042]/70 border border-[#1C3D70]/50 p-2.5 transition-all shadow-inner group"
+               {% if request.blueprint == 'support' %}open{% endif %}>
+
+        <summary class="flex items-center justify-between px-1 py-1 rounded-lg text-left cursor-pointer hover:bg-[#1C3D70]/20 transition-colors list-none">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-[#1C3D70] flex items-center justify-center text-[#93C5FD]">
+              <span class="material-symbols-outlined text-[18px]">support_agent</span>
+            </div>
+            <span class="text-[13px] font-semibold text-white">Hỗ trợ người học</span>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[#94A3B8] transition-transform duration-200 group-open:rotate-180">expand_more</span>
+        </summary>
+
+        <div class="mt-2.5 pl-3 border-l border-[#1C3D70]/60 space-y-1 ml-3.5">
+
+          {% if request.endpoint == 'support.guihotro' %}
+          <a href="{{ url_for('support.guihotro') }}" aria-current="page"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#273859] text-white text-[12px] font-semibold shadow-sm transition-all">
+            <span class="material-symbols-outlined text-[15px] text-[#93C5FD]">send</span>
+            <span>Gửi yêu cầu hỗ trợ</span>
+          </a>
+          {% else %}
+          <a href="{{ url_for('support.guihotro') }}"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+            <span class="material-symbols-outlined text-[15px]">send</span>
+            <span>Gửi yêu cầu hỗ trợ</span>
+          </a>
+          {% endif %}
+
+          {% if request.endpoint == 'support.myhotro' %}
+          <a href="{{ url_for('support.myhotro') }}" aria-current="page"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#273859] text-white text-[12px] font-semibold shadow-sm transition-all">
+            <span class="material-symbols-outlined text-[15px] text-[#93C5FD]">list_alt</span>
+            <span>Yêu cầu của tôi</span>
+          </a>
+          {% else %}
+          <a href="{{ url_for('support.myhotro') }}"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+            <span class="material-symbols-outlined text-[15px]">list_alt</span>
+            <span>Yêu cầu của tôi</span>
+          </a>
+          {% endif %}
+
+          {% if request.endpoint == 'support.chitiet' %}
+          <a href="{{ url_for('support.chitiet') }}" aria-current="page"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#273859] text-white text-[12px] font-semibold shadow-sm transition-all">
+            <span class="material-symbols-outlined text-[15px] text-[#93C5FD]">search</span>
+            <span>Chi tiết yêu cầu</span>
+          </a>
+          {% else %}
+          <a href="{{ url_for('support.chitiet') }}"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+            <span class="material-symbols-outlined text-[15px]">search</span>
+            <span>Chi tiết yêu cầu</span>
+          </a>
+          {% endif %}
+
+          {% if request.endpoint == 'support.faq' %}
+          <a href="{{ url_for('support.faq') }}" aria-current="page"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#273859] text-white text-[12px] font-semibold shadow-sm transition-all">
+            <span class="material-symbols-outlined text-[15px] text-[#93C5FD]">help</span>
+            <span>FAQ &amp; Hướng dẫn</span>
+          </a>
+          {% else %}
+          <a href="{{ url_for('support.faq') }}"
+             class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#1C3D70]/20 text-[12px] transition-colors">
+            <span class="material-symbols-outlined text-[15px]">help</span>
+            <span>FAQ &amp; Hướng dẫn</span>
+          </a>
+          {% endif %}
+
         </div>
-        <span class="material-symbols-outlined text-[17px] text-[#64748B] group-hover:text-[#94A3B8]">expand_more</span>
-      </a>
+      </details>
     </nav>
   </div>
 
@@ -79,29 +181,82 @@
   </div>
 
   <script>
-  /* Thu/mở nhóm "Phân tích học tập"; nhớ trạng thái khi chuyển trang */
-  (function () {
-    var btn = document.getElementById('analytics-toggle');
-    var menu = document.getElementById('analytics-menu');
-    var chevron = document.getElementById('analytics-chevron');
-    if (!btn || !menu || !chevron) return;
-    var KEY = 'sidebar.analytics.open';
+(function () {
+    const library = document.getElementById('library-menu');
+    const support = document.getElementById('support-menu');
 
-    function render(open) {
-      menu.classList.toggle('hidden', !open);
-      chevron.classList.toggle('rotate-180', !open);
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const analyticsBtn = document.getElementById('analytics-toggle');
+    const analyticsMenu = document.getElementById('analytics-menu');
+    const analyticsChevron = document.getElementById('analytics-chevron');
+
+    function setAnalytics(open) {
+        if (!analyticsMenu) return;
+
+        analyticsMenu.classList.toggle('hidden', !open);
+
+        if (analyticsChevron) {
+            analyticsChevron.classList.toggle('rotate-180', !open);
+        }
+
+        if (analyticsBtn) {
+            analyticsBtn.setAttribute('aria-expanded', String(open));
+        }
     }
 
-    var saved = null;
-    try { saved = localStorage.getItem(KEY); } catch (e) {}
-    render(saved === null ? true : saved === '1');   // mặc định: mở
+    function closeOtherMenus(active) {
+        if (library && active !== library) {
+            library.open = false;
+        }
 
-    btn.addEventListener('click', function () {
-      var open = menu.classList.contains('hidden');
-      render(open);
-      try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {}
+        if (support && active !== support) {
+            support.open = false;
+        }
+
+        if (active !== 'analytics') {
+            setAnalytics(false);
+        }
+    }
+
+    // Module 1 và Module 3
+    [library, support].forEach(function (menu) {
+        if (!menu) return;
+
+        menu.addEventListener('toggle', function () {
+            if (menu.open) {
+                closeOtherMenus(menu);
+            }
+        });
     });
-  })();
+
+    // Module 2
+    if (analyticsBtn && analyticsMenu) {
+        analyticsBtn.addEventListener('click', function () {
+            const isOpen = !analyticsMenu.classList.contains('hidden');
+
+            if (isOpen) {
+                setAnalytics(false);
+            } else {
+                closeOtherMenus('analytics');
+                setAnalytics(true);
+            }
+        });
+    }
+
+    // Tự mở module tương ứng với trang hiện tại
+    const currentBlueprint = "{{ request.blueprint or '' }}";
+
+    if (currentBlueprint === 'library' && library) {
+        closeOtherMenus(library);
+        library.open = true;
+    } else if (currentBlueprint === 'support' && support) {
+        closeOtherMenus(support);
+        support.open = true;
+    } else if (currentBlueprint === 'analytics') {
+        closeOtherMenus('analytics');
+        setAnalytics(true);
+    } else {
+        closeOtherMenus(null);
+    }
+})();
 </script>
 </aside>

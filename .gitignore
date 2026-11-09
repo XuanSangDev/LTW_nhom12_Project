@@ -4,3 +4,12 @@ __pycache__/
 instance/
 *.pyc
 .idea/
+
+# Local databases and backup files
+*.db
+*.backup
+*.bak
+
+# Python cache
+__pycache__/
+*.pyc

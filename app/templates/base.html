@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -13,8 +13,30 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="{{ url_for('static', filename='js/tailwind-config.js') }}"></script>
   {% block head_extra %}{% endblock %}
+{% if request.blueprint == 'support' %}
+<style>
+  /* Tiêu đề trang */
+  body.support-module main h1,
+  body.support-module main h2.text-2xl {
+    font-size: 32px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Chữ hướng dẫn và thông tin phụ: 12px -> 13px */
+  body.support-module main .text-xs:not(.material-symbols-outlined):not([class*="fa-"]):not(.fas):not(.far):not(.fab):not(svg) {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Nội dung thông thường: 14px -> 15px */
+  body.support-module main .text-sm:not(.material-symbols-outlined):not([class*="fa-"]):not(.fas):not(.far):not(.fab):not(svg) {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+</style>
+{% endif %}
 </head>
-<body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen">
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen {% if request.blueprint == 'support' %}support-module{% endif %}">
 
   {# Sidebar DÙNG CHUNG: mục đang mở tự xác định theo request.endpoint #}
   {% include "partials/_sidebar.html" %}

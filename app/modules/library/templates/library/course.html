@@ -1,0 +1,133 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Không gian học tập - {{ course.course_code }}{% endblock %}
+
+{% block head_extra %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 text-sm text-gray-500">
+<a href="/" class="hover:text-blue-600"><i class="fa-solid fa-arrow-left mr-1"></i> Quay lại khóa học của tôi</a>
+<span>/</span>
+<span class="font-medium text-gray-900">{{ course.course_code }} - {{ course.name }}</span>
+</div>
+<div class="flex gap-6 min-h-[calc(100vh-180px)]">
+            <div class="flex gap-6 h-full">
+                <!-- KHU VỰC VIDEO/BÀI GIẢNG (Cột Trái) -->
+                <div class="flex-1 flex flex-col">
+                    <!-- Trình phát Video (Demo) -->
+                    <div class="w-full bg-black rounded-xl overflow-hidden aspect-video relative flex items-center justify-center shadow-lg border border-gray-200">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                        <div class="z-10 text-center">
+                            <button class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl hover:bg-blue-700 transition transform hover:scale-110 mb-4 mx-auto shadow-lg">
+                                <i class="fa-solid fa-play ml-1"></i>
+                            </button>
+                            <h2 class="text-white font-bold text-xl drop-shadow-md">Bài 1: Tổng quan về môn học</h2>
+                        </div>
+
+                        <!-- Thanh điều khiển giả -->
+                        <div class="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 flex items-center gap-4 text-white text-sm">
+                            <i class="fa-solid fa-pause cursor-pointer hover:text-blue-400"></i>
+                            <span class="text-[11px]">02:14 / 45:00</span>
+                            <div class="flex-1 h-1 bg-gray-600 rounded-full relative cursor-pointer">
+                                <div class="w-1/3 h-1 bg-blue-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-white rounded-full absolute left-1/3 top-1/2 transform -translate-y-1/2"></div>
+                            </div>
+                            <i class="fa-solid fa-volume-high cursor-pointer hover:text-blue-400"></i>
+                            <i class="fa-solid fa-gear cursor-pointer hover:text-blue-400"></i>
+                            <i class="fa-solid fa-expand cursor-pointer hover:text-blue-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin chi tiết bài giảng -->
+                    <div class="bg-white p-6 rounded-xl mt-4 border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase">{{ course.category }}</span>
+                                <h1 class="text-xl font-bold text-gray-900 mt-2">Bài 1: Tổng quan về môn học</h1>
+                                <p class="text-sm text-gray-500 mt-1 flex items-center gap-2"><i class="fa-solid fa-chalkboard-user"></i> Giảng viên: <span class="font-bold text-gray-700">{{ course.instructor }}</span></p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-4 py-2 border border-gray-300 rounded-lg text-[13px] font-medium hover:bg-gray-50"><i class="fa-regular fa-bookmark"></i> Lưu lại</button>
+                                <button class="px-4 py-2 bg-gray-900 text-white rounded-lg text-[13px] font-medium hover:bg-black"><i class="fa-solid fa-download"></i> Tài liệu đính kèm</button>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-100 text-[13px] text-gray-600 leading-relaxed">
+                            <p>Đây là bài giảng giới thiệu tổng quan về cấu trúc, nội dung chương trình học, và các yêu cầu đánh giá của môn <strong>{{ course.name }}</strong>. Các bạn sinh viên vui lòng xem kỹ để nắm bắt tiến trình học tập.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KHU VỰC DANH SÁCH BÀI GIẢNG (Cột Phải) -->
+                <div class="w-80 flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-4 border-b border-gray-200 bg-gray-50">
+                        <h3 class="font-bold text-[14px] text-gray-900">Nội dung khóa học</h3>
+                        <div class="flex justify-between items-center text-[11px] text-gray-500 mt-1">
+                            <span>Tiến độ của bạn</span>
+                            <span class="font-bold text-blue-600">{{ course.progress }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                            <div class="bg-blue-600 h-1.5 rounded-full" style="width: {{ course.progress }}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Playlist List -->
+                    <div class="overflow-y-auto flex-1 p-2 space-y-1">
+                        <!-- Chương 1 -->
+                        <div class="mb-2">
+                            <button class="w-full text-left px-3 py-2 font-bold text-[12px] text-gray-800 bg-gray-100 rounded flex justify-between items-center">
+                                Chương 1: Giới thiệu chung
+                                <i class="fa-solid fa-chevron-up text-[10px]"></i>
+                            </button>
+                            <div class="mt-1">
+                                <div class="flex items-center gap-3 p-3 bg-blue-50 border-l-2 border-blue-600 cursor-pointer">
+                                    <i class="fa-solid fa-circle-play text-blue-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-[12px] text-blue-900">Bài 1: Tổng quan môn học</p>
+                                        <p class="text-[10px] text-gray-500">Video • 45 phút</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-[12px] text-gray-700">Bài 2: Các khái niệm cơ bản</p>
+                                        <p class="text-[10px] text-gray-400">Tài liệu đọc • Đã hoàn thành</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer">
+                                    <i class="fa-regular fa-clock text-orange-400 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-[12px] text-gray-700">Bài test nhỏ: Trắc nghiệm</p>
+                                        <p class="text-[10px] text-orange-500 font-medium">Hạn chót: 23:59 hôm nay</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chương 2 -->
+                        <div class="mb-2">
+                            <button class="w-full text-left px-3 py-2 font-bold text-[12px] text-gray-600 hover:bg-gray-100 rounded flex justify-between items-center">
+                                Chương 2: Nội dung chuyên sâu
+                                <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                            </button>
+                        </div>
+
+                        <!-- Chương 3 -->
+                        <div class="mb-2">
+                            <button class="w-full text-left px-3 py-2 font-bold text-[12px] text-gray-400 flex justify-between items-center cursor-not-allowed">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-[10px]"></i> Chương 3 (Chưa mở)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+</div>
+{% endblock %}
